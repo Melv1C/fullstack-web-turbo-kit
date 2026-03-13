@@ -1,0 +1,42 @@
+{
+  "name": "fullstack-turbo-kit",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "turbo run build",
+    "build:local": "turbo run build:local",
+    "build:staging": "turbo run build:staging",
+    "build:production": "turbo run build:production",
+    "dev": "turbo run dev",
+    "dev:desktop": "pnpm --filter desktop start",
+    "dev:mobile": "pnpm --filter mobile start",
+    "docker:db": "docker compose -f docker-compose.db.yml up -d",
+    "docker:db:down": "docker compose -f docker-compose.db.yml down",
+    "lint": "oxlint --type-aware --type-check",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "knip": "pnpm dlx knip",
+    "deps": "pnpm dlx npm-check-updates",
+    "deps:update": "pnpm dlx npm-check-updates -u && pnpm install",
+    "deps:interactive": "pnpm dlx npm-check-updates -i",
+    "prisma:generate": "pnpm --filter backend run prisma:generate",
+    "prisma:migrate": "pnpm run --filter backend prisma:migrate",
+    "prisma:migrate:deploy": "pnpm run --filter backend prisma:migrate:deploy",
+    "prisma:validate": "pnpm run --filter backend prisma:validate",
+    "prisma:format": "pnpm run --filter backend prisma:format",
+    "release:prepare": "pnpm dlx changeset",
+    "release:publish": "./scripts/release.sh"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.30.0",
+    "oxfmt": "^0.40.0",
+    "oxlint": "^1.55.0",
+    "oxlint-tsgolint": "^0.16.0",
+    "turbo": "^2.8.16",
+    "typescript": "5.9.3"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-arm64": "^0.27.4",
+    "@rollup/rollup-linux-x64-gnu": "4.59.0"
+  },
+  "packageManager": "pnpm@10.32.1"
+}

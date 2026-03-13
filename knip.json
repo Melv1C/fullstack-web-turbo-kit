@@ -1,0 +1,15 @@
+{
+  "workspaces": {
+    "apps/backend": {
+      "entry": "scripts/**/*.ts",
+      "project": ["src/**/*.ts", "scripts/**/*.ts"],
+      "ignoreDependencies": ["@prisma/studio-core"],
+      "prisma": { "config": [] }
+    },
+    "apps/desktop": {
+      "entry": ["src/main.ts", "src/preload.ts", "src/renderer.tsx", "forge.config.ts"],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignore": ["src/bridge/**/*"]
+    }
+  }
+}
