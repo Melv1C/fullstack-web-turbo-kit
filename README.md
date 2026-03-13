@@ -24,7 +24,7 @@ All packages and apps are written in [TypeScript](https://www.typescriptlang.org
 Install dependencies:
 
 ```bash
-pnpm install
+bun install
 ```
 
 Copy the example environment variables:
@@ -45,10 +45,10 @@ Frontend and admin environment profiles are versioned in Git and are intentional
 Use explicit build modes for web apps:
 
 ```bash
-pnpm --filter frontend run build:staging
-pnpm --filter frontend run build:production
-pnpm --filter admin run build:staging
-pnpm --filter admin run build:production
+bun --filter frontend build:staging
+bun --filter frontend build:production
+bun --filter admin build:staging
+bun --filter admin build:production
 ```
 
 Only backend env values are sensitive (for example: `DATABASE_URL`, `BETTER_AUTH_SECRET`) and must never be committed.
@@ -56,23 +56,23 @@ Only backend env values are sensitive (for example: `DATABASE_URL`, `BETTER_AUTH
 Start the development database (PostgreSQL):
 
 ```bash
-pnpm run docker:db
+bun run docker:db
 ```
 
 Migrate the database:
 
 ```bash
-pnpm run prisma:migrate
+bun run prisma:migrate
 ```
 
 Generate the prisma client:
 
 ```bash
-pnpm run prisma:generate
+bun run prisma:generate
 ```
 
 Run all apps in development mode:
 
 ```bash
-pnpm run dev
+bun run dev
 ```

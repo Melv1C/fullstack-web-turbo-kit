@@ -1,13 +1,13 @@
 FROM node:22-alpine AS base
 RUN apk update && apk add --no-cache libc6-compat
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV bun_HOME="/bun"
+ENV PATH="$bun_HOME:$PATH"
 RUN corepack enable
 WORKDIR /app
 
 # ---
 FROM base AS prepare
-RUN pnpm install -g turbo@^2
+RUN bun install -g turbo@^2
 COPY . .
 # Prune the monorepo for the backend app
 RUN turbo prune backend --docker
@@ -19,7 +19,7 @@ COPY --from=prepare /app/out/json/ .
 # Remove package-lock.json to avoid conflicts
 RUN rm -f package-lock.json
 # Install dependencies
-RUN pnpm i
+RUN bun i
 
 # ---
 FROM base AS builder
@@ -30,8 +30,8 @@ COPY --from=prepare /app/out/full/ .
 
 # Build backend
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-RUN pnpm run prisma:generate
-RUN pnpm build --filter=backend
+RUN bun run prisma:generate
+RUN bun build --filter=backend
 
 # ---
 FROM base AS runner
@@ -53,4 +53,4 @@ COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/scripts ./apps/backe
 COPY --from=builder --chown=nodejs:nodejs /app/packages ./packages
 COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
 
-CMD ["pnpm", "--filter", "backend", "start"]
+CMD ["bun", "--filter", "backend", "start"]

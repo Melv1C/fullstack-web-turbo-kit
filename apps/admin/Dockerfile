@@ -1,13 +1,13 @@
 FROM node:22-alpine AS base
 RUN apk update && apk add --no-cache libc6-compat
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV bun_HOME="/bun"
+ENV PATH="$bun_HOME:$PATH"
 RUN corepack enable
 WORKDIR /app
 
 # ---
 FROM base AS prepare
-RUN pnpm install -g turbo@^2
+RUN bun install -g turbo@^2
 COPY . .
 # Prune the monorepo for the admin app
 RUN turbo prune admin --docker
@@ -19,7 +19,7 @@ COPY --from=prepare /app/out/json/ .
 # Remove package-lock.json to avoid conflicts
 RUN rm -f package-lock.json
 # Install dependencies
-RUN pnpm i
+RUN bun i
 
 # ---
 FROM base AS builder
@@ -32,8 +32,8 @@ ARG APP_ENV=production
 
 # Build the admin app
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-RUN pnpm run prisma:generate
-RUN pnpm run build:${APP_ENV} --filter=admin
+RUN bun run prisma:generate
+RUN bun run build:${APP_ENV} --filter=admin
 
 # ---
 FROM nginx:alpine AS runner

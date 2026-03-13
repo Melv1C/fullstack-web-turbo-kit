@@ -12,8 +12,8 @@ function parseArgs(): AdminParams {
   const args = process.argv.slice(2);
 
   if (args.length !== 3) {
-    console.error('Usage: pnpm add-admin -- <name> <email> <password>');
-    console.error('Example: pnpm add-admin -- "Admin User" admin@example.com mypassword123');
+    console.error('Usage: bun add-admin -- <name> <email> <password>');
+    console.error('Example: bun add-admin -- "Admin User" admin@example.com mypassword123');
     process.exit(1);
   }
 

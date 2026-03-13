@@ -2,7 +2,7 @@ A Turborepo monorepo with a Hono backend API, two React+Vite frontends (user and
 
 ## Stack
 
-- **Packager**: pnpm
+- **Packager**: bun
 - **Monorepo**: Turborepo
 - **Backend**: Hono + Node, Prisma (PostgreSQL), better-auth
 - **Frontend/Admin**: React 19, Vite, TanStack Router, TanStack Query
@@ -28,13 +28,13 @@ src/
 
 ## Scripts
 
-- `pnpm run build` - Build all packages
-- `pnpm lint` - Run Oxlint on all packages
-- `pnpm format` - Run Oxfmt on all packages
-- `pnpm run prisma:generate` - Generate Prisma client
-- `pnpm run prisma:migrate` - Run Prisma migrations
-- `pnpm run prisma:format` - Format Prisma schema
+- `bun run build` - Build all packages
+- `bun lint` - Run Oxlint on all packages
+- `bun format` - Run Oxfmt on all packages
+- `bun run prisma:generate` - Generate Prisma client
+- `bun run prisma:migrate` - Run Prisma migrations
+- `bun run prisma:format` - Format Prisma schema
 
-Assume that the development environment is already running. Do not execute any `pnpm dev` commands, and proceed as if the applications are directly accessible in the browser.
+Assume that the development environment is already running. Do not execute any `bun dev` commands, and proceed as if the applications are directly accessible in the browser.
 
 Backend runs on port 3000, frontend on 5173, admin on 5174.

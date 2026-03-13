@@ -20,17 +20,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup bun
+        uses: bun/action-setup@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'
+          cache: 'bun'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Validate committed web env files
         run: |
@@ -63,16 +63,16 @@ jobs:
           done
 
       - name: Format check
-        run: pnpm run format:check
+        run: bun run format:check
 
       - name: Prisma Validate
-        run: pnpm run prisma:validate
+        run: bun run prisma:validate
 
       - name: Prisma Generate
-        run: pnpm run prisma:generate
+        run: bun run prisma:generate
 
       - name: Build all packages
-        run: pnpm run build
+        run: bun run build
 
       - name: Linting
-        run: pnpm run lint
+        run: bun run lint
