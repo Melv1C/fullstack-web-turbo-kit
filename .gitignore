@@ -46,7 +46,3 @@ generated/
 # Expo
 .expo/
 expo-env.d.ts
-
-# generated native folders
-apps/mobile/ios
-apps/mobile/android

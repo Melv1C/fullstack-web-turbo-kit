@@ -7,8 +7,6 @@
     "build:staging": "turbo run build:staging",
     "build:production": "turbo run build:production",
     "dev": "turbo run dev",
-    "dev:desktop": "pnpm --filter desktop start",
-    "dev:mobile": "pnpm --filter mobile start",
     "docker:db": "docker compose -f docker-compose.db.yml up -d",
     "docker:db:down": "docker compose -f docker-compose.db.yml down",
     "lint": "oxlint --type-aware --type-check",

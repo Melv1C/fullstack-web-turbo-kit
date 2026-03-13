@@ -9,8 +9,6 @@ A production-ready [Turborepo](https://turbo.build/repo) monorepo starter with f
 - **backend** — [Hono](https://hono.dev/) API server
 - **frontend** — [Vite](https://vitejs.dev/) + [React](https://react.dev/) application
 - **admin** — Vite + React admin application
-- **desktop** — [Electron](https://www.electronjs.org/) desktop application
-- **mobile** — [Expo](https://expo.dev/) React Native application
 
 ### Packages
 
@@ -33,7 +31,6 @@ Copy the example environment variables:
 
 ```bash
 cp apps/backend/.env.example apps/backend/.env
-cp apps/desktop/.env.example apps/desktop/.env
 ```
 
 Frontend and admin environment profiles are versioned in Git and are intentionally public:
@@ -78,11 +75,4 @@ Run all apps in development mode:
 
 ```bash
 pnpm run dev
-```
-
-Run desktop or mobile individually:
-
-```bash
-pnpm run dev:desktop
-pnpm run dev:mobile
 ```

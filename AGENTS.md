@@ -1,4 +1,4 @@
-A Turborepo monorepo with a Hono backend API, two React+Vite frontends (user and admin), and desktop/mobile clients plus shared packages for UI, utils, and API client.
+A Turborepo monorepo with a Hono backend API, two React+Vite frontends (user and admin) plus shared packages for UI, utils, and API client.
 
 ## Stack
 

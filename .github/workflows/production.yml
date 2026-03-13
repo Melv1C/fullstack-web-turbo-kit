@@ -6,8 +6,6 @@ on:
       - 'admin@*'
       - 'backend@*'
       - 'frontend@*'
-      - 'desktop@*'
-      - 'mobile@*'
 
 jobs:
   detect-app:
@@ -30,7 +28,6 @@ jobs:
   docker:
     name: Build & Push Production Image
     needs: [detect-app]
-    if: needs.detect-app.outputs.app != 'desktop' && needs.detect-app.outputs.app != 'mobile'
     runs-on: ubuntu-latest
 
     steps:
@@ -85,7 +82,6 @@ jobs:
   deploy:
     name: Deploy to Production
     needs: [docker, detect-app]
-    if: needs.detect-app.outputs.app != 'desktop' && needs.detect-app.outputs.app != 'mobile'
     runs-on: ubuntu-latest
     env:
       APP: ${{ needs.detect-app.outputs.app }}
@@ -113,120 +109,3 @@ jobs:
           -d "{
                \"applicationId\": \"$APP_ID\"
             }"
-
-  desktop-build:
-    name: Build Desktop App
-    needs: [detect-app]
-    if: needs.detect-app.outputs.app == 'desktop'
-    runs-on: ${{ matrix.os }}
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
-        include:
-          - os: windows-latest
-            platform: win32
-          - os: macos-latest
-            platform: darwin
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Prisma Client
-        run: pnpm run prisma:generate
-
-      - name: Build packages
-        run: pnpm run build --filter=desktop
-
-      - name: Build Desktop App
-        run: pnpm --filter desktop run make
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: desktop-${{ matrix.platform }}-${{ needs.detect-app.outputs.version }}
-          path: apps/desktop/out/make/**/*
-          retention-days: 30
-
-  desktop-release:
-    name: Create Desktop Release
-    needs: [desktop-build, detect-app]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          pattern: desktop-*
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: Desktop ${{ needs.detect-app.outputs.version }}
-          tag_name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: artifacts/**/*
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ════════════════════════════════════════════════════════════════════
-  # Mobile – Build (reuses .github/workflows/mobile.yml)
-  # ════════════════════════════════════════════════════════════════════
-  mobile-build:
-    name: Build Mobile
-    needs: [detect-app]
-    if: needs.detect-app.outputs.app == 'mobile'
-    uses: ./.github/workflows/mobile.yml
-    with:
-      version: ${{ needs.detect-app.outputs.version }}
-    secrets: inherit
-
-  # ════════════════════════════════════════════════════════════════════
-  # Mobile – Create Release
-  # ════════════════════════════════════════════════════════════════════
-  mobile-release:
-    name: Create Mobile Release
-    needs: [mobile-build, detect-app]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          pattern: mobile-*
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: Mobile ${{ needs.detect-app.outputs.version }}
-          tag_name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: artifacts/**/*
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

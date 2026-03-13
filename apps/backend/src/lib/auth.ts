@@ -13,6 +13,6 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: [env.FRONTEND_URL, env.ADMIN_URL, env.DESKTOP_URL],
+  trustedOrigins: [env.FRONTEND_URL, env.ADMIN_URL],
   plugins: [admin()],
 });

@@ -9,7 +9,6 @@ const envSchema = z.object({
   BACKEND_URL: z.url().default('http://localhost:3000'),
   FRONTEND_URL: z.url().default('http://localhost:5173'),
   ADMIN_URL: z.url().default('http://localhost:5174'),
-  DESKTOP_URL: z.url().default('http://localhost:5175'),
 
   // This environment variable comes from the database package's .env file
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),

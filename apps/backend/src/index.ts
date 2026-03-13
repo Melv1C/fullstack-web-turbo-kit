@@ -11,7 +11,7 @@ import pkg from '../package.json' with { type: 'json' };
 const app = new Hono()
   .use(
     cors({
-      origin: [env.FRONTEND_URL, env.ADMIN_URL, env.DESKTOP_URL],
+      origin: [env.FRONTEND_URL, env.ADMIN_URL],
       credentials: true,
     }),
   )
