@@ -1,8 +1,4 @@
-FROM node:22-alpine AS base
-RUN apk update && apk add --no-cache libc6-compat
-ENV bun_HOME="/bun"
-ENV PATH="$bun_HOME:$PATH"
-RUN corepack enable
+FROM oven/bun:1 AS base
 WORKDIR /app
 
 # ---

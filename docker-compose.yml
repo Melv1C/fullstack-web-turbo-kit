@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
-    container_name: fullstack-backend
+    container_name: fullstack-web-backend
     ports:
       - '3000:3000'
     environment:
@@ -46,7 +46,7 @@ services:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
-    container_name: fullstack-frontend
+    container_name: fullstack-web-frontend
     ports:
       - '8080:80'
     depends_on:
@@ -65,7 +65,7 @@ services:
     build:
       context: .
       dockerfile: apps/admin/Dockerfile
-    container_name: fullstack-admin
+    container_name: fullstack-web-admin
     ports:
       - '5174:80'
     depends_on:

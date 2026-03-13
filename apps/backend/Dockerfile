@@ -1,8 +1,4 @@
-FROM node:22-alpine AS base
-RUN apk update && apk add --no-cache libc6-compat
-ENV bun_HOME="/bun"
-ENV PATH="$bun_HOME:$PATH"
-RUN corepack enable
+FROM oven/bun:1 AS base
 WORKDIR /app
 
 # ---
@@ -31,26 +27,17 @@ COPY --from=prepare /app/out/full/ .
 # Build backend
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 RUN bun run prisma:generate
-RUN bun build --filter=backend
+RUN bun run build --filter=backend
 
 # ---
 FROM base AS runner
 # Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-USER nodejs
+RUN groupadd --system --gid 1001 group && useradd --system --uid 1001 --gid group user
+USER user
 
 WORKDIR /app
 
 # Copy built application
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/package.json ./apps/backend/package.json
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/node_modules ./apps/backend/node_modules
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/dist ./apps/backend/dist
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/prisma ./apps/backend/prisma
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/prisma.config.ts ./apps/backend/prisma.config.ts
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/generated ./apps/backend/generated
-COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/scripts ./apps/backend/scripts
-COPY --from=builder --chown=nodejs:nodejs /app/packages ./packages
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=user:group /app .
 
 CMD ["bun", "--filter", "backend", "start"]
