@@ -1,6 +1,6 @@
 import type { ClientToServerEvents, ServerToClientEvents } from '@repo/utils';
 import { io, Socket } from 'socket.io-client';
-import { env } from './env';
+import { ENV } from 'varlock/env';
 
 // Type-safe socket client
 export type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -13,14 +13,14 @@ let socket: TypedSocket | null = null;
  */
 export function getSocket(): TypedSocket {
   if (!socket) {
-    socket = io(env.VITE_BACKEND_URL, {
+    socket = io(ENV.BACKEND_URL, {
       autoConnect: false,
       withCredentials: true,
       reconnectionAttempts: 5,
     });
 
     // Log connection events in development
-    if (env.VITE_NODE_ENV === 'development') {
+    if (ENV.APP_ENV === 'development') {
       socket.on('connect', () => {
         console.log('🔌 Socket connected:', socket?.id);
       });

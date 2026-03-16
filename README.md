@@ -33,16 +33,16 @@ Copy the example environment variables:
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-Frontend and admin environment profiles are versioned in Git and are intentionally public:
+Varlock manages env schema/validation and derived values:
 
-- `apps/frontend/.env.local`
-- `apps/frontend/.env.staging`
-- `apps/frontend/.env.production`
-- `apps/admin/.env.local`
-- `apps/admin/.env.staging`
-- `apps/admin/.env.production`
+- Shared defaults live in `.env.shared`, and each app defines an `.env.schema` that imports it.
+- `APP_ENV` controls which derived defaults and required values apply (default: `local`).
+- For staging/production, set `STAGING_*` or `PROD_*` URLs as real environment variables (defaults are `MY_APP_*` placeholders for the Docker runtime replacement scripts).
+- Frontend/admin no longer use `.env.*` files; values are derived via schema.
+- To validate and inspect resolved envs, run `bun exec varlock load` from the app directory.
+- For CLI tools that need injected env vars, use `bun exec varlock run -- <command>`.
 
-Use explicit build modes for web apps:
+Use explicit `APP_ENV` modes for web apps:
 
 ```bash
 bun --filter frontend build:staging

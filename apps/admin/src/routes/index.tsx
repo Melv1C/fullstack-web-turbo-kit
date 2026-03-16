@@ -1,6 +1,6 @@
 import { useAPIHealth } from '@/features/api-health';
 import { APP_VERSION } from '@/lib/app-version';
-import { env } from '@/lib/env';
+import { ENV } from 'varlock/env';
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@melv1c/ui-core';
 import { createFileRoute } from '@tanstack/react-router';
 import {
@@ -122,7 +122,7 @@ function Index() {
               </div>
             </a>
             <a
-              href={env.VITE_FRONTEND_URL}
+              href={ENV.FRONTEND_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"

@@ -31,36 +31,6 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Validate committed web env files
-        run: |
-          set -euo pipefail
-
-          files=(
-            "apps/frontend/.env.local"
-            "apps/frontend/.env.staging"
-            "apps/frontend/.env.production"
-            "apps/admin/.env.local"
-            "apps/admin/.env.staging"
-            "apps/admin/.env.production"
-          )
-
-          for file in "${files[@]}"; do
-            if [ ! -f "$file" ]; then
-              echo "Missing required env file: $file"
-              exit 1
-            fi
-
-            if awk -F '=' '
-              /^[[:space:]]*($|#)/ { next }
-              $1 !~ /^VITE_[A-Z0-9_]+$/ { print; exit 1 }
-            ' "$file"; then
-              true
-            else
-              echo "Invalid key found in $file. Only VITE_* keys are allowed."
-              exit 1
-            fi
-          done
-
       - name: Format check
         run: bun run format:check
 
@@ -70,6 +40,21 @@ jobs:
       - name: Prisma Generate
         run: bun run prisma:generate
 
+      - name: Varlock Generate
+        run: bun run env:generate
+
+      - name: Varlock Validate (Development)
+        run: bun run env:validate
+
+      - name: Varlock Validate (Staging)
+        run: bun run env:validate --filter=frontend --filter=admin
+        env:
+          APP_ENV: staging
+
+      - name: Varlock Validate (Production)
+        run: bun run env:validate --filter=frontend --filter=admin
+        env:
+          APP_ENV: production
       - name: Build all packages
         run: bun run build
 
