@@ -7,8 +7,8 @@ import {
 } from '@repo/utils';
 import type { Server as HTTPServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
+import { ENV } from 'varlock/env';
 import { auth } from './auth';
-import { env } from './env';
 import { logger } from './logger';
 
 const useAuth = async (socket: Socket) => {
@@ -69,7 +69,7 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
     httpServer,
     {
       cors: {
-        origin: [env.FRONTEND_URL, env.ADMIN_URL],
+        origin: [ENV.FRONTEND_URL, ENV.ADMIN_URL],
         credentials: true,
       },
     },

@@ -2,30 +2,26 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "envMode": "strict",
-  "globalEnv": ["NODE_ENV", "DATABASE_URL"],
-  "globalDependencies": [".env*"],
+  "globalEnv": ["APP_ENV"],
+  "globalDependencies": [".env.shared"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["VITE_*"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
     "build:local": {
       "dependsOn": ["^build"],
-      "env": ["VITE_*"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
     "build:staging": {
       "dependsOn": ["^build"],
-      "env": ["VITE_*"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
     "build:production": {
       "dependsOn": ["^build"],
-      "env": ["VITE_*"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
@@ -33,6 +29,13 @@
       "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
+    },
+    "env:generate": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["env.d.ts"]
+    },
+    "env:validate": {
+      "inputs": ["$TURBO_DEFAULT$"]
     }
   }
 }

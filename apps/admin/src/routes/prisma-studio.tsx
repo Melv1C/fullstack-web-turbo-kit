@@ -1,4 +1,4 @@
-import { env } from '@/lib/env';
+import { ENV } from 'varlock/env';
 import { createStudioBFFClient } from '@prisma/studio-core/data/bff';
 import { createPostgresAdapter } from '@prisma/studio-core/data/postgres-core';
 import { Studio } from '@prisma/studio-core/ui';
@@ -13,7 +13,7 @@ export const Route = createFileRoute('/prisma-studio')({
 function PrismaStudioPage() {
   const adapter = useMemo(() => {
     const executor = createStudioBFFClient({
-      url: `${env.VITE_BACKEND_URL}/api/studio`,
+      url: `${ENV.BACKEND_URL}/api/studio`,
       // fetch: (input, init) => {
       //   return fetch(input, { ...init, credentials: 'include' });
       // },

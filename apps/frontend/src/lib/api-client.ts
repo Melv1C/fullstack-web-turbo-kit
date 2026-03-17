@@ -1,4 +1,4 @@
 import { createApiClient } from '@repo/api-client';
-import { env } from './env';
+import { ENV } from 'varlock/env';
 
-export const apiClient = createApiClient(env.VITE_BACKEND_URL);
+export const apiClient = createApiClient(ENV.BACKEND_URL);

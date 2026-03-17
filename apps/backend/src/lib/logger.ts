@@ -1,7 +1,7 @@
 import { getRoomName, Log$, type LogCreate, LogCreate$ } from '@repo/utils';
+import { ENV } from 'varlock';
 import winston from 'winston';
 import Transport from 'winston-transport';
-import { env } from './env';
 import { prisma } from './prisma';
 import { emitToRoom } from './socket';
 
@@ -36,7 +36,7 @@ class PostgresTransport extends Transport {
   }
 }
 
-const isDev = env.NODE_ENV === 'development';
+const isDev = ENV.APP_ENV === 'development';
 
 export const logger = winston.createLogger({
   level: 'debug',

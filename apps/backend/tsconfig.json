@@ -8,5 +8,5 @@
       "@generated/*": ["./generated/*"]
     }
   },
-  "include": ["src", "scripts"]
+  "include": ["src", "scripts", "env.d.ts"]
 }

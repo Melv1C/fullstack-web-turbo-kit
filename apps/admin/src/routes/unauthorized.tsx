@@ -1,5 +1,5 @@
 import { signOut } from '@/lib/auth-client';
-import { env } from '@/lib/env';
+import { ENV } from 'varlock/env';
 import { Button } from '@melv1c/ui-core';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
@@ -42,7 +42,7 @@ function UnauthorizedPage() {
           Sign out and try another account
         </Button>
         <Button asChild variant="secondary">
-          <a href={env.VITE_FRONTEND_URL}>Go to Frontend App</a>
+          <a href={ENV.FRONTEND_URL}>Go to Frontend App</a>
         </Button>
       </div>
     </div>

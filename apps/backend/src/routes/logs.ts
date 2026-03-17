@@ -1,8 +1,9 @@
 import { prisma, type Prisma } from '@/lib/prisma';
 import { isAdmin } from '@/middlewares/use-auth';
 import { zValidator } from '@hono/zod-validator';
-import { LogFilter$, LogWithUser$, PaginatedLogs$ } from '@repo/utils';
+import { Log$, LogFilter$, LogWithUser$, PaginatedLogs$ } from '@repo/utils';
 import { Hono } from 'hono';
+import { z } from 'zod';
 
 export const logsRoutes = new Hono()
   .get('/', isAdmin, zValidator('query', LogFilter$), async c => {
@@ -54,8 +55,8 @@ export const logsRoutes = new Hono()
 
     return c.json(result);
   })
-  .get('/:id', isAdmin, async c => {
-    const id = parseInt(c.req.param('id'), 10);
+  .get('/:id', isAdmin, zValidator('param', z.object({ id: Log$.shape.id })), async c => {
+    const id = c.req.valid('param').id;
     const log = await prisma.log.findUnique({ where: { id } });
     if (!log) {
       return c.json({ error: 'Log not found' }, 404);
