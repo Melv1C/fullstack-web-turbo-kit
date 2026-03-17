@@ -23,6 +23,8 @@ FROM base AS builder
 COPY --from=installer /app/ .
 # Copy source files
 COPY --from=prepare /app/out/full/ .
+# Ensure shared env schema is available for varlock imports
+COPY .env.shared ./.env.shared
 
 # Build backend
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
