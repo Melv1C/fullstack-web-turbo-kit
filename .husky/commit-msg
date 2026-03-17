@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+set -e
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SCRIPT_DIR/../scripts/sh/logging.sh"
+
+echo "commit-msg: validating message"
+
+if [ "$CI" = "true" ]; then
+  info "CI detected, skipping commit message lint"
+  exit 0
+fi
+
+if ! run_step "Commit message lint" bunx --no-install commitlint --edit "$1"; then
+  echo ""
+  echo "Use a Conventional Commit message, e.g. 'feat: add user filter'."
+  exit 1
+fi
+
+section "Commit-msg result"
+ok "Commit message validation passed"

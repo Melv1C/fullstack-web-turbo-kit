@@ -1,0 +1,52 @@
+#!/usr/bin/env sh
+
+set -e
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SCRIPT_DIR/../scripts/sh/logging.sh"
+
+echo "pre-push: checking push target"
+
+if [ "$CI" = "true" ]; then
+  info "CI detected, skipping local pre-push hook"
+  exit 0
+fi
+
+protected_push=0
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master)
+      protected_push=1
+      ;;
+  esac
+done
+
+if [ "$protected_push" -eq 1 ]; then
+  section "Pre-push checks"
+  info "Protected branch push detected (main/master)"
+  info "Running extended checks"
+
+  run_step "Formatting check" bun run format:check
+
+  run_step "Prisma schema validation" bun run prisma:validate
+
+  run_step "Prisma client generation" bun run prisma:generate
+
+  run_step "Environment generation" bun run env:generate
+
+  run_step "Environment validation (default app env)" bun run env:validate
+
+  run_step "Environment validation (APP_ENV=staging)" env APP_ENV=staging bun run env:validate --filter=frontend --filter=admin
+
+  run_step "Environment validation (APP_ENV=production)" env APP_ENV=production bun run env:validate --filter=frontend --filter=admin
+
+  run_step "Workspace build" bun run build
+
+  run_step "Workspace lint" bun run lint
+
+  section "Pre-push result"
+  ok "All pre-push checks passed for protected branch"
+else
+  info "Non-protected branch push detected, skipping extended pre-push checks"
+fi
