@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import logs from './data/logs.json' assert { type: 'json' };
+import logs from './data/logs.json' with { type: 'json' };
 
 type PrismaDelegate = {
   findFirst(args: { where: Record<string, unknown> }): Promise<unknown>;
