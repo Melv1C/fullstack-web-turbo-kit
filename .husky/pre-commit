@@ -1,0 +1,2 @@
+bun run format:check
+bunx varlock scan
