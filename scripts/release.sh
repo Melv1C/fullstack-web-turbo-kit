@@ -1,35 +1,35 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting release process..."
-echo
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$SCRIPT_DIR/sh/logging.sh"
 
-echo "📦 Running changeset version..."
-bunx changeset version
+echo "release: starting process"
+section "Release pipeline"
 
-sleep 1
+run_step "Changeset version" bunx changeset version
+
+sleep 2
 
 DATETIME=$(date +"%d-%m-%Y %H:%M:%S")
-echo "📝 Committing release changes ($DATETIME)..."
-git commit -am "release: $DATETIME"
+run_step "Commit release changes" git commit -am "release: $DATETIME"
 
-echo "⬆️  Pushing commits to remote..."
-git push --quiet
-echo
+run_step "Push commits" git push --quiet
 
-echo "🏷️  Creating release tags..."
-bunx changeset tag
-echo
+run_step "Create release tags" bunx changeset tag
 
-echo "📤 Pushing new tags one by one..."
+section "Push tags"
 for tag in $(git tag --points-at HEAD); do
-  echo "   → Pushing tag: $tag ..."
+  info "Pushing tag: $tag"
+  output_start
   if git push --quiet --no-follow-tags origin "$tag"; then
-    echo "      ✅ Tag $tag pushed successfully!"
+    output_end
+    ok "Tag pushed: $tag"
   else
-    echo "      ❌ Failed to push tag $tag!"
+    output_end
+    error "Failed to push tag: $tag"
   fi
 done
 
-echo
-echo "🎉 Release process completed successfully!"
+section "Release result"
+ok "Release process completed"

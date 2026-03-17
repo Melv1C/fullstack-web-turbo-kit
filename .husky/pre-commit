@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+set -e
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SCRIPT_DIR/../scripts/sh/logging.sh"
+
+echo "pre-commit: running checks"
+section "Pre-commit checks"
+
+if ! run_step "Formatting check" bun run format:check; then
+  echo ""
+  echo "Run 'bun run format' to fix formatting issues, then stage the changes."
+  exit 1
+fi
+
+if ! run_step "Varlock scan" bunx varlock scan; then
+  echo ""
+  echo "Ensure all environment variables are properly declared and secrets are not exposed."
+  exit 1
+fi
+
+section "Pre-commit result"
+ok "All pre-commit checks passed"
