@@ -1,4 +1,9 @@
-import { createApiClient } from '@repo/api-client';
+import type { AppType } from 'backend';
+import { hc } from 'hono/client';
 import { ENV } from 'varlock/env';
 
-export const apiClient = createApiClient(ENV.BACKEND_URL);
+export const apiClient = hc<AppType>(ENV.BACKEND_URL, {
+  init: {
+    credentials: 'include',
+  },
+});
