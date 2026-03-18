@@ -35,6 +35,8 @@ RUN bun run build --filter=backend
 FROM base AS runner
 # Don't run production as root
 RUN groupadd --system --gid 1001 group && useradd --system --uid 1001 --gid group user
+RUN mkdir -p /home/user/.config && chown -R user:group /home/user
+ENV HOME=/home/user
 USER user
 
 WORKDIR /app
