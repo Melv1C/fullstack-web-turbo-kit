@@ -13,14 +13,14 @@
   "scripts": {
     "dev": "APP_ENV=development concurrently \"tsdown --watch\" \"tsx watch src/index.ts\"",
     "build": "tsdown",
-    "start": "npm run prisma:migrate:deploy && node ./dist/index.mjs",
+    "start": "npm run prisma:migrate:deploy && bun src/index.ts",
     "prisma:generate": "APP_ENV=development prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:validate": "APP_ENV=development prisma validate",
     "prisma:format": "APP_ENV=development prisma format",
-    "add-admin": "node ./dist/add-admin.mjs",
-    "sync-json-data": "node ./dist/sync-json-data.mjs",
+    "add-admin": "bun ./scripts/add-admin.ts",
+    "sync-json-data": "bun ./scripts/sync-json-data.ts",
     "env:generate": "varlock typegen",
     "env:validate": "varlock load"
   },

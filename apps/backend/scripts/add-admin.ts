@@ -1,3 +1,4 @@
+import 'varlock/auto-load';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { UserRole$ } from '@repo/utils';

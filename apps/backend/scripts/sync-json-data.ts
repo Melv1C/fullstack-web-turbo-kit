@@ -1,3 +1,4 @@
+import 'varlock/auto-load';
 import { prisma } from '@/lib/prisma';
 import logs from './data/logs.json' with { type: 'json' };
 
