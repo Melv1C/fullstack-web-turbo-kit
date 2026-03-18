@@ -26,31 +26,11 @@ Install dependencies:
 bun install
 ```
 
-Copy the example environment variables:
+Check that your environment variables are set up correctly by running:
 
 ```bash
-cp apps/backend/.env.example apps/backend/.env
+bun run env:validate
 ```
-
-Varlock manages env schema/validation and derived values:
-
-- Shared defaults live in `.env.shared`, and each app defines an `.env.schema` that imports it.
-- `APP_ENV` controls which derived defaults and required values apply (default: `local`).
-- For staging/production, set `STAGING_*` or `PROD_*` URLs as real environment variables (defaults are `MY_APP_*` placeholders for the Docker runtime replacement scripts).
-- Frontend/admin no longer use `.env.*` files; values are derived via schema.
-- To validate and inspect resolved envs, run `bun exec varlock load` from the app directory.
-- For CLI tools that need injected env vars, use `bun exec varlock run -- <command>`.
-
-Use explicit `APP_ENV` modes for web apps:
-
-```bash
-bun --filter frontend build:staging
-bun --filter frontend build:production
-bun --filter admin build:staging
-bun --filter admin build:production
-```
-
-Only backend env values are sensitive (for example: `DATABASE_URL`, `BETTER_AUTH_SECRET`) and must never be committed.
 
 Start the development database (PostgreSQL):
 
