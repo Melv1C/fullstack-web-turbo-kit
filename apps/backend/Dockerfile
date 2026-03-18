@@ -26,10 +26,9 @@ COPY --from=prepare /app/out/full/ .
 # Ensure shared env schema is available for varlock imports
 COPY .env.shared ./.env.shared
 
-# Build backend
+# Generate Prisma client
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 RUN bun run prisma:generate
-RUN bun run build --filter=backend
 
 # ---
 FROM base AS runner
