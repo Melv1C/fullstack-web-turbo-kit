@@ -3,10 +3,9 @@ WORKDIR /app
 
 # ---
 FROM base AS prepare
-RUN bun install -g turbo@^2
 COPY . .
 # Prune the monorepo for the admin app
-RUN turbo prune admin --docker
+RUN bunx turbo prune admin --docker
 
 # ---
 FROM base AS installer
@@ -15,7 +14,7 @@ COPY --from=prepare /app/out/json/ .
 # Remove package-lock.json to avoid conflicts
 RUN rm -f package-lock.json
 # Install dependencies
-RUN bun i
+RUN bun install --frozen-lockfile
 
 # ---
 FROM base AS builder
@@ -42,13 +41,7 @@ COPY apps/admin/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy runtime env script and make it executable
 # This script runs on container startup to replace MY_APP_* placeholders
-COPY apps/admin/env.sh /docker-entrypoint.d/env.sh
-RUN chmod +x /docker-entrypoint.d/env.sh
-
-# Copy runtime env script and make it executable
-# This script runs on container startup to replace MY_APP_* placeholders
-COPY apps/admin/env.sh /docker-entrypoint.d/env.sh
-RUN chmod +x /docker-entrypoint.d/env.sh
+COPY --chmod=755 apps/admin/env.sh /docker-entrypoint.d/env.sh
 
 EXPOSE 80
 
