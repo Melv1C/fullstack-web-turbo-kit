@@ -8,18 +8,15 @@ COPY . .
 RUN bunx turbo prune backend --docker
 
 # ---
-FROM base AS installer
-# First install the dependencies (as they change less often)
+FROM base AS dev-deps
+# Install full dependencies (needed for prisma generate)
 COPY --from=prepare /app/out/json/ .
-# Install dependencies
 RUN bun install --frozen-lockfile
 
 # ---
 FROM base AS builder
-# Copy dependencies
-COPY --from=installer /app/node_modules ./node_modules
-# Copy package manifests for runtime commands
-COPY --from=installer /app/package.json /app/bun.lock ./
+# Copy dependencies (including dev deps for Prisma)
+COPY --from=dev-deps /app/node_modules ./node_modules
 # Copy source files
 COPY --from=prepare /app/out/full/ .
 # Ensure shared env schema is available for varlock imports
@@ -27,6 +24,14 @@ COPY .env.shared ./.env.shared
 
 # Generate Prisma client
 RUN bun run prisma:generate
+# Build shared workspace package needed by backend at runtime
+RUN bun run build --filter=backend
+
+# ---
+FROM base AS prod-deps
+# Install production dependencies for runtime
+COPY --from=prepare /app/out/json/ .
+RUN bun install --frozen-lockfile --production --ignore-scripts
 
 # ---
 FROM base AS runner
@@ -38,7 +43,14 @@ USER user
 
 WORKDIR /app
 
-# Copy built application
-COPY --from=builder --chown=user:group /app .
+# Copy application sources (pruned)
+COPY --from=builder --chown=user:group /app/apps /app/apps
+COPY --from=builder --chown=user:group /app/packages /app/packages
+COPY --from=builder --chown=user:group /app/package.json /app/bunfig.toml /app/turbo.json /app/
+COPY --from=builder --chown=user:group /app/.env.shared /app/.env.shared
 
-CMD ["bun", "--filter", "backend", "start"]
+# Copy production dependencies
+COPY --from=prod-deps --chown=user:group /app/node_modules /app/node_modules
+COPY --from=prod-deps --chown=user:group /app/bun.lock /app/
+
+CMD ["bun", "--filter=backend", "run", "start"]
