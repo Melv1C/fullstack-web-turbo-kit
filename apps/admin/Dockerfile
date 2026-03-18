@@ -29,7 +29,6 @@ COPY .env.shared ./.env.shared
 ARG APP_ENV=production
 
 # Build the admin app
-ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 RUN bun run prisma:generate
 RUN bun run build:${APP_ENV} --filter=admin
 

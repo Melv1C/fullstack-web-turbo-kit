@@ -3,31 +3,29 @@ WORKDIR /app
 
 # ---
 FROM base AS prepare
-RUN bun install -g turbo@^2
 COPY . .
 # Prune the monorepo for the backend app
-RUN turbo prune backend --docker
+RUN bunx turbo prune backend --docker
 
 # ---
 FROM base AS installer
 # First install the dependencies (as they change less often)
 COPY --from=prepare /app/out/json/ .
-# Remove package-lock.json to avoid conflicts
-RUN rm -f package-lock.json
 # Install dependencies
-RUN bun i
+RUN bun install --frozen-lockfile
 
 # ---
 FROM base AS builder
 # Copy dependencies
-COPY --from=installer /app/ .
+COPY --from=installer /app/node_modules ./node_modules
+# Copy package manifests for runtime commands
+COPY --from=installer /app/package.json /app/bun.lock ./
 # Copy source files
 COPY --from=prepare /app/out/full/ .
 # Ensure shared env schema is available for varlock imports
 COPY .env.shared ./.env.shared
 
 # Generate Prisma client
-ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 RUN bun run prisma:generate
 
 # ---
