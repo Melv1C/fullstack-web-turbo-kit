@@ -11,14 +11,14 @@
     }
   },
   "scripts": {
-    "dev": "APP_ENV=development varlock run -- concurrently \"tsdown --watch\" \"tsx watch src/index.ts\"",
+    "dev": "APP_ENV=development concurrently \"tsdown --watch\" \"tsx watch src/index.ts\"",
     "build": "tsdown",
     "start": "npm run prisma:migrate:deploy && node ./dist/index.mjs",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "APP_ENV=development prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:validate": "prisma validate",
-    "prisma:format": "prisma format",
+    "prisma:validate": "APP_ENV=development prisma validate",
+    "prisma:format": "APP_ENV=development prisma format",
     "add-admin": "node ./dist/add-admin.mjs",
     "sync-json-data": "node ./dist/sync-json-data.mjs",
     "env:generate": "varlock typegen",

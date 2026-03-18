@@ -1,3 +1,4 @@
+import 'varlock/auto-load';
 import { initializeSocketIO } from '@/lib/socket';
 import { routes } from '@/routes';
 import { serve } from '@hono/node-server';
@@ -5,8 +6,7 @@ import { APP_NAME } from '@repo/utils';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import type { Server as HTTPServer } from 'node:http';
-import { ENV } from 'varlock';
-import 'varlock/auto-load';
+import { ENV } from 'varlock/env';
 import pkg from '../package.json' with { type: 'json' };
 
 const app = new Hono()

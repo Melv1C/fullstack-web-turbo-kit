@@ -3,7 +3,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import { varlockVitePlugin } from '@varlock/vite-integration';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { ENV } from 'varlock';
+import { ENV } from 'varlock/env';
 
 import { defineConfig } from 'vite';
 
