@@ -56,7 +56,7 @@ export const logsRoutes = new Hono()
     return c.json(result);
   })
   .get('/:id', isAdmin, zValidator('param', z.object({ id: Log$.shape.id })), async c => {
-    const id = c.req.valid('param').id;
+    const { id } = c.req.valid('param');
     const log = await prisma.log.findUnique({ where: { id } });
     if (!log) {
       return c.json({ error: 'Log not found' }, 404);
