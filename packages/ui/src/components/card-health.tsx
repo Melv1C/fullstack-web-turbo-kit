@@ -12,7 +12,7 @@ export const CardHealth = ({ isPending, isError, refetch, ...props }: CardHealth
     <Card {...props}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Backend Status</CardTitle>
-        <Server className="h-4 w-4 text-muted-foreground" />
+        <Server className="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
@@ -20,13 +20,13 @@ export const CardHealth = ({ isPending, isError, refetch, ...props }: CardHealth
             {isPending && (
               <>
                 <Activity className="h-4 w-4 animate-pulse" />
-                <span className="text-sm text-muted-foreground">Checking...</span>
+                <span className="text-muted-foreground text-sm">Checking...</span>
               </>
             )}
             {isError && (
               <>
-                <XCircle className="h-4 w-4 text-destructive" />
-                <span className="text-sm text-destructive">Offline</span>
+                <XCircle className="text-destructive h-4 w-4" />
+                <span className="text-destructive text-sm">Offline</span>
               </>
             )}
             {!isPending && !isError && (

@@ -46,19 +46,19 @@ export function SessionsDialog() {
         <div className="py-4">
           {isPending && (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
             </div>
           )}
 
           {isError && (
-            <div className="flex flex-col items-center justify-center py-8 text-destructive gap-2">
+            <div className="text-destructive flex flex-col items-center justify-center gap-2 py-8">
               <AlertCircle className="h-6 w-6" />
               <p className="text-sm">Failed to load sessions</p>
             </div>
           )}
 
           {!isPending && !isError && sessions && sessions.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="text-muted-foreground py-8 text-center">
               <p className="text-sm">No active sessions</p>
             </div>
           )}
@@ -67,11 +67,11 @@ export function SessionsDialog() {
             <ScrollArea className="h-80">
               <div className="space-y-3 pr-4">
                 {sessions.map((session) => (
-                  <div key={session.id} className="p-3 rounded-lg border bg-muted/30">
+                  <div key={session.id} className="bg-muted/30 rounded-lg border p-3">
                     <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-1 min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex items-center gap-2 text-sm">
-                          <Monitor className="h-4 w-4 text-muted-foreground shrink-0" />
+                          <Monitor className="text-muted-foreground h-4 w-4 shrink-0" />
                           <span className="truncate text-sm">
                             {session.userAgent
                               ? session.userAgent.length > 50
@@ -81,12 +81,12 @@ export function SessionsDialog() {
                           </span>
                         </div>
                         {session.ipAddress && (
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <div className="text-muted-foreground flex items-center gap-2 text-xs">
                             <Globe className="h-3 w-3 shrink-0" />
                             <span>{session.ipAddress}</span>
                           </div>
                         )}
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-2 text-xs">
                           <Clock className="h-3 w-3 shrink-0" />
                           <span>Created {formatRelativeTime(session.createdAt)}</span>
                         </div>
@@ -101,7 +101,7 @@ export function SessionsDialog() {
                         size="icon"
                         onClick={() => revokeSession.mutate(session.token)}
                         disabled={revokeSession.isPending}
-                        className="shrink-0 h-8 w-8 text-destructive hover:text-destructive"
+                        className="text-destructive hover:text-destructive h-8 w-8 shrink-0"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

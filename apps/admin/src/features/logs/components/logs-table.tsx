@@ -42,28 +42,28 @@ export function LogsTable() {
       </CardHeader>
       <CardContent>
         {isPending && (
-          <div className="flex flex-col items-center justify-center py-12 gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Loading logs...</p>
+          <div className="flex flex-col items-center justify-center gap-3 py-12">
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+            <p className="text-muted-foreground text-sm">Loading logs...</p>
           </div>
         )}
 
         {isError && (
-          <div className="flex flex-col items-center justify-center py-12 text-destructive gap-3">
+          <div className="text-destructive flex flex-col items-center justify-center gap-3 py-12">
             <AlertCircle className="h-8 w-8" />
             <div className="text-center">
               <p className="text-sm font-medium">Failed to load logs</p>
-              <p className="text-xs text-muted-foreground mt-1">Please try again later</p>
+              <p className="text-muted-foreground mt-1 text-xs">Please try again later</p>
             </div>
           </div>
         )}
 
         {!isPending && !isError && logs.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground gap-3">
+          <div className="text-muted-foreground flex flex-col items-center justify-center gap-3 py-12">
             <Info className="h-8 w-8" />
             <div className="text-center">
               <p className="text-sm font-medium">No logs found</p>
-              <p className="text-xs mt-1">Try adjusting your filters</p>
+              <p className="mt-1 text-xs">Try adjusting your filters</p>
             </div>
           </div>
         )}
@@ -95,8 +95,8 @@ export function LogsTable() {
 
         {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-4">
-            <div className="text-sm text-muted-foreground space-y-1">
+          <div className="flex flex-col items-center justify-between gap-4 border-t pt-4 sm:flex-row">
+            <div className="text-muted-foreground space-y-1 text-sm">
               <p>
                 Page {pagination.page} of {pagination.totalPages}
               </p>

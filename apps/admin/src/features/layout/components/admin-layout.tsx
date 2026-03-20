@@ -64,7 +64,7 @@ export function AdminLayout() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="space-y-6 flex flex-col h-full">
+          <div className="flex h-full flex-col space-y-6">
             <Outlet />
           </div>
         </div>

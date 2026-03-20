@@ -76,7 +76,7 @@ function MultiSelect<T extends string>({
             </div>
           ))}
           {selected.length > 0 && (
-            <Button variant="ghost" size="sm" className="w-full mt-2" onClick={() => onChange([])}>
+            <Button variant="ghost" size="sm" className="mt-2 w-full" onClick={() => onChange([])}>
               Clear all
             </Button>
           )}
@@ -113,7 +113,7 @@ export function LogsFilter() {
 
   return (
     <Card>
-      <CardContent className="pt-6 space-y-4">
+      <CardContent className="space-y-4 pt-6">
         {/* Search - Full width on its own row */}
         <div>
           <label htmlFor="search-input" className="mb-1.5 block text-sm font-medium">

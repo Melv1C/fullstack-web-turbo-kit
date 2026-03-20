@@ -8,5 +8,6 @@ export default defineConfig({
   fmt: {
     sortPackageJson: { sortScripts: true },
     sortImports: {},
+    sortTailwindcss: {},
   },
 });

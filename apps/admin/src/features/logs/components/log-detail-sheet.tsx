@@ -68,13 +68,13 @@ function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
           {label}
         </h3>
         <CopyButton text={metadataString} label="Copy metadata" />
       </div>
-      <div className="overflow-x-auto rounded-md bg-muted/50 border">
-        <pre className="p-3 text-xs leading-relaxed max-h-75 overflow-y-auto whitespace-pre">
+      <div className="bg-muted/50 overflow-x-auto rounded-md border">
+        <pre className="max-h-75 overflow-y-auto p-3 text-xs leading-relaxed whitespace-pre">
           {metadataString}
         </pre>
       </div>
@@ -95,17 +95,17 @@ function StepItem({ step, index }: { step: LogStep; index: number }) {
 
   return (
     <div className={`rounded-lg border p-4 ${bgColorMap[step.level]}`}>
-      <div className="flex  items-start gap-3">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-background shadow-sm border">
-          <span className="text-xs font-semibold text-muted-foreground">{index + 1}</span>
+      <div className="flex items-start gap-3">
+        <div className="bg-background flex h-7 w-7 shrink-0 items-center justify-center rounded-full border shadow-sm">
+          <span className="text-muted-foreground text-xs font-semibold">{index + 1}</span>
         </div>
         <div className="min-w-0 flex-1 space-y-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant={config.variant} className="uppercase text-xs gap-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant={config.variant} className="gap-1 text-xs uppercase">
               <Icon className="h-3 w-3" />
               {step.level}
             </Badge>
-            <span className="text-xs font-medium text-muted-foreground">
+            <span className="text-muted-foreground text-xs font-medium">
               {formatTimestamp(step.timestamp)}
             </span>
           </div>
@@ -122,9 +122,9 @@ function LogContent({ log }: { log: LogWithUser }) {
   const Icon = config.icon;
 
   return (
-    <div className="space-y-6 pr-4 pb-6 h-[calc(100vh-8rem)] overflow-y-auto">
+    <div className="h-[calc(100vh-8rem)] space-y-6 overflow-y-auto pr-4 pb-6">
       {/* Header Info with visual hierarchy */}
-      <div className="rounded-lg border bg-card p-4 space-y-3">
+      <div className="bg-card space-y-3 rounded-lg border p-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={config.variant} className={`gap-1 uppercase ${config.color}`}>
             <Icon className="h-3 w-3" />
@@ -148,7 +148,7 @@ function LogContent({ log }: { log: LogWithUser }) {
 
         {/* Main Message */}
         <div className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <h4 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Message
           </h4>
           <p className="text-sm leading-relaxed wrap-break-word">{log.message}</p>
@@ -157,24 +157,24 @@ function LogContent({ log }: { log: LogWithUser }) {
 
       {/* Request Details */}
       {(log.path || log.durationMs !== null) && (
-        <div className="rounded-lg border bg-card p-4 space-y-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="bg-card space-y-4 rounded-lg border p-4">
+          <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Request Details
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {log.path && (
               <div className="space-y-2">
-                <h4 className="text-xs font-medium text-muted-foreground">Path</h4>
-                <p className="break-all font-mono text-xs bg-muted/50 p-2.5 rounded-md">
+                <h4 className="text-muted-foreground text-xs font-medium">Path</h4>
+                <p className="bg-muted/50 rounded-md p-2.5 font-mono text-xs break-all">
                   {log.path}
                 </p>
               </div>
             )}
             {log.durationMs !== null && log.durationMs !== undefined && (
               <div className="space-y-2">
-                <h4 className="text-xs font-medium text-muted-foreground">Duration</h4>
+                <h4 className="text-muted-foreground text-xs font-medium">Duration</h4>
                 <p className="flex items-center gap-1.5 text-sm font-medium">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <Clock className="text-muted-foreground h-4 w-4" />
                   {log.durationMs}ms
                 </p>
               </div>
@@ -184,20 +184,20 @@ function LogContent({ log }: { log: LogWithUser }) {
       )}
 
       {/* Timestamps and User */}
-      <div className="rounded-lg border bg-card p-4 space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <div className="bg-card space-y-4 rounded-lg border p-4">
+        <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
           Additional Information
         </h3>
 
         <div className="space-y-2">
-          <h4 className="text-xs font-medium text-muted-foreground">Created At</h4>
+          <h4 className="text-muted-foreground text-xs font-medium">Created At</h4>
           <p className="text-sm font-medium">{formatDate(log.createdAt)}</p>
         </div>
 
         {log.user ? (
           <div className="space-y-2">
-            <h4 className="text-xs font-medium text-muted-foreground">User</h4>
-            <div className="flex items-center gap-3 bg-muted/50 p-2.5 rounded-md">
+            <h4 className="text-muted-foreground text-xs font-medium">User</h4>
+            <div className="bg-muted/50 flex items-center gap-3 rounded-md p-2.5">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={log.user.image ?? undefined} alt={log.user.name} />
                 <AvatarFallback>
@@ -205,15 +205,15 @@ function LogContent({ log }: { log: LogWithUser }) {
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium truncate">{log.user.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{log.user.email}</p>
+                <p className="truncate text-sm font-medium">{log.user.name}</p>
+                <p className="text-muted-foreground truncate text-xs">{log.user.email}</p>
               </div>
             </div>
           </div>
         ) : log.userId ? (
           <div className="space-y-2">
-            <h4 className="text-xs font-medium text-muted-foreground">User ID</h4>
-            <p className="break-all font-mono text-xs bg-muted/50 p-2.5 rounded-md">{log.userId}</p>
+            <h4 className="text-muted-foreground text-xs font-medium">User ID</h4>
+            <p className="bg-muted/50 rounded-md p-2.5 font-mono text-xs break-all">{log.userId}</p>
           </div>
         ) : null}
       </div>
@@ -222,15 +222,15 @@ function LogContent({ log }: { log: LogWithUser }) {
       {log.metadata &&
         typeof log.metadata === "object" &&
         Object.keys(log.metadata as object).length > 0 && (
-          <div className="rounded-lg border bg-card p-4">
+          <div className="bg-card rounded-lg border p-4">
             <MetadataDisplay metadata={log.metadata} label="Metadata" />
           </div>
         )}
 
       {/* Steps */}
       {log.steps && log.steps.length > 0 && (
-        <div className="rounded-lg border bg-card p-4 space-y-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="bg-card space-y-4 rounded-lg border p-4">
+          <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Execution Steps ({log.steps.length})
           </h3>
           <div className="space-y-3">
@@ -260,7 +260,7 @@ export function LogDetailSheet() {
 
   return (
     <Sheet open={!!logId} onOpenChange={handleOpenChange}>
-      <SheetContent className="w-full sm:max-w-200 p-4">
+      <SheetContent className="w-full p-4 sm:max-w-200">
         <SheetHeader>
           <SheetTitle>Log Details</SheetTitle>
           <SheetDescription>{`Log ID: ${logId}`}</SheetDescription>
@@ -268,12 +268,12 @@ export function LogDetailSheet() {
 
         {isPending && (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           </div>
         )}
 
         {isError && (
-          <div className="flex flex-col items-center justify-center py-8 text-destructive">
+          <div className="text-destructive flex flex-col items-center justify-center py-8">
             <AlertCircle className="h-8 w-8" />
             <p className="mt-2 text-sm">Failed to load log details</p>
           </div>

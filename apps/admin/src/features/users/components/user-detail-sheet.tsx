@@ -37,17 +37,17 @@ function UserInfo({ user }: { user: UserType }) {
   return (
     <div className="space-y-6">
       {/* Profile Header */}
-      <div className="flex items-center gap-4 p-4 rounded-lg border bg-card">
+      <div className="bg-card flex items-center gap-4 rounded-lg border p-4">
         <Avatar className="h-16 w-16">
           <AvatarImage src={user.image ?? undefined} alt={user.name} />
           <AvatarFallback className="text-lg">
             {user.name ? getInitials(user.name) : <User className="h-6 w-6" />}
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold truncate">{user.name}</h3>
-          <p className="text-sm text-muted-foreground truncate">{user.email}</p>
-          <div className="flex items-center gap-2 mt-2 flex-wrap">
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-lg font-semibold">{user.name}</h3>
+          <p className="text-muted-foreground truncate text-sm">{user.email}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
             <Badge variant={roleConfig.variant} className="capitalize">
               {user.role === "admin" && <ShieldCheck className="mr-1 h-3 w-3" />}
               {roleConfig.label}
@@ -74,7 +74,7 @@ function UserInfo({ user }: { user: UserType }) {
                 Email Verified
               </Badge>
             ) : (
-              <Badge variant="outline" className="gap-1 text-muted-foreground">
+              <Badge variant="outline" className="text-muted-foreground gap-1">
                 <XCircle className="h-3 w-3" />
                 Email Unverified
               </Badge>
@@ -85,43 +85,43 @@ function UserInfo({ user }: { user: UserType }) {
 
       {/* Details Grid */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-2 p-3 rounded-md border">
-          <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <div className="space-y-2 rounded-md border p-3">
+          <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
             <Mail className="h-3 w-3" />
             Email
           </div>
           <p className="text-sm font-medium break-all">{user.email}</p>
         </div>
 
-        <div className="space-y-2 p-3 rounded-md border">
-          <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <div className="space-y-2 rounded-md border p-3">
+          <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
             <Calendar className="h-3 w-3" />
             Created
           </div>
           <p className="text-sm font-medium">{formatDate(user.createdAt)}</p>
         </div>
 
-        <div className="space-y-2 p-3 rounded-md border">
-          <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <div className="space-y-2 rounded-md border p-3">
+          <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
             <Clock className="h-3 w-3" />
             Last Updated
           </div>
           <p className="text-sm font-medium">{formatRelativeTime(user.updatedAt)}</p>
         </div>
 
-        <div className="space-y-2 p-3 rounded-md border">
-          <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <div className="space-y-2 rounded-md border p-3">
+          <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
             <User className="h-3 w-3" />
             User ID
           </div>
-          <p className="text-xs font-mono truncate">{user.id}</p>
+          <p className="truncate font-mono text-xs">{user.id}</p>
         </div>
       </div>
 
       {/* Ban Info */}
       {isBanned && (
-        <div className="p-4 rounded-lg border border-destructive/50 bg-destructive/10">
-          <h4 className="text-sm font-semibold text-destructive mb-2">Ban Information</h4>
+        <div className="border-destructive/50 bg-destructive/10 rounded-lg border p-4">
+          <h4 className="text-destructive mb-2 text-sm font-semibold">Ban Information</h4>
           <div className="space-y-2 text-sm">
             {user.banReason && (
               <p>
@@ -150,14 +150,14 @@ function UserSessions({ userId }: { userId: string }) {
   if (isPending) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 text-destructive gap-2">
+      <div className="text-destructive flex flex-col items-center justify-center gap-2 py-8">
         <AlertCircle className="h-6 w-6" />
         <p className="text-sm">Failed to load sessions</p>
       </div>
@@ -166,7 +166,7 @@ function UserSessions({ userId }: { userId: string }) {
 
   if (!sessions || sessions.length === 0) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-muted-foreground py-8 text-center">
         <p className="text-sm">No active sessions</p>
       </div>
     );
@@ -188,20 +188,20 @@ function UserSessions({ userId }: { userId: string }) {
 
       <div className="space-y-3">
         {sessions.map((session) => (
-          <div key={session.id} className="p-3 rounded-lg border bg-muted/30">
+          <div key={session.id} className="bg-muted/30 rounded-lg border p-3">
             <div className="flex items-start justify-between gap-2">
-              <div className="space-y-1 min-w-0 flex-1">
+              <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex items-center gap-2 text-sm">
-                  <Monitor className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <Monitor className="text-muted-foreground h-4 w-4 shrink-0" />
                   <span className="truncate">{session.userAgent ?? "Unknown device"}</span>
                 </div>
                 {session.ipAddress && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="text-muted-foreground flex items-center gap-2 text-xs">
                     <Globe className="h-3 w-3 shrink-0" />
                     <span>{session.ipAddress}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="text-muted-foreground flex items-center gap-2 text-xs">
                   <Clock className="h-3 w-3 shrink-0" />
                   <span>Created {formatRelativeTime(session.createdAt)}</span>
                 </div>
@@ -247,13 +247,13 @@ export function UserDetailSheet() {
 
   return (
     <Sheet open={sheetOpen} onOpenChange={handleOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg p-0">
+      <SheetContent className="w-full p-0 sm:max-w-lg">
         <SheetHeader className="p-6 pb-0">
           <SheetTitle>User Details</SheetTitle>
           <SheetDescription>View and manage user information</SheetDescription>
         </SheetHeader>
 
-        <div className="px-6 pb-6 overflow-scroll">
+        <div className="overflow-scroll px-6 pb-6">
           {user ? (
             <div className="space-y-6 pt-4">
               <UserInfo user={user} />
@@ -263,7 +263,7 @@ export function UserDetailSheet() {
             </div>
           ) : (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
             </div>
           )}
         </div>

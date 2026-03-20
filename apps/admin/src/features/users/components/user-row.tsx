@@ -76,8 +76,8 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium truncate">{user.name}</p>
-            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            <p className="truncate text-sm font-medium">{user.name}</p>
+            <p className="text-muted-foreground truncate text-xs">{user.email}</p>
           </div>
         </div>
       </TableCell>
@@ -112,14 +112,14 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
             Verified
           </Badge>
         ) : (
-          <Badge variant="outline" className="gap-1 text-muted-foreground">
+          <Badge variant="outline" className="text-muted-foreground gap-1">
             <XCircle className="h-3 w-3" />
             Unverified
           </Badge>
         )}
       </TableCell>
       <TableCell>
-        <span className="text-sm text-muted-foreground">{formatRelativeTime(user.createdAt)}</span>
+        <span className="text-muted-foreground text-sm">{formatRelativeTime(user.createdAt)}</span>
       </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>

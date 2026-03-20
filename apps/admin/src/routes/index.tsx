@@ -28,7 +28,7 @@ function Index() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Backend Status</CardTitle>
-            <Server className="h-4 w-4 text-muted-foreground" />
+            <Server className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
@@ -36,13 +36,13 @@ function Index() {
                 {(isPending || isFetching) && (
                   <>
                     <Activity className="h-4 w-4 animate-pulse" />
-                    <span className="text-sm text-muted-foreground">Checking...</span>
+                    <span className="text-muted-foreground text-sm">Checking...</span>
                   </>
                 )}
                 {!isFetching && isError && (
                   <>
-                    <XCircle className="h-4 w-4 text-destructive" />
-                    <span className="text-sm text-destructive">Offline</span>
+                    <XCircle className="text-destructive h-4 w-4" />
+                    <span className="text-destructive text-sm">Offline</span>
                   </>
                 )}
                 {!isFetching && data && (
@@ -68,11 +68,11 @@ function Index() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">App Version</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Activity className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">v{APP_VERSION}</div>
-            <p className="text-xs text-muted-foreground">Current version</p>
+            <p className="text-muted-foreground text-xs">Current version</p>
           </CardContent>
         </Card>
       </div>
@@ -86,54 +86,54 @@ function Index() {
           <div className="grid gap-4 md:grid-cols-2">
             <a
               href="/users"
-              className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
             >
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Users className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2">
+                <Users className="text-primary h-5 w-5" />
               </div>
               <div>
                 <h3 className="font-medium">Manage Users</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Create, edit, and manage application users
                 </p>
               </div>
             </a>
             <a
               href="/logs"
-              className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
             >
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Activity className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2">
+                <Activity className="text-primary h-5 w-5" />
               </div>
               <div>
                 <h3 className="font-medium">View Logs</h3>
-                <p className="text-sm text-muted-foreground">Monitor application logs and errors</p>
+                <p className="text-muted-foreground text-sm">Monitor application logs and errors</p>
               </div>
             </a>
             <a
               href="/prisma-studio"
-              className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
             >
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Database className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2">
+                <Database className="text-primary h-5 w-5" />
               </div>
               <div>
                 <h3 className="font-medium">Prisma Studio</h3>
-                <p className="text-sm text-muted-foreground">Browse and edit database records</p>
+                <p className="text-muted-foreground text-sm">Browse and edit database records</p>
               </div>
             </a>
             <a
               href={ENV.FRONTEND_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
             >
-              <div className="rounded-lg bg-primary/10 p-2">
-                <ExternalLink className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2">
+                <ExternalLink className="text-primary h-5 w-5" />
               </div>
               <div>
                 <h3 className="font-medium">Frontend App</h3>
-                <p className="text-sm text-muted-foreground">Open the main application</p>
+                <p className="text-muted-foreground text-sm">Open the main application</p>
               </div>
             </a>
           </div>

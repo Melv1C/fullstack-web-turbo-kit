@@ -86,7 +86,7 @@ export function SetPasswordDialog() {
               required
               className={!passwordsMatch ? "border-destructive" : ""}
             />
-            {!passwordsMatch && <p className="text-xs text-destructive">Passwords do not match</p>}
+            {!passwordsMatch && <p className="text-destructive text-xs">Passwords do not match</p>}
           </div>
 
           <DialogFooter>

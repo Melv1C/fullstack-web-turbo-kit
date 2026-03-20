@@ -78,8 +78,8 @@ export function UsersFilter() {
       <CardContent className="pt-6">
         <div className="flex flex-col gap-4">
           {/* Top row: Search and Create button */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 flex gap-2">
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-1 gap-2">
               <Select value={filter.searchField} onValueChange={handleSearchFieldChange}>
                 <SelectTrigger className="w-28">
                   <SelectValue />
@@ -90,7 +90,7 @@ export function UsersFilter() {
                 </SelectContent>
               </Select>
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
                   placeholder={`Search by ${filter.searchField}...`}
                   value={searchInput}
@@ -110,7 +110,7 @@ export function UsersFilter() {
           </div>
 
           {/* Filters row */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5">
             <div className="space-y-1.5">
               <Label className="text-xs">Role</Label>
               <Select value={filter.role ?? "all"} onValueChange={handleRoleChange}>
@@ -175,7 +175,7 @@ export function UsersFilter() {
               </Select>
             </div>
 
-            <div className="space-y-1.5 flex flex-col justify-end">
+            <div className="flex flex-col justify-end space-y-1.5">
               <Button variant="ghost" size="sm" onClick={handleReset} className="gap-2">
                 <RotateCcw className="h-4 w-4" />
                 Reset
