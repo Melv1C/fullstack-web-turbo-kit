@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "0.0.0",
   "type": "module",
-  "types": "./src/index.d.mts",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./src/index.d.mts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     }
