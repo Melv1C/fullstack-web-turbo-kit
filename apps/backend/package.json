@@ -2,40 +2,40 @@
   "name": "backend",
   "version": "0.0.0",
   "type": "module",
-  "types": "./src/index.d.mts",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./src/index.d.mts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     }
   },
   "scripts": {
-    "dev": "APP_ENV=development concurrently \"tsdown --watch\" \"tsx watch src/index.ts\"",
-    "build": "tsdown",
-    "start": "npm run prisma:migrate:deploy && bun src/index.ts",
+    "add-admin": "bun ./scripts/add-admin.ts",
+    "build": "vp pack",
+    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"tsx watch src/index.ts\"",
+    "env:generate": "varlock typegen",
+    "env:validate": "varlock load",
+    "prisma:format": "APP_ENV=development prisma format",
     "prisma:generate": "APP_ENV=development prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:validate": "APP_ENV=development prisma validate",
-    "prisma:format": "APP_ENV=development prisma format",
-    "add-admin": "bun ./scripts/add-admin.ts",
-    "sync-json-data": "bun ./scripts/sync-json-data.ts",
-    "env:generate": "varlock typegen",
-    "env:validate": "varlock load"
+    "start": "npm run prisma:migrate:deploy && bun src/index.ts",
+    "sync-json-data": "bun ./scripts/sync-json-data.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.11",
     "@hono/zod-validator": "^0.7.6",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
-    "@prisma/studio-core": "^0.26.0",
+    "@prisma/studio-core": "^0.27.3",
     "@repo/utils": "workspace:*",
     "better-auth": "^1.5.5",
     "hono": "^4.12.8",
     "pg": "^8.20.0",
     "socket.io": "^4.8.3",
-    "varlock": "^0.5.0",
+    "varlock": "^0.6.1",
     "winston": "^3.19.0",
     "winston-transport": "^4.9.0",
     "zod": "^4.3.6"
@@ -46,8 +46,8 @@
     "@types/pg": "^8.18.0",
     "concurrently": "^9.2.1",
     "prisma": "^7.5.0",
-    "tsdown": "^0.21.4",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-plus": "^0.1.13"
   }
 }

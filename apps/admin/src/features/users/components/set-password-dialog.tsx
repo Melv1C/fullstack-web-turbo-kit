@@ -8,25 +8,26 @@ import {
   DialogTitle,
   Input,
   Label,
-} from '@melv1c/ui-core';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { useSetUserPassword, useUsers } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+
+import { useSetUserPassword, useUsers } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 export function SetPasswordDialog() {
-  const isOpen = useUsersStore(state => state.setPasswordDialogOpen);
-  const closeDialog = useUsersStore(state => state.closeSetPasswordDialog);
-  const selectedUserId = useUsersStore(state => state.selectedUserId);
-  const filter = useUsersStore(state => state.filter);
+  const isOpen = useUsersStore((state) => state.setPasswordDialogOpen);
+  const closeDialog = useUsersStore((state) => state.closeSetPasswordDialog);
+  const selectedUserId = useUsersStore((state) => state.selectedUserId);
+  const filter = useUsersStore((state) => state.filter);
 
   const { data } = useUsers(filter);
-  const user = data?.users.find(u => u.id === selectedUserId);
+  const user = data?.users.find((u) => u.id === selectedUserId);
 
   const setPassword = useSetUserPassword();
 
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,21 +42,21 @@ export function SetPasswordDialog() {
   };
 
   const handleClose = () => {
-    setNewPassword('');
-    setConfirmPassword('');
+    setNewPassword("");
+    setConfirmPassword("");
     closeDialog();
   };
 
   const isValid = newPassword.length >= 8 && newPassword === confirmPassword;
-  const passwordsMatch = newPassword === confirmPassword || confirmPassword === '';
+  const passwordsMatch = newPassword === confirmPassword || confirmPassword === "";
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && handleClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Set Password</DialogTitle>
           <DialogDescription>
-            Set a new password for <strong>{user?.name ?? 'this user'}</strong>
+            Set a new password for <strong>{user?.name ?? "this user"}</strong>
           </DialogDescription>
         </DialogHeader>
 
@@ -66,7 +67,7 @@ export function SetPasswordDialog() {
               id="new-password"
               type="password"
               value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 8 characters"
               minLength={8}
               required
@@ -79,13 +80,13 @@ export function SetPasswordDialog() {
               id="confirm-password"
               type="password"
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm new password"
               minLength={8}
               required
-              className={!passwordsMatch ? 'border-destructive' : ''}
+              className={!passwordsMatch ? "border-destructive" : ""}
             />
-            {!passwordsMatch && <p className="text-xs text-destructive">Passwords do not match</p>}
+            {!passwordsMatch && <p className="text-destructive text-xs">Passwords do not match</p>}
           </div>
 
           <DialogFooter>

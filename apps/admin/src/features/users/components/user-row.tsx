@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
   TableCell,
   TableRow,
-} from '@melv1c/ui-core';
-import type { User as UserType } from '@repo/utils';
+} from "@melv1c/ui-core";
+import type { User as UserType } from "@repo/utils";
 import {
   Ban,
   CheckCircle,
@@ -26,11 +26,12 @@ import {
   User,
   UserCog,
   XCircle,
-} from 'lucide-react';
-import { memo } from 'react';
-import { formatRelativeTime, getInitials, getRoleConfig } from '../constants';
-import { useImpersonateUser, useUnbanUser } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "lucide-react";
+import { memo } from "react";
+
+import { formatRelativeTime, getInitials, getRoleConfig } from "../constants";
+import { useImpersonateUser, useUnbanUser } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 interface UserRowProps {
   user: UserType;
@@ -40,13 +41,13 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
   const roleConfig = getRoleConfig(user.role);
   const isBanned = user.banned === true;
 
-  const setSelectedUserId = useUsersStore(state => state.setSelectedUserId);
-  const setSheetOpen = useUsersStore(state => state.setSheetOpen);
-  const openEditDialog = useUsersStore(state => state.openEditDialog);
-  const openSetPasswordDialog = useUsersStore(state => state.openSetPasswordDialog);
-  const openBanDialog = useUsersStore(state => state.openBanDialog);
-  const openDeleteDialog = useUsersStore(state => state.openDeleteDialog);
-  const openSessionsDialog = useUsersStore(state => state.openSessionsDialog);
+  const setSelectedUserId = useUsersStore((state) => state.setSelectedUserId);
+  const setSheetOpen = useUsersStore((state) => state.setSheetOpen);
+  const openEditDialog = useUsersStore((state) => state.openEditDialog);
+  const openSetPasswordDialog = useUsersStore((state) => state.openSetPasswordDialog);
+  const openBanDialog = useUsersStore((state) => state.openBanDialog);
+  const openDeleteDialog = useUsersStore((state) => state.openDeleteDialog);
+  const openSessionsDialog = useUsersStore((state) => state.openSessionsDialog);
 
   const impersonateMutation = useImpersonateUser();
   const unbanMutation = useUnbanUser();
@@ -75,14 +76,14 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium truncate">{user.name}</p>
-            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            <p className="truncate text-sm font-medium">{user.name}</p>
+            <p className="text-muted-foreground truncate text-xs">{user.email}</p>
           </div>
         </div>
       </TableCell>
       <TableCell>
         <Badge variant={roleConfig.variant} className="capitalize">
-          {user.role === 'admin' && <ShieldCheck className="mr-1 h-3 w-3" />}
+          {user.role === "admin" && <ShieldCheck className="mr-1 h-3 w-3" />}
           {roleConfig.label}
         </Badge>
       </TableCell>
@@ -111,14 +112,14 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
             Verified
           </Badge>
         ) : (
-          <Badge variant="outline" className="gap-1 text-muted-foreground">
+          <Badge variant="outline" className="text-muted-foreground gap-1">
             <XCircle className="h-3 w-3" />
             Unverified
           </Badge>
         )}
       </TableCell>
       <TableCell>
-        <span className="text-sm text-muted-foreground">{formatRelativeTime(user.createdAt)}</span>
+        <span className="text-muted-foreground text-sm">{formatRelativeTime(user.createdAt)}</span>
       </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
@@ -146,7 +147,7 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
               Manage Sessions
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            {user.role !== 'admin' && (
+            {user.role !== "admin" && (
               <DropdownMenuItem onClick={handleImpersonate}>
                 <User className="mr-2 h-4 w-4" />
                 Impersonate

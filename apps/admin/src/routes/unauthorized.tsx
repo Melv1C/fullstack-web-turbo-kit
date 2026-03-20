@@ -1,9 +1,10 @@
-import { signOut } from '@/lib/auth-client';
-import { ENV } from 'varlock/env';
-import { Button } from '@melv1c/ui-core';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Button } from "@melv1c/ui-core";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ENV } from "varlock/env";
 
-export const Route = createFileRoute('/unauthorized')({
+import { signOut } from "@/lib/auth-client";
+
+export const Route = createFileRoute("/unauthorized")({
   component: UnauthorizedPage,
 });
 
@@ -12,7 +13,7 @@ function UnauthorizedPage() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate({ to: '/login' });
+    navigate({ to: "/login" });
   };
 
   return (
@@ -37,7 +38,7 @@ function UnauthorizedPage() {
         You don&apos;t have permission to access the admin dashboard. Please contact an
         administrator if you believe this is an error.
       </p>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <Button variant="outline" onClick={handleSignOut}>
           Sign out and try another account
         </Button>

@@ -1,5 +1,3 @@
-import { useSocket } from '@/features/socket';
-import { apiClient } from '@/lib/api-client';
 import {
   Log$,
   LogWithUser$,
@@ -7,9 +5,12 @@ import {
   type LogFilter,
   type LogWithUser,
   type PaginatedLogs,
-} from '@repo/utils';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+} from "@repo/utils";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+
+import { useSocket } from "@/features/socket";
+import { apiClient } from "@/lib/api-client";
 
 const LOGS_STALE_TIME = 30000; // 30 seconds
 const LOGS_CACHE_TIME = 5 * 60 * 1000; // 5 minutes
@@ -37,7 +38,7 @@ export function useLogs(filter: Partial<LogFilter> = {}) {
         }
       }
 
-      queryClient.setQueryData<PaginatedLogs>(['logs', filter], oldData => {
+      queryClient.setQueryData<PaginatedLogs>(["logs", filter], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
@@ -46,22 +47,22 @@ export function useLogs(filter: Partial<LogFilter> = {}) {
       });
     };
 
-    socket.on('log:created', handleLogCreated);
+    socket.on("log:created", handleLogCreated);
 
     return () => {
-      socket.off('log:created', handleLogCreated);
+      socket.off("log:created", handleLogCreated);
     };
   }, [socket, filter, queryClient]);
 
   return useQuery({
-    queryKey: ['logs', filter],
+    queryKey: ["logs", filter],
     queryFn: async (): Promise<PaginatedLogs> => {
       const res = await apiClient.api.logs.$get({
         query: {
           page: filter.page?.toString(),
           pageSize: filter.pageSize?.toString(),
-          types: filter.types?.join(','),
-          levels: filter.levels?.join(','),
+          types: filter.types?.join(","),
+          levels: filter.levels?.join(","),
           search: filter.search,
           startDate: filter.startDate?.toISOString(),
           endDate: filter.endDate?.toISOString(),
@@ -79,21 +80,21 @@ export function useLogs(filter: Partial<LogFilter> = {}) {
         pagination: result.pagination,
       };
     },
-    placeholderData: previousData => previousData,
+    placeholderData: (previousData) => previousData,
     staleTime: LOGS_STALE_TIME,
     gcTime: LOGS_CACHE_TIME,
     retry: 2,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 }
 
 export function useLog(id: number | null) {
   return useQuery({
-    queryKey: ['log', id],
+    queryKey: ["log", id],
     queryFn: async (): Promise<LogWithUser> => {
-      if (!id) throw new Error('No log ID provided');
+      if (!id) throw new Error("No log ID provided");
 
-      const res = await apiClient.api.logs[':id'].$get({ param: { id: id.toString() } });
+      const res = await apiClient.api.logs[":id"].$get({ param: { id: id.toString() } });
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -107,6 +108,6 @@ export function useLog(id: number | null) {
     staleTime: LOGS_STALE_TIME,
     gcTime: LOGS_CACHE_TIME,
     retry: 2,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 }

@@ -6,10 +6,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@melv1c/ui-core';
-import type { Log } from '@repo/utils';
-import { memo } from 'react';
-import { formatDate, levelConfig, typeColors } from '../utils';
+} from "@melv1c/ui-core";
+import type { Log } from "@repo/utils";
+import { memo } from "react";
+
+import { formatDate, levelConfig, typeColors } from "../utils";
 
 interface LogRowProps {
   log: Log;
@@ -28,7 +29,7 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (hasDetails && (e.key === 'Enter' || e.key === ' ')) {
+    if (hasDetails && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
       onSelect(log.id);
     }
@@ -36,20 +37,20 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
 
   return (
     <TableRow
-      className={hasDetails ? 'cursor-pointer hover:bg-muted/50 transition-colors' : ''}
+      className={hasDetails ? "hover:bg-muted/50 cursor-pointer transition-colors" : ""}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={hasDetails ? 0 : -1}
-      role={hasDetails ? 'button' : undefined}
+      role={hasDetails ? "button" : undefined}
       aria-label={hasDetails ? `View details for log: ${log.message}` : undefined}
     >
       <TableCell>
-        <span className="text-xs text-muted-foreground whitespace-nowrap">
+        <span className="text-muted-foreground text-xs whitespace-nowrap">
           {formatDate(log.createdAt)}
         </span>
       </TableCell>
       <TableCell>
-        <Badge variant={levelVariant} className="gap-1 uppercase text-xs">
+        <Badge variant={levelVariant} className="gap-1 text-xs uppercase">
           <LevelIcon className="h-3 w-3" />
           {log.level}
         </Badge>
@@ -62,7 +63,7 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
         </span>
       </TableCell>
       <TableCell>
-        <span className="block truncate text-sm max-w-62">{log.message}</span>
+        <span className="block max-w-62 truncate text-sm">{log.message}</span>
       </TableCell>
       <TableCell>
         {log.method ? (
@@ -70,7 +71,7 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
             {log.method}
           </Badge>
         ) : (
-          <span className="text-xs text-muted-foreground">—</span>
+          <span className="text-muted-foreground text-xs">—</span>
         )}
       </TableCell>
       <TableCell>
@@ -78,15 +79,15 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="block truncate font-mono text-xs max-w-50">{log.path}</span>
+                <span className="block max-w-50 truncate font-mono text-xs">{log.path}</span>
               </TooltipTrigger>
               <TooltipContent side="top">
-                <p className="font-mono text-xs max-w-md break-all">{log.path}</p>
+                <p className="max-w-md font-mono text-xs break-all">{log.path}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         ) : (
-          <span className="text-xs text-muted-foreground">—</span>
+          <span className="text-muted-foreground text-xs">—</span>
         )}
       </TableCell>
       <TableCell className="text-center">

@@ -1,7 +1,8 @@
-import { z } from 'zod';
-import { BetterAuthId$, Boolean$, Date$ } from './base';
+import { z } from "zod";
 
-export const UserRole$ = z.enum(['admin', 'user']);
+import { BetterAuthId$, Boolean$, Date$ } from "./base";
+
+export const UserRole$ = z.enum(["admin", "user"]);
 export type UserRole = z.infer<typeof UserRole$>;
 
 export const User$ = z.object({
@@ -12,7 +13,7 @@ export const User$ = z.object({
   image: z.url().nullish(),
   createdAt: Date$,
   updatedAt: Date$,
-  role: UserRole$.default('user'),
+  role: UserRole$.default("user"),
   banned: Boolean$.nullish(),
   banReason: z.string().nullish(),
   banExpires: Date$.nullish(),

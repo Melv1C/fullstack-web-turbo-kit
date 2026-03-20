@@ -1,12 +1,13 @@
-import { ENV } from 'varlock/env';
-import { createStudioBFFClient } from '@prisma/studio-core/data/bff';
-import { createPostgresAdapter } from '@prisma/studio-core/data/postgres-core';
-import { Studio } from '@prisma/studio-core/ui';
-import '@prisma/studio-core/ui/index.css';
-import { createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { createStudioBFFClient } from "@prisma/studio-core/data/bff";
+import { createPostgresAdapter } from "@prisma/studio-core/data/postgres-core";
+import { Studio } from "@prisma/studio-core/ui";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/prisma-studio')({
+import "@prisma/studio-core/ui/index.css";
+import { useMemo } from "react";
+import { ENV } from "varlock/env";
+
+export const Route = createFileRoute("/prisma-studio")({
   component: PrismaStudioPage,
 });
 

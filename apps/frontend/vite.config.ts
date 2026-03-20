@@ -1,25 +1,26 @@
-import tailwindcss from '@tailwindcss/vite';
-import { tanstackRouter } from '@tanstack/router-plugin/vite';
-import { varlockVitePlugin } from '@varlock/vite-integration';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { ENV } from 'varlock/env';
-import { defineConfig } from 'vite';
+import path from "path";
 
-export default defineConfig(() => ({
+import tailwindcss from "@tailwindcss/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import { varlockVitePlugin } from "@varlock/vite-integration";
+import react from "@vitejs/plugin-react";
+import { ENV } from "varlock/env";
+import { defineConfig } from "vite-plus";
+
+export default defineConfig({
   plugins: [
     varlockVitePlugin(),
-    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    tanstackRouter({ target: "react", autoCodeSplitting: true }),
     react(),
     tailwindcss(),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   server: {
     port: ENV.FRONTEND_PORT,
     strictPort: true,
   },
-}));
+});

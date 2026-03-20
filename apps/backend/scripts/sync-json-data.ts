@@ -1,6 +1,7 @@
-import 'varlock/auto-load';
-import { prisma } from '@/lib/prisma';
-import logs from './data/logs.json' with { type: 'json' };
+import "varlock/auto-load";
+import { prisma } from "@/lib/prisma";
+
+import logs from "./data/logs.json" with { type: "json" };
 
 type PrismaDelegate = {
   findFirst(args: { where: Record<string, unknown> }): Promise<unknown>;
@@ -19,7 +20,7 @@ async function syncJsonData(
 
   for (const [i, line] of data.entries()) {
     try {
-      if (typeof line !== 'object' || line === null) {
+      if (typeof line !== "object" || line === null) {
         throw new Error(`Invalid record format: expected object but got ${typeof line}`);
       }
 
@@ -47,18 +48,18 @@ async function syncJsonData(
           data: record,
         });
         console.log(
-          `  • [${i + 1}/${data.length}] Updated record with ${uniqueFields.map(f => `${f}: ${record[f]}`).join(', ')}`,
+          `  • [${i + 1}/${data.length}] Updated record with ${uniqueFields.map((f) => `${f}: ${record[f]}`).join(", ")}`,
         );
       } else {
         await prismaInstance.create({ data: record });
         console.log(
-          `  + [${i + 1}/${data.length}] Created new record with ${uniqueFields.map(f => `${f}: ${record[f]}`).join(', ')}`,
+          `  + [${i + 1}/${data.length}] Created new record with ${uniqueFields.map((f) => `${f}: ${record[f]}`).join(", ")}`,
         );
       }
       successCount++;
     } catch (error) {
       failureCount++;
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
       console.error(`    ✗ [${i + 1}/${data.length}] Failed to sync record: ${errorMessage}`);
     }
   }
@@ -66,17 +67,17 @@ async function syncJsonData(
 }
 
 async function main(): Promise<void> {
-  console.log('🌱 Syncing JSON data...');
+  console.log("🌱 Syncing JSON data...");
 
-  await syncJsonData(logs, prisma.log, ['message']);
+  await syncJsonData(logs, prisma.log, ["message"]);
 
-  console.log('✅ JSON data sync complete!');
+  console.log("✅ JSON data sync complete!");
 }
 
 main()
   .then(() => process.exit(0))
-  .catch(error => {
-    console.error('❌ Sync failed:', error.message);
+  .catch((error) => {
+    console.error("❌ Sync failed:", error.message);
     process.exit(1);
   })
   .finally(() => {

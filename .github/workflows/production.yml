@@ -3,9 +3,9 @@ name: Production Deployment
 on:
   push:
     tags:
-      - 'admin@*'
-      - 'backend@*'
-      - 'frontend@*'
+      - "admin@*"
+      - "backend@*"
+      - "frontend@*"
 
 jobs:
   detect-app:

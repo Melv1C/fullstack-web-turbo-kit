@@ -1,4 +1,4 @@
-import { Log, User } from './schemas';
+import { Log, User } from "./schemas";
 
 // ============================================
 // Socket Event Types
@@ -9,7 +9,7 @@ import { Log, User } from './schemas';
  */
 export interface ServerToClientEvents {
   connected: (data: { message: string }) => void;
-  'log:created': (log: Log) => void;
+  "log:created": (log: Log) => void;
 }
 
 /**
@@ -34,5 +34,5 @@ export interface SocketData {
 }
 
 export const getRoomName = {
-  logs: 'admin_logs',
+  logs: "admin_logs",
 };

@@ -1,10 +1,10 @@
-import { Layers } from 'lucide-react';
+import { Layers } from "lucide-react";
 
 export const Logo = () => {
   return (
     <div className="flex items-center space-x-2">
-      <Layers className="h-8 w-8 text-primary" />
-      <span className="text-2xl font-bold text-primary">TurboKit</span>
+      <Layers className="text-primary h-8 w-8" />
+      <span className="text-primary text-2xl font-bold">TurboKit</span>
     </div>
   );
 };

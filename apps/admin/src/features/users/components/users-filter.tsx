@@ -9,18 +9,19 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@melv1c/ui-core';
-import { UserRole } from '@repo/utils';
-import { Plus, RotateCcw, Search } from 'lucide-react';
-import { useState } from 'react';
-import { PAGE_SIZES, ROLES } from '../constants';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { UserRole } from "@repo/utils";
+import { Plus, RotateCcw, Search } from "lucide-react";
+import { useState } from "react";
+
+import { PAGE_SIZES, ROLES } from "../constants";
+import { useUsersStore } from "../users-store";
 
 export function UsersFilter() {
-  const filter = useUsersStore(state => state.filter);
-  const setFilter = useUsersStore(state => state.setFilter);
-  const resetFilters = useUsersStore(state => state.resetFilters);
-  const openCreateDialog = useUsersStore(state => state.openCreateDialog);
+  const filter = useUsersStore((state) => state.filter);
+  const setFilter = useUsersStore((state) => state.setFilter);
+  const resetFilters = useUsersStore((state) => state.resetFilters);
+  const openCreateDialog = useUsersStore((state) => state.openCreateDialog);
 
   const [searchInput, setSearchInput] = useState(filter.searchValue);
 
@@ -29,23 +30,23 @@ export function UsersFilter() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
-  const handleSearchFieldChange = (value: 'email' | 'name') => {
+  const handleSearchFieldChange = (value: "email" | "name") => {
     setFilter({ searchField: value });
   };
 
-  const handleRoleChange = (value: 'all' | UserRole) => {
-    setFilter({ role: value === 'all' ? null : value });
+  const handleRoleChange = (value: "all" | UserRole) => {
+    setFilter({ role: value === "all" ? null : value });
   };
 
   const handleStatusChange = (value: string) => {
-    if (value === 'all') {
+    if (value === "all") {
       setFilter({ banned: null });
-    } else if (value === 'active') {
+    } else if (value === "active") {
       setFilter({ banned: false });
     } else {
       setFilter({ banned: true });
@@ -57,19 +58,19 @@ export function UsersFilter() {
   };
 
   const handleSortChange = (value: string) => {
-    const [sortBy, sortDirection] = value.split('-') as [
-      'name' | 'email' | 'createdAt',
-      'asc' | 'desc',
+    const [sortBy, sortDirection] = value.split("-") as [
+      "name" | "email" | "createdAt",
+      "asc" | "desc",
     ];
     setFilter({ sortBy, sortDirection });
   };
 
   const handleReset = () => {
-    setSearchInput('');
+    setSearchInput("");
     resetFilters();
   };
 
-  const currentStatus = filter.banned === null ? 'all' : filter.banned ? 'banned' : 'active';
+  const currentStatus = filter.banned === null ? "all" : filter.banned ? "banned" : "active";
   const currentSort = `${filter.sortBy}-${filter.sortDirection}`;
 
   return (
@@ -77,8 +78,8 @@ export function UsersFilter() {
       <CardContent className="pt-6">
         <div className="flex flex-col gap-4">
           {/* Top row: Search and Create button */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 flex gap-2">
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-1 gap-2">
               <Select value={filter.searchField} onValueChange={handleSearchFieldChange}>
                 <SelectTrigger className="w-28">
                   <SelectValue />
@@ -89,11 +90,11 @@ export function UsersFilter() {
                 </SelectContent>
               </Select>
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
                   placeholder={`Search by ${filter.searchField}...`}
                   value={searchInput}
-                  onChange={e => setSearchInput(e.target.value)}
+                  onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="pl-9"
                 />
@@ -109,16 +110,16 @@ export function UsersFilter() {
           </div>
 
           {/* Filters row */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5">
             <div className="space-y-1.5">
               <Label className="text-xs">Role</Label>
-              <Select value={filter.role ?? 'all'} onValueChange={handleRoleChange}>
+              <Select value={filter.role ?? "all"} onValueChange={handleRoleChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="All roles" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All roles</SelectItem>
-                  {ROLES.map(role => (
+                  {ROLES.map((role) => (
                     <SelectItem key={role} value={role} className="capitalize">
                       {role}
                     </SelectItem>
@@ -165,7 +166,7 @@ export function UsersFilter() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {PAGE_SIZES.map(size => (
+                  {PAGE_SIZES.map((size) => (
                     <SelectItem key={size} value={size.toString()}>
                       {size} per page
                     </SelectItem>
@@ -174,7 +175,7 @@ export function UsersFilter() {
               </Select>
             </div>
 
-            <div className="space-y-1.5 flex flex-col justify-end">
+            <div className="flex flex-col justify-end space-y-1.5">
               <Button variant="ghost" size="sm" onClick={handleReset} className="gap-2">
                 <RotateCcw className="h-4 w-4" />
                 Reset

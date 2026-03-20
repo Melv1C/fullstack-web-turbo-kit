@@ -1,10 +1,11 @@
-import { useAPIHealth } from '@/hooks/use-api-health';
-import { ENV } from 'varlock/env';
-import { CardHealth, Logo } from '@repo/ui';
-import { APP_NAME } from '@repo/utils';
-import { createFileRoute } from '@tanstack/react-router';
+import { CardHealth, Logo } from "@repo/ui";
+import { APP_NAME } from "@repo/utils";
+import { createFileRoute } from "@tanstack/react-router";
+import { ENV } from "varlock/env";
 
-export const Route = createFileRoute('/')({
+import { useAPIHealth } from "@/hooks/use-api-health";
+
+export const Route = createFileRoute("/")({
   component: Index,
 });
 

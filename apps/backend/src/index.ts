@@ -1,13 +1,16 @@
-import 'varlock/auto-load';
-import { initializeSocketIO } from '@/lib/socket';
-import { routes } from '@/routes';
-import { serve } from '@hono/node-server';
-import { APP_NAME } from '@repo/utils';
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import type { Server as HTTPServer } from 'node:http';
-import { ENV } from 'varlock/env';
-import pkg from '../package.json' with { type: 'json' };
+import "varlock/auto-load";
+import type { Server as HTTPServer } from "node:http";
+
+import { serve } from "@hono/node-server";
+import { APP_NAME } from "@repo/utils";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { ENV } from "varlock/env";
+
+import { initializeSocketIO } from "@/lib/socket";
+import { routes } from "@/routes";
+
+import pkg from "../package.json" with { type: "json" };
 
 const app = new Hono()
   .use(
@@ -16,7 +19,7 @@ const app = new Hono()
       credentials: true,
     }),
   )
-  .route('/api', routes);
+  .route("/api", routes);
 
 export type AppType = typeof app;
 
@@ -25,7 +28,7 @@ const httpServer = serve(
     fetch: app.fetch,
     port: ENV.BACKEND_PORT,
   },
-  info => {
+  (info) => {
     console.log(`🚀 Backend server running on port ${info.port}`);
     console.log(`   App Name: ${APP_NAME}`);
     console.log(`   App Version: ${pkg.version}`);

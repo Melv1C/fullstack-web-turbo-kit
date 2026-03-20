@@ -1,11 +1,12 @@
-import type { ServerToClientEvents } from '@repo/utils';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ServerToClientEvents } from "@repo/utils";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
 import {
   connectSocket,
   disconnectSocket,
   getSocket,
   type TypedSocket,
-} from '../../../lib/socket-client';
+} from "../../../lib/socket-client";
 
 interface UseSocketOptions {
   /** Whether to auto-connect on mount (default: true) */
@@ -41,8 +42,8 @@ export function useSocket(options: UseSocketOptions = {}): UseSocketReturn {
     const handleConnect = () => setIsConnected(true);
     const handleDisconnect = () => setIsConnected(false);
 
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
 
     // Auto-connect if enabled
     if (autoConnect && !socket.connected) {
@@ -50,8 +51,8 @@ export function useSocket(options: UseSocketOptions = {}): UseSocketReturn {
     }
 
     return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
 
       if (autoDisconnect) {
         disconnectSocket();

@@ -1,15 +1,17 @@
+import type { Server as HTTPServer } from "node:http";
+
 import {
   User$,
   type ClientToServerEvents,
   type InterServerEvents,
   type ServerToClientEvents,
   type SocketData,
-} from '@repo/utils';
-import type { Server as HTTPServer } from 'node:http';
-import { Server, Socket } from 'socket.io';
-import { ENV } from 'varlock/env';
-import { auth } from './auth';
-import { logger } from './logger';
+} from "@repo/utils";
+import { Server, Socket } from "socket.io";
+import { ENV } from "varlock/env";
+
+import { auth } from "./auth";
+import { logger } from "./logger";
 
 const useAuth = async (socket: Socket) => {
   if (socket.data.user) return;
@@ -19,7 +21,7 @@ const useAuth = async (socket: Socket) => {
   for (const [key, value] of Object.entries(socket.request.headers)) {
     if (value) {
       if (Array.isArray(value)) {
-        value.forEach(v => headers.append(key, v));
+        value.forEach((v) => headers.append(key, v));
       } else {
         headers.set(key, value);
       }
@@ -33,7 +35,7 @@ const useAuth = async (socket: Socket) => {
   const user = sessionData?.user ? User$.safeParse(sessionData.user) : null;
 
   if (user && !user.success) {
-    logger.error('Invalid user data in session for socket', {
+    logger.error("Invalid user data in session for socket", {
       metadata: { error: user.error.message },
     });
     throw user.error;
@@ -76,10 +78,10 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
   );
 
   // Set up connection handlers
-  io.on('connection', async socket => {
+  io.on("connection", async (socket) => {
     await useAuth(socket);
     logger.debug(`Socket connected: ${socket.id}`, {
-      path: 'socket.io/connection',
+      path: "socket.io/connection",
       userId: socket.data.user?.id,
       metadata: {
         socket: getSocketInfo(socket),
@@ -87,14 +89,14 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
     });
 
     // Send welcome message
-    socket.emit('connected', { message: 'Connected to server' });
+    socket.emit("connected", { message: "Connected to server" });
 
     // Handle join room requests
-    socket.on('joinRoom', (room: string) => {
+    socket.on("joinRoom", (room: string) => {
       // Verify admin only for admin rooms
-      if (room.startsWith('admin_') && socket.data.user?.role !== 'admin') {
+      if (room.startsWith("admin_") && socket.data.user?.role !== "admin") {
         logger.warn(`Unauthorized join room attempt: ${room}`, {
-          path: 'socket.io/joinRoom',
+          path: "socket.io/joinRoom",
           userId: socket.data.user?.id,
           metadata: {
             socket: getSocketInfo(socket),
@@ -106,7 +108,7 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
 
       socket.join(room);
       logger.debug(`Socket joined room: ${room}`, {
-        path: 'socket.io/joinRoom',
+        path: "socket.io/joinRoom",
         userId: socket.data.user?.id,
         metadata: {
           socket: getSocketInfo(socket),
@@ -116,10 +118,10 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
     });
 
     // Handle leave room requests
-    socket.on('leaveRoom', (room: string) => {
+    socket.on("leaveRoom", (room: string) => {
       socket.leave(room);
       logger.debug(`Socket left room: ${room}`, {
-        path: 'socket.io/leaveRoom',
+        path: "socket.io/leaveRoom",
         userId: socket.data.user?.id,
         metadata: {
           socket: getSocketInfo(socket),
@@ -128,10 +130,10 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
       });
     });
 
-    socket.on('disconnect', reason => {
+    socket.on("disconnect", (reason) => {
       logger.debug(`Socket disconnected: ${socket.id} (${reason})`, {
         userId: socket.data.user?.id,
-        path: 'socket.io/disconnect',
+        path: "socket.io/disconnect",
         metadata: {
           socket: getSocketInfo(socket),
           reason,
@@ -154,7 +156,7 @@ export function emitToRoom<E extends keyof ServerToClientEvents>(
   ...args: Parameters<ServerToClientEvents[E]>
 ): void {
   if (!io) {
-    logger.error('Socket.IO not initialized, skipping emit');
+    logger.error("Socket.IO not initialized, skipping emit");
     return;
   }
 
@@ -169,7 +171,7 @@ export function emitToAll<E extends keyof ServerToClientEvents>(
   ...args: Parameters<ServerToClientEvents[E]>
 ): void {
   if (!io) {
-    logger.error('Socket.IO not initialized, skipping emit');
+    logger.error("Socket.IO not initialized, skipping emit");
     return;
   }
   io.emit(event, ...args);

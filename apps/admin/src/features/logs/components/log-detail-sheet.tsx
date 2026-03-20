@@ -9,29 +9,30 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@melv1c/ui-core';
-import type { LogStep, LogWithUser } from '@repo/utils';
-import { AlertCircle, Check, Clock, Copy, Loader2, User } from 'lucide-react';
-import { useState } from 'react';
-import { useLog } from '../hooks/use-logs';
-import { useLogsStore } from '../logs-store';
-import { levelConfig } from '../utils';
+} from "@melv1c/ui-core";
+import type { LogStep, LogWithUser } from "@repo/utils";
+import { AlertCircle, Check, Clock, Copy, Loader2, User } from "lucide-react";
+import { useState } from "react";
+
+import { useLog } from "../hooks/use-logs";
+import { useLogsStore } from "../logs-store";
+import { levelConfig } from "../utils";
 
 function formatTimestamp(ts: number): string {
   const date = new Date(ts);
-  const time = new Intl.DateTimeFormat('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
+  const time = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   }).format(date);
-  const ms = date.getMilliseconds().toString().padStart(3, '0');
+  const ms = date.getMilliseconds().toString().padStart(3, "0");
   return `${time}.${ms}`;
 }
 
 function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium',
-    timeStyle: 'medium',
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+    timeStyle: "medium",
   }).format(date);
 }
 
@@ -49,7 +50,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
       variant="ghost"
       size="sm"
       onClick={handleCopy}
-      title={label ?? 'Copy to clipboard'}
+      title={label ?? "Copy to clipboard"}
       className="h-6 px-2"
     >
       {isCopied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
@@ -58,7 +59,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
 }
 
 function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string }) {
-  if (!metadata || (typeof metadata === 'object' && Object.keys(metadata as object).length === 0)) {
+  if (!metadata || (typeof metadata === "object" && Object.keys(metadata as object).length === 0)) {
     return null;
   }
 
@@ -67,13 +68,13 @@ function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
           {label}
         </h3>
         <CopyButton text={metadataString} label="Copy metadata" />
       </div>
-      <div className="overflow-x-auto rounded-md bg-muted/50 border">
-        <pre className="p-3 text-xs leading-relaxed max-h-75 overflow-y-auto whitespace-pre">
+      <div className="bg-muted/50 overflow-x-auto rounded-md border">
+        <pre className="max-h-75 overflow-y-auto p-3 text-xs leading-relaxed whitespace-pre">
           {metadataString}
         </pre>
       </div>
@@ -86,25 +87,25 @@ function StepItem({ step, index }: { step: LogStep; index: number }) {
   const Icon = config.icon;
 
   const bgColorMap = {
-    debug: 'bg-gray-50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700',
-    info: 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800',
-    warn: 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800',
-    error: 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800',
+    debug: "bg-gray-50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700",
+    info: "bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800",
+    warn: "bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800",
+    error: "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800",
   };
 
   return (
     <div className={`rounded-lg border p-4 ${bgColorMap[step.level]}`}>
-      <div className="flex  items-start gap-3">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-background shadow-sm border">
-          <span className="text-xs font-semibold text-muted-foreground">{index + 1}</span>
+      <div className="flex items-start gap-3">
+        <div className="bg-background flex h-7 w-7 shrink-0 items-center justify-center rounded-full border shadow-sm">
+          <span className="text-muted-foreground text-xs font-semibold">{index + 1}</span>
         </div>
         <div className="min-w-0 flex-1 space-y-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant={config.variant} className="uppercase text-xs gap-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant={config.variant} className="gap-1 text-xs uppercase">
               <Icon className="h-3 w-3" />
               {step.level}
             </Badge>
-            <span className="text-xs font-medium text-muted-foreground">
+            <span className="text-muted-foreground text-xs font-medium">
               {formatTimestamp(step.timestamp)}
             </span>
           </div>
@@ -121,9 +122,9 @@ function LogContent({ log }: { log: LogWithUser }) {
   const Icon = config.icon;
 
   return (
-    <div className="space-y-6 pr-4 pb-6 h-[calc(100vh-8rem)] overflow-y-auto">
+    <div className="h-[calc(100vh-8rem)] space-y-6 overflow-y-auto pr-4 pb-6">
       {/* Header Info with visual hierarchy */}
-      <div className="rounded-lg border bg-card p-4 space-y-3">
+      <div className="bg-card space-y-3 rounded-lg border p-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={config.variant} className={`gap-1 uppercase ${config.color}`}>
             <Icon className="h-3 w-3" />
@@ -137,7 +138,7 @@ function LogContent({ log }: { log: LogWithUser }) {
           )}
           {log.statusCode && (
             <Badge
-              variant={log.statusCode >= 400 ? 'destructive' : 'secondary'}
+              variant={log.statusCode >= 400 ? "destructive" : "secondary"}
               className="font-mono"
             >
               {log.statusCode}
@@ -147,7 +148,7 @@ function LogContent({ log }: { log: LogWithUser }) {
 
         {/* Main Message */}
         <div className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <h4 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Message
           </h4>
           <p className="text-sm leading-relaxed wrap-break-word">{log.message}</p>
@@ -156,24 +157,24 @@ function LogContent({ log }: { log: LogWithUser }) {
 
       {/* Request Details */}
       {(log.path || log.durationMs !== null) && (
-        <div className="rounded-lg border bg-card p-4 space-y-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="bg-card space-y-4 rounded-lg border p-4">
+          <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Request Details
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {log.path && (
               <div className="space-y-2">
-                <h4 className="text-xs font-medium text-muted-foreground">Path</h4>
-                <p className="break-all font-mono text-xs bg-muted/50 p-2.5 rounded-md">
+                <h4 className="text-muted-foreground text-xs font-medium">Path</h4>
+                <p className="bg-muted/50 rounded-md p-2.5 font-mono text-xs break-all">
                   {log.path}
                 </p>
               </div>
             )}
             {log.durationMs !== null && log.durationMs !== undefined && (
               <div className="space-y-2">
-                <h4 className="text-xs font-medium text-muted-foreground">Duration</h4>
+                <h4 className="text-muted-foreground text-xs font-medium">Duration</h4>
                 <p className="flex items-center gap-1.5 text-sm font-medium">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <Clock className="text-muted-foreground h-4 w-4" />
                   {log.durationMs}ms
                 </p>
               </div>
@@ -183,20 +184,20 @@ function LogContent({ log }: { log: LogWithUser }) {
       )}
 
       {/* Timestamps and User */}
-      <div className="rounded-lg border bg-card p-4 space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <div className="bg-card space-y-4 rounded-lg border p-4">
+        <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
           Additional Information
         </h3>
 
         <div className="space-y-2">
-          <h4 className="text-xs font-medium text-muted-foreground">Created At</h4>
+          <h4 className="text-muted-foreground text-xs font-medium">Created At</h4>
           <p className="text-sm font-medium">{formatDate(log.createdAt)}</p>
         </div>
 
         {log.user ? (
           <div className="space-y-2">
-            <h4 className="text-xs font-medium text-muted-foreground">User</h4>
-            <div className="flex items-center gap-3 bg-muted/50 p-2.5 rounded-md">
+            <h4 className="text-muted-foreground text-xs font-medium">User</h4>
+            <div className="bg-muted/50 flex items-center gap-3 rounded-md p-2.5">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={log.user.image ?? undefined} alt={log.user.name} />
                 <AvatarFallback>
@@ -204,32 +205,32 @@ function LogContent({ log }: { log: LogWithUser }) {
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium truncate">{log.user.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{log.user.email}</p>
+                <p className="truncate text-sm font-medium">{log.user.name}</p>
+                <p className="text-muted-foreground truncate text-xs">{log.user.email}</p>
               </div>
             </div>
           </div>
         ) : log.userId ? (
           <div className="space-y-2">
-            <h4 className="text-xs font-medium text-muted-foreground">User ID</h4>
-            <p className="break-all font-mono text-xs bg-muted/50 p-2.5 rounded-md">{log.userId}</p>
+            <h4 className="text-muted-foreground text-xs font-medium">User ID</h4>
+            <p className="bg-muted/50 rounded-md p-2.5 font-mono text-xs break-all">{log.userId}</p>
           </div>
         ) : null}
       </div>
 
       {/* Metadata */}
       {log.metadata &&
-        typeof log.metadata === 'object' &&
+        typeof log.metadata === "object" &&
         Object.keys(log.metadata as object).length > 0 && (
-          <div className="rounded-lg border bg-card p-4">
+          <div className="bg-card rounded-lg border p-4">
             <MetadataDisplay metadata={log.metadata} label="Metadata" />
           </div>
         )}
 
       {/* Steps */}
       {log.steps && log.steps.length > 0 && (
-        <div className="rounded-lg border bg-card p-4 space-y-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="bg-card space-y-4 rounded-lg border p-4">
+          <h3 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             Execution Steps ({log.steps.length})
           </h3>
           <div className="space-y-3">
@@ -244,7 +245,7 @@ function LogContent({ log }: { log: LogWithUser }) {
 }
 
 export function LogDetailSheet() {
-  const logId = useLogsStore(state => state.selectedLogId);
+  const logId = useLogsStore((state) => state.selectedLogId);
   const { data: log, isPending, isError } = useLog(logId);
 
   const handleOpenChange = (open: boolean) => {
@@ -259,7 +260,7 @@ export function LogDetailSheet() {
 
   return (
     <Sheet open={!!logId} onOpenChange={handleOpenChange}>
-      <SheetContent className="w-full sm:max-w-200 p-4">
+      <SheetContent className="w-full p-4 sm:max-w-200">
         <SheetHeader>
           <SheetTitle>Log Details</SheetTitle>
           <SheetDescription>{`Log ID: ${logId}`}</SheetDescription>
@@ -267,12 +268,12 @@ export function LogDetailSheet() {
 
         {isPending && (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           </div>
         )}
 
         {isError && (
-          <div className="flex flex-col items-center justify-center py-8 text-destructive">
+          <div className="text-destructive flex flex-col items-center justify-center py-8">
             <AlertCircle className="h-8 w-8" />
             <p className="mt-2 text-sm">Failed to load log details</p>
           </div>
