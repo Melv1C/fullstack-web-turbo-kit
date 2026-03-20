@@ -11,8 +11,8 @@
     }
   },
   "scripts": {
-    "dev": "APP_ENV=development concurrently \"tsdown --watch\" \"tsx watch src/index.ts\"",
-    "build": "tsdown",
+    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"tsx watch src/index.ts\"",
+    "build": "vp pack",
     "start": "npm run prisma:migrate:deploy && bun src/index.ts",
     "prisma:generate": "APP_ENV=development prisma generate",
     "prisma:migrate": "prisma migrate dev",
@@ -29,13 +29,13 @@
     "@hono/zod-validator": "^0.7.6",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
-    "@prisma/studio-core": "^0.26.0",
+    "@prisma/studio-core": "^0.27.3",
     "@repo/utils": "workspace:*",
     "better-auth": "^1.5.5",
     "hono": "^4.12.8",
     "pg": "^8.20.0",
     "socket.io": "^4.8.3",
-    "varlock": "^0.5.0",
+    "varlock": "^0.6.1",
     "winston": "^3.19.0",
     "winston-transport": "^4.9.0",
     "zod": "^4.3.6"
@@ -46,8 +46,8 @@
     "@types/pg": "^8.18.0",
     "concurrently": "^9.2.1",
     "prisma": "^7.5.0",
-    "tsdown": "^0.21.4",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-plus": "^0.1.13"
   }
 }

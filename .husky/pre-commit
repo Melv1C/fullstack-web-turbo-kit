@@ -8,7 +8,7 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 echo "pre-commit: running checks"
 section "Pre-commit checks"
 
-if ! run_step "Formatting check" bun run format:check; then
+if ! run_step "Formatting check" bun run format --check; then
   echo ""
   echo "Run 'bun run format' to fix formatting issues, then stage the changes."
   exit 1

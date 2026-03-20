@@ -4,9 +4,9 @@ import { varlockVitePlugin } from '@varlock/vite-integration';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { ENV } from 'varlock/env';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite-plus';
 
-export default defineConfig(() => ({
+export default defineConfig({
   plugins: [
     varlockVitePlugin(),
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
@@ -22,4 +22,4 @@ export default defineConfig(() => ({
     port: ENV.FRONTEND_PORT,
     strictPort: true,
   },
-}));
+});

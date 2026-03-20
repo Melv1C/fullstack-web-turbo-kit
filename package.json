@@ -13,9 +13,9 @@
     "dev": "turbo run dev --ui=tui",
     "docker:db": "docker compose -f docker-compose.db.yml up -d",
     "docker:db:down": "docker compose -f docker-compose.db.yml down",
-    "lint": "oxlint --type-aware --type-check",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
+    "lint": "vp lint",
+    "format": "vp fmt",
+    "check": "vp check",
     "knip": "bunx knip",
     "deps": "bunx npm-check-updates",
     "deps:update": "bunx npm-check-updates -u && bun install",
@@ -32,7 +32,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "varlock": "^0.5.0"
+    "varlock": "^0.6.1"
   },
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
@@ -41,9 +41,10 @@
     "husky": "^9.1.7",
     "oxfmt": "^0.41.0",
     "oxlint": "^1.56.0",
-    "oxlint-tsgolint": "^0.17.0",
-    "turbo": "^2.8.19",
-    "typescript": "5.9.3"
+    "oxlint-tsgolint": "^0.17.1",
+    "turbo": "^2.8.20",
+    "typescript": "5.9.3",
+    "vite-plus": "^0.1.13"
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.27.4",

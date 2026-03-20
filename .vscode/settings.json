@@ -10,8 +10,8 @@
   },
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "always",
-    "source.organizeImports": "never"
+    "source.fixAll.oxc": "explicit"
   }
 }
