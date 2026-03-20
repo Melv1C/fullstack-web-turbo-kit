@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "APP_ENV=production vite build",
-    "build:local": "APP_ENV=development vite build",
-    "build:production": "APP_ENV=production vite build",
-    "build:staging": "APP_ENV=staging vite build",
-    "dev": "APP_ENV=development vite",
+    "build": "APP_ENV=production vp build",
+    "build:local": "APP_ENV=development vp build",
+    "build:production": "APP_ENV=production vp build",
+    "build:staging": "APP_ENV=staging vp build",
+    "dev": "APP_ENV=development vp dev",
     "env:generate": "varlock typegen",
     "env:validate": "varlock load"
   },

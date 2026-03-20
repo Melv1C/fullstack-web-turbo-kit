@@ -6,6 +6,7 @@ export default defineConfig({
     rules: { "no-unused-vars": "error", "no-console": ["warn", { allow: ["error"] }] },
   },
   fmt: {
+    ignorePatterns: ["routeTree.gen.ts"],
     sortPackageJson: { sortScripts: true },
     sortImports: {},
     sortTailwindcss: {},
