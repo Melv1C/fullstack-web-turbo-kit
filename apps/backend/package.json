@@ -35,7 +35,7 @@
     "hono": "^4.12.8",
     "pg": "^8.20.0",
     "socket.io": "^4.8.3",
-    "varlock": "^0.6.1",
+    "varlock": "^0.6.2",
     "winston": "^3.19.0",
     "winston-transport": "^4.9.0",
     "zod": "^4.3.6"
