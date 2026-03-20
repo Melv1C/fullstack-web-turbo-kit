@@ -1,2 +1,2 @@
-export * from './card-health';
-export * from './logo';
+export * from "./card-health";
+export * from "./logo";

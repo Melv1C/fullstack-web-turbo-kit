@@ -4,9 +4,9 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'apps/**'
-      - 'packages/**'
-      - '.github/workflows/ci.yml'
+      - "apps/**"
+      - "packages/**"
+      - ".github/workflows/ci.yml"
   workflow_call:
 
 jobs:

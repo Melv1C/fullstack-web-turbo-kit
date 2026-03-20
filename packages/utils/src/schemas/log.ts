@@ -1,15 +1,16 @@
-import { z } from 'zod';
-import { BetterAuthId$, Date$ } from './base';
+import { z } from "zod";
 
-export const LogType$ = z.enum(['REQUEST', 'APP']);
+import { BetterAuthId$, Date$ } from "./base";
+
+export const LogType$ = z.enum(["REQUEST", "APP"]);
 export type LogType = z.infer<typeof LogType$>;
 
-export const LogLevel$ = z.enum(['debug', 'info', 'warn', 'error']);
+export const LogLevel$ = z.enum(["debug", "info", "warn", "error"]);
 export type LogLevel = z.infer<typeof LogLevel$>;
 
 export const levelPriority: Record<LogLevel, number> = { debug: 0, info: 1, warn: 2, error: 3 };
 
-export const Method$ = z.enum(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
+export const Method$ = z.enum(["GET", "POST", "PUT", "DELETE", "OPTIONS"]);
 export type Method = z.infer<typeof Method$>;
 
 export const LogStep$ = z.object({
@@ -38,7 +39,7 @@ export const Log$ = z.object({
 });
 export type Log = z.infer<typeof Log$>;
 
-export const LogCreate$ = Log$.extend({ type: LogType$.default('APP') }).omit({
+export const LogCreate$ = Log$.extend({ type: LogType$.default("APP") }).omit({
   id: true,
   createdAt: true,
 });
@@ -50,13 +51,13 @@ export const LogFilter$ = z.object({
   pageSize: z.coerce.number().int().positive().max(100).default(50),
   types: z
     .preprocess(
-      val => (typeof val === 'string' ? val.split(',').filter(Boolean) : val),
+      (val) => (typeof val === "string" ? val.split(",").filter(Boolean) : val),
       LogType$.array(),
     )
     .optional(),
   levels: z
     .preprocess(
-      val => (typeof val === 'string' ? val.split(',').filter(Boolean) : val),
+      (val) => (typeof val === "string" ? val.split(",").filter(Boolean) : val),
       LogLevel$.array(),
     )
     .optional(),

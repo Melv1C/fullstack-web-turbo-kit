@@ -11,18 +11,18 @@
     }
   },
   "scripts": {
-    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"tsx watch src/index.ts\"",
+    "add-admin": "bun ./scripts/add-admin.ts",
     "build": "vp pack",
-    "start": "npm run prisma:migrate:deploy && bun src/index.ts",
+    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"tsx watch src/index.ts\"",
+    "env:generate": "varlock typegen",
+    "env:validate": "varlock load",
+    "prisma:format": "APP_ENV=development prisma format",
     "prisma:generate": "APP_ENV=development prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:validate": "APP_ENV=development prisma validate",
-    "prisma:format": "APP_ENV=development prisma format",
-    "add-admin": "bun ./scripts/add-admin.ts",
-    "sync-json-data": "bun ./scripts/sync-json-data.ts",
-    "env:generate": "varlock typegen",
-    "env:validate": "varlock load"
+    "start": "npm run prisma:migrate:deploy && bun src/index.ts",
+    "sync-json-data": "bun ./scripts/sync-json-data.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.11",

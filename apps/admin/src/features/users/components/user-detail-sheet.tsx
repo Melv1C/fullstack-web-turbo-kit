@@ -9,8 +9,8 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@melv1c/ui-core';
-import { User as UserType } from '@repo/utils';
+} from "@melv1c/ui-core";
+import { User as UserType } from "@repo/utils";
 import {
   AlertCircle,
   Ban,
@@ -24,10 +24,11 @@ import {
   ShieldCheck,
   User,
   XCircle,
-} from 'lucide-react';
-import { formatDate, formatRelativeTime, getInitials, getRoleConfig } from '../constants';
-import { useRevokeAllSessions, useRevokeSession, useUsers, useUserSessions } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "lucide-react";
+
+import { formatDate, formatRelativeTime, getInitials, getRoleConfig } from "../constants";
+import { useRevokeAllSessions, useRevokeSession, useUsers, useUserSessions } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 function UserInfo({ user }: { user: UserType }) {
   const roleConfig = getRoleConfig(user.role);
@@ -48,7 +49,7 @@ function UserInfo({ user }: { user: UserType }) {
           <p className="text-sm text-muted-foreground truncate">{user.email}</p>
           <div className="flex items-center gap-2 mt-2 flex-wrap">
             <Badge variant={roleConfig.variant} className="capitalize">
-              {user.role === 'admin' && <ShieldCheck className="mr-1 h-3 w-3" />}
+              {user.role === "admin" && <ShieldCheck className="mr-1 h-3 w-3" />}
               {roleConfig.label}
             </Badge>
             {isBanned ? (
@@ -129,7 +130,7 @@ function UserInfo({ user }: { user: UserType }) {
             )}
             {user.banExpires && (
               <p>
-                <span className="text-muted-foreground">Expires:</span>{' '}
+                <span className="text-muted-foreground">Expires:</span>{" "}
                 {formatDate(user.banExpires)}
               </p>
             )}
@@ -186,13 +187,13 @@ function UserSessions({ userId }: { userId: string }) {
       </div>
 
       <div className="space-y-3">
-        {sessions.map(session => (
+        {sessions.map((session) => (
           <div key={session.id} className="p-3 rounded-lg border bg-muted/30">
             <div className="flex items-start justify-between gap-2">
               <div className="space-y-1 min-w-0 flex-1">
                 <div className="flex items-center gap-2 text-sm">
                   <Monitor className="h-4 w-4 text-muted-foreground shrink-0" />
-                  <span className="truncate">{session.userAgent ?? 'Unknown device'}</span>
+                  <span className="truncate">{session.userAgent ?? "Unknown device"}</span>
                 </div>
                 {session.ipAddress && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -228,13 +229,13 @@ function UserSessions({ userId }: { userId: string }) {
 }
 
 export function UserDetailSheet() {
-  const selectedUserId = useUsersStore(state => state.selectedUserId);
-  const sheetOpen = useUsersStore(state => state.sheetOpen);
-  const setSheetOpen = useUsersStore(state => state.setSheetOpen);
-  const filter = useUsersStore(state => state.filter);
+  const selectedUserId = useUsersStore((state) => state.selectedUserId);
+  const sheetOpen = useUsersStore((state) => state.sheetOpen);
+  const setSheetOpen = useUsersStore((state) => state.setSheetOpen);
+  const filter = useUsersStore((state) => state.filter);
 
   const { data } = useUsers(filter);
-  const user = data?.users.find(u => u.id === selectedUserId);
+  const user = data?.users.find((u) => u.id === selectedUserId);
 
   const handleOpenChange = (open: boolean) => {
     setSheetOpen(open);

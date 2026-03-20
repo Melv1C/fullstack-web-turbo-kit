@@ -9,18 +9,19 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@melv1c/ui-core';
-import { UserRole } from '@repo/utils';
-import { Plus, RotateCcw, Search } from 'lucide-react';
-import { useState } from 'react';
-import { PAGE_SIZES, ROLES } from '../constants';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { UserRole } from "@repo/utils";
+import { Plus, RotateCcw, Search } from "lucide-react";
+import { useState } from "react";
+
+import { PAGE_SIZES, ROLES } from "../constants";
+import { useUsersStore } from "../users-store";
 
 export function UsersFilter() {
-  const filter = useUsersStore(state => state.filter);
-  const setFilter = useUsersStore(state => state.setFilter);
-  const resetFilters = useUsersStore(state => state.resetFilters);
-  const openCreateDialog = useUsersStore(state => state.openCreateDialog);
+  const filter = useUsersStore((state) => state.filter);
+  const setFilter = useUsersStore((state) => state.setFilter);
+  const resetFilters = useUsersStore((state) => state.resetFilters);
+  const openCreateDialog = useUsersStore((state) => state.openCreateDialog);
 
   const [searchInput, setSearchInput] = useState(filter.searchValue);
 
@@ -29,23 +30,23 @@ export function UsersFilter() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
-  const handleSearchFieldChange = (value: 'email' | 'name') => {
+  const handleSearchFieldChange = (value: "email" | "name") => {
     setFilter({ searchField: value });
   };
 
-  const handleRoleChange = (value: 'all' | UserRole) => {
-    setFilter({ role: value === 'all' ? null : value });
+  const handleRoleChange = (value: "all" | UserRole) => {
+    setFilter({ role: value === "all" ? null : value });
   };
 
   const handleStatusChange = (value: string) => {
-    if (value === 'all') {
+    if (value === "all") {
       setFilter({ banned: null });
-    } else if (value === 'active') {
+    } else if (value === "active") {
       setFilter({ banned: false });
     } else {
       setFilter({ banned: true });
@@ -57,19 +58,19 @@ export function UsersFilter() {
   };
 
   const handleSortChange = (value: string) => {
-    const [sortBy, sortDirection] = value.split('-') as [
-      'name' | 'email' | 'createdAt',
-      'asc' | 'desc',
+    const [sortBy, sortDirection] = value.split("-") as [
+      "name" | "email" | "createdAt",
+      "asc" | "desc",
     ];
     setFilter({ sortBy, sortDirection });
   };
 
   const handleReset = () => {
-    setSearchInput('');
+    setSearchInput("");
     resetFilters();
   };
 
-  const currentStatus = filter.banned === null ? 'all' : filter.banned ? 'banned' : 'active';
+  const currentStatus = filter.banned === null ? "all" : filter.banned ? "banned" : "active";
   const currentSort = `${filter.sortBy}-${filter.sortDirection}`;
 
   return (
@@ -93,7 +94,7 @@ export function UsersFilter() {
                 <Input
                   placeholder={`Search by ${filter.searchField}...`}
                   value={searchInput}
-                  onChange={e => setSearchInput(e.target.value)}
+                  onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="pl-9"
                 />
@@ -112,13 +113,13 @@ export function UsersFilter() {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
             <div className="space-y-1.5">
               <Label className="text-xs">Role</Label>
-              <Select value={filter.role ?? 'all'} onValueChange={handleRoleChange}>
+              <Select value={filter.role ?? "all"} onValueChange={handleRoleChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="All roles" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All roles</SelectItem>
-                  {ROLES.map(role => (
+                  {ROLES.map((role) => (
                     <SelectItem key={role} value={role} className="capitalize">
                       {role}
                     </SelectItem>
@@ -165,7 +166,7 @@ export function UsersFilter() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {PAGE_SIZES.map(size => (
+                  {PAGE_SIZES.map((size) => (
                     <SelectItem key={size} value={size.toString()}>
                       {size} per page
                     </SelectItem>

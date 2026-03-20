@@ -1,9 +1,10 @@
-import { signOut } from '@/lib/auth-client';
-import { ENV } from 'varlock/env';
-import { Button } from '@melv1c/ui-core';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Button } from "@melv1c/ui-core";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ENV } from "varlock/env";
 
-export const Route = createFileRoute('/unauthorized')({
+import { signOut } from "@/lib/auth-client";
+
+export const Route = createFileRoute("/unauthorized")({
   component: UnauthorizedPage,
 });
 
@@ -12,7 +13,7 @@ function UnauthorizedPage() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate({ to: '/login' });
+    navigate({ to: "/login" });
   };
 
   return (

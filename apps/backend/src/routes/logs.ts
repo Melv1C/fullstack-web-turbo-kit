@@ -1,13 +1,14 @@
-import { prisma, type Prisma } from '@/lib/prisma';
-import { isAdmin } from '@/middlewares/use-auth';
-import { zValidator } from '@hono/zod-validator';
-import { Log$, LogFilter$, LogWithUser$, PaginatedLogs$ } from '@repo/utils';
-import { Hono } from 'hono';
-import { z } from 'zod';
+import { zValidator } from "@hono/zod-validator";
+import { Log$, LogFilter$, LogWithUser$, PaginatedLogs$ } from "@repo/utils";
+import { Hono } from "hono";
+import { z } from "zod";
+
+import { prisma, type Prisma } from "@/lib/prisma";
+import { isAdmin } from "@/middlewares/use-auth";
 
 export const logsRoutes = new Hono()
-  .get('/', isAdmin, zValidator('query', LogFilter$), async c => {
-    const filter = c.req.valid('query');
+  .get("/", isAdmin, zValidator("query", LogFilter$), async (c) => {
+    const filter = c.req.valid("query");
 
     const where: Prisma.LogWhereInput = {};
 
@@ -28,15 +29,15 @@ export const logsRoutes = new Hono()
     if (filter.search) {
       const searchTerm = filter.search;
       where.OR = [
-        { message: { contains: searchTerm, mode: 'insensitive' } },
-        { path: { contains: searchTerm, mode: 'insensitive' } },
+        { message: { contains: searchTerm, mode: "insensitive" } },
+        { path: { contains: searchTerm, mode: "insensitive" } },
       ];
     }
 
     const [logs, total] = await Promise.all([
       prisma.log.findMany({
         where,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         skip: (filter.page - 1) * filter.pageSize,
         take: filter.pageSize,
       }),
@@ -55,11 +56,11 @@ export const logsRoutes = new Hono()
 
     return c.json(result);
   })
-  .get('/:id', isAdmin, zValidator('param', z.object({ id: Log$.shape.id })), async c => {
-    const { id } = c.req.valid('param');
+  .get("/:id", isAdmin, zValidator("param", z.object({ id: Log$.shape.id })), async (c) => {
+    const { id } = c.req.valid("param");
     const log = await prisma.log.findUnique({ where: { id } });
     if (!log) {
-      return c.json({ error: 'Log not found' }, 404);
+      return c.json({ error: "Log not found" }, 404);
     }
 
     // Fetch user if userId exists

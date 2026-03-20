@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'apps/**'
-      - 'packages/**'
-      - '.github/workflows/staging.yml'
-      - '!**/package.json'
-      - '!**/package-lock.json'
+      - "apps/**"
+      - "packages/**"
+      - ".github/workflows/staging.yml"
+      - "!**/package.json"
+      - "!**/package-lock.json"
   workflow_dispatch:
 
 jobs:

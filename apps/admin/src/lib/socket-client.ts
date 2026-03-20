@@ -1,6 +1,6 @@
-import type { ClientToServerEvents, ServerToClientEvents } from '@repo/utils';
-import { io, Socket } from 'socket.io-client';
-import { ENV } from 'varlock/env';
+import type { ClientToServerEvents, ServerToClientEvents } from "@repo/utils";
+import { io, Socket } from "socket.io-client";
+import { ENV } from "varlock/env";
 
 // Type-safe socket client
 export type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -20,17 +20,17 @@ export function getSocket(): TypedSocket {
     });
 
     // Log connection events in development
-    if (ENV.APP_ENV === 'development') {
-      socket.on('connect', () => {
-        console.log('🔌 Socket connected:', socket?.id);
+    if (ENV.APP_ENV === "development") {
+      socket.on("connect", () => {
+        console.log("🔌 Socket connected:", socket?.id);
       });
 
-      socket.on('disconnect', reason => {
-        console.log('🔌 Socket disconnected:', reason);
+      socket.on("disconnect", (reason) => {
+        console.log("🔌 Socket disconnected:", reason);
       });
 
-      socket.on('connect_error', error => {
-        console.error('🔌 Socket connection error:', error.message);
+      socket.on("connect_error", (error) => {
+        console.error("🔌 Socket connection error:", error.message);
       });
     }
   }

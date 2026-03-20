@@ -11,19 +11,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@melv1c/ui-core';
-import { AlertCircle, ChevronLeft, ChevronRight, Info, Loader2 } from 'lucide-react';
-import { useLogs } from '../hooks/use-logs';
-import { useLogsStore } from '../logs-store';
-import { LogRow } from './log-row';
+} from "@melv1c/ui-core";
+import { AlertCircle, ChevronLeft, ChevronRight, Info, Loader2 } from "lucide-react";
+
+import { useLogs } from "../hooks/use-logs";
+import { useLogsStore } from "../logs-store";
+import { LogRow } from "./log-row";
 
 export function LogsTable() {
-  const filter = useLogsStore(state => state.filter);
+  const filter = useLogsStore((state) => state.filter);
   const { data, isPending, isError } = useLogs(filter);
 
-  const updateFilter = useLogsStore(state => state.updateFilter);
-  const setSelectedLogId = useLogsStore(state => state.setSelectedLogId);
-  const setSheetOpen = useLogsStore(state => state.setSheetOpen);
+  const updateFilter = useLogsStore((state) => state.updateFilter);
+  const setSelectedLogId = useLogsStore((state) => state.setSelectedLogId);
+  const setSheetOpen = useLogsStore((state) => state.setSheetOpen);
 
   const logs = data?.data ?? [];
   const pagination = data?.pagination;
@@ -83,7 +84,7 @@ export function LogsTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {logs.map(log => (
+                  {logs.map((log) => (
                     <LogRow key={log.id} log={log} onSelect={handleSelectLog} />
                   ))}
                 </TableBody>

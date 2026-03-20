@@ -1,9 +1,10 @@
-import { getRoomName, Log$, type LogCreate, LogCreate$ } from '@repo/utils';
-import { ENV } from 'varlock';
-import winston from 'winston';
-import Transport from 'winston-transport';
-import { prisma } from './prisma';
-import { emitToRoom } from './socket';
+import { getRoomName, Log$, type LogCreate, LogCreate$ } from "@repo/utils";
+import { ENV } from "varlock";
+import winston from "winston";
+import Transport from "winston-transport";
+
+import { prisma } from "./prisma";
+import { emitToRoom } from "./socket";
 
 class PostgresTransport extends Transport {
   override async log(info: LogCreate, callback: () => void) {
@@ -28,26 +29,26 @@ class PostgresTransport extends Transport {
         },
       });
       // Emit the new log to all subscribed clients
-      emitToRoom(getRoomName.logs, 'log:created', Log$.parse(log));
+      emitToRoom(getRoomName.logs, "log:created", Log$.parse(log));
     } catch (err) {
       // NEVER throw from logger - errors degrade gracefully
-      console.error('Failed to persist log', err);
+      console.error("Failed to persist log", err);
     }
   }
 }
 
-const isDev = ENV.APP_ENV === 'development';
+const isDev = ENV.APP_ENV === "development";
 
 export const logger = winston.createLogger({
-  level: 'debug',
+  level: "debug",
   format: winston.format.json(),
   transports: [
     new winston.transports.Console({
-      level: isDev ? 'debug' : 'warn',
+      level: isDev ? "debug" : "warn",
       format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
     }),
     new PostgresTransport({
-      level: 'info',
+      level: "info",
     }),
   ],
 });

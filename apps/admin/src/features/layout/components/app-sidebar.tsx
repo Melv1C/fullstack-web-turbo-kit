@@ -9,12 +9,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@melv1c/ui-core';
-import { Logo } from '@repo/ui';
-import { APP_NAME } from '@repo/utils';
-import { Link, useRouterState } from '@tanstack/react-router';
-import type { NavItem } from '../type';
-import { NavUser } from './nav-user';
+} from "@melv1c/ui-core";
+import { Logo } from "@repo/ui";
+import { APP_NAME } from "@repo/utils";
+import { Link, useRouterState } from "@tanstack/react-router";
+
+import type { NavItem } from "../type";
+import { NavUser } from "./nav-user";
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   navItems: NavItem[];
@@ -37,7 +38,7 @@ export function AppSidebar({ navItems, ...props }: AppSidebarProps) {
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map(item => {
+              {navItems.map((item) => {
                 const isActive = currentPath === item.url;
                 return (
                   <SidebarMenuItem key={item.title}>

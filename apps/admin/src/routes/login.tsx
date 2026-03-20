@@ -1,8 +1,9 @@
-import { signIn } from '@/lib/auth-client';
-import { LoginForm } from '@melv1c/ui-core';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { LoginForm } from "@melv1c/ui-core";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/login')({
+import { signIn } from "@/lib/auth-client";
+
+export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
@@ -14,7 +15,7 @@ function LoginPage() {
     if (result.error) {
       throw new Error(result.error.message);
     }
-    navigate({ to: '/' });
+    navigate({ to: "/" });
   };
 
   // const handleProviderLogin = async (provider: LoginProvider) => {

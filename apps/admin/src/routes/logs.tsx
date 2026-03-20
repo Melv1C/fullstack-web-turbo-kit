@@ -1,18 +1,19 @@
-import { LogDetailSheet, LogsFilter, LogsTable } from '@/features/logs';
-import { useSocket } from '@/features/socket';
-import { getRoomName } from '@repo/utils';
-import { createFileRoute } from '@tanstack/react-router';
-import { useEffect } from 'react';
+import { getRoomName } from "@repo/utils";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+
+import { LogDetailSheet, LogsFilter, LogsTable } from "@/features/logs";
+import { useSocket } from "@/features/socket";
 
 function LogsPage() {
   // Subscribe to real-time log updates
   const { socket } = useSocket();
 
   useEffect(() => {
-    socket.emit('joinRoom', getRoomName.logs);
+    socket.emit("joinRoom", getRoomName.logs);
 
     return () => {
-      socket.emit('leaveRoom', getRoomName.logs);
+      socket.emit("leaveRoom", getRoomName.logs);
     };
   }, [socket]);
 
@@ -25,6 +26,6 @@ function LogsPage() {
   );
 }
 
-export const Route = createFileRoute('/logs')({
+export const Route = createFileRoute("/logs")({
   component: LogsPage,
 });

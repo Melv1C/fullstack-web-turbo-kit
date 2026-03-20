@@ -11,16 +11,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@melv1c/ui-core';
-import { AlertCircle, ChevronLeft, ChevronRight, Info, Loader2 } from 'lucide-react';
-import { useUsers } from '../use-users';
-import { useUsersStore } from '../users-store';
-import { UserRow } from './user-row';
+} from "@melv1c/ui-core";
+import { AlertCircle, ChevronLeft, ChevronRight, Info, Loader2 } from "lucide-react";
+
+import { useUsers } from "../use-users";
+import { useUsersStore } from "../users-store";
+import { UserRow } from "./user-row";
 
 export function UsersTable() {
-  const filter = useUsersStore(state => state.filter);
-  const setPage = useUsersStore(state => state.setPage);
-  const setFilter = useUsersStore(state => state.setFilter);
+  const filter = useUsersStore((state) => state.filter);
+  const setPage = useUsersStore((state) => state.setPage);
+  const setFilter = useUsersStore((state) => state.setFilter);
 
   const { data, isPending, isError } = useUsers(filter);
 
@@ -90,7 +91,7 @@ export function UsersTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {users.map(user => (
+                  {users.map((user) => (
                     <UserRow key={user.id} user={user} />
                   ))}
                 </TableBody>

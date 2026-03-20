@@ -6,10 +6,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@melv1c/ui-core';
-import type { Log } from '@repo/utils';
-import { memo } from 'react';
-import { formatDate, levelConfig, typeColors } from '../utils';
+} from "@melv1c/ui-core";
+import type { Log } from "@repo/utils";
+import { memo } from "react";
+
+import { formatDate, levelConfig, typeColors } from "../utils";
 
 interface LogRowProps {
   log: Log;
@@ -28,7 +29,7 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (hasDetails && (e.key === 'Enter' || e.key === ' ')) {
+    if (hasDetails && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
       onSelect(log.id);
     }
@@ -36,11 +37,11 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
 
   return (
     <TableRow
-      className={hasDetails ? 'cursor-pointer hover:bg-muted/50 transition-colors' : ''}
+      className={hasDetails ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={hasDetails ? 0 : -1}
-      role={hasDetails ? 'button' : undefined}
+      role={hasDetails ? "button" : undefined}
       aria-label={hasDetails ? `View details for log: ${log.message}` : undefined}
     >
       <TableCell>

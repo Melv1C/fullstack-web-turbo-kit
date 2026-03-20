@@ -1,13 +1,13 @@
-import { type UserRole } from '@repo/utils';
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { type UserRole } from "@repo/utils";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-export type SortDirection = 'asc' | 'desc';
-export type SortField = 'name' | 'email' | 'createdAt';
+export type SortDirection = "asc" | "desc";
+export type SortField = "name" | "email" | "createdAt";
 
 export interface UsersFilter {
   searchValue: string;
-  searchField: 'email' | 'name';
+  searchField: "email" | "name";
   role: UserRole | null;
   banned: boolean | null;
   limit: number;
@@ -59,19 +59,19 @@ interface UsersState {
 const DEFAULT_PAGE_SIZE = 10;
 
 const initialFilter: UsersFilter = {
-  searchValue: '',
-  searchField: 'email',
+  searchValue: "",
+  searchField: "email",
   role: null,
   banned: null,
   limit: DEFAULT_PAGE_SIZE,
   offset: 0,
-  sortBy: 'createdAt',
-  sortDirection: 'desc',
+  sortBy: "createdAt",
+  sortDirection: "desc",
 };
 
 export const useUsersStore = create<UsersState>()(
   persist(
-    set => ({
+    (set) => ({
       filter: initialFilter,
       selectedUserId: null,
       sheetOpen: false,
@@ -83,8 +83,8 @@ export const useUsersStore = create<UsersState>()(
       deleteDialogOpen: false,
       sessionsDialogOpen: false,
 
-      setFilter: updates =>
-        set(state => ({
+      setFilter: (updates) =>
+        set((state) => ({
           filter: {
             ...state.filter,
             ...updates,
@@ -93,21 +93,21 @@ export const useUsersStore = create<UsersState>()(
         })),
 
       resetFilters: () =>
-        set(state => ({
+        set((state) => ({
           filter: { ...initialFilter, limit: state.filter.limit },
         })),
 
-      setPage: page =>
-        set(state => ({
+      setPage: (page) =>
+        set((state) => ({
           filter: {
             ...state.filter,
             offset: page * state.filter.limit,
           },
         })),
 
-      setSelectedUserId: id => set({ selectedUserId: id }),
-      setSheetOpen: open =>
-        set(state => ({
+      setSelectedUserId: (id) => set({ selectedUserId: id }),
+      setSheetOpen: (open) =>
+        set((state) => ({
           sheetOpen: open,
           selectedUserId: open ? state.selectedUserId : null,
         })),
@@ -115,7 +115,7 @@ export const useUsersStore = create<UsersState>()(
       openCreateDialog: () => set({ createDialogOpen: true }),
       closeCreateDialog: () => set({ createDialogOpen: false }),
 
-      openEditDialog: userId =>
+      openEditDialog: (userId) =>
         set({
           selectedUserId: userId,
           editDialogOpen: true,
@@ -125,7 +125,7 @@ export const useUsersStore = create<UsersState>()(
           editDialogOpen: false,
         }),
 
-      openSetPasswordDialog: userId =>
+      openSetPasswordDialog: (userId) =>
         set({
           selectedUserId: userId,
           setPasswordDialogOpen: true,
@@ -135,7 +135,7 @@ export const useUsersStore = create<UsersState>()(
           setPasswordDialogOpen: false,
         }),
 
-      openBanDialog: userId =>
+      openBanDialog: (userId) =>
         set({
           selectedUserId: userId,
           banDialogOpen: true,
@@ -145,7 +145,7 @@ export const useUsersStore = create<UsersState>()(
           banDialogOpen: false,
         }),
 
-      openDeleteDialog: userId =>
+      openDeleteDialog: (userId) =>
         set({
           selectedUserId: userId,
           deleteDialogOpen: true,
@@ -155,7 +155,7 @@ export const useUsersStore = create<UsersState>()(
           deleteDialogOpen: false,
         }),
 
-      openSessionsDialog: userId =>
+      openSessionsDialog: (userId) =>
         set({
           selectedUserId: userId,
           sessionsDialogOpen: true,
@@ -166,8 +166,8 @@ export const useUsersStore = create<UsersState>()(
         }),
     }),
     {
-      name: 'users-store',
-      partialize: state => ({
+      name: "users-store",
+      partialize: (state) => ({
         filter: {
           limit: state.filter.limit,
           sortBy: state.filter.sortBy,

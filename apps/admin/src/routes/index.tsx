@@ -1,8 +1,5 @@
-import { useAPIHealth } from '@/features/api-health';
-import { APP_VERSION } from '@/lib/app-version';
-import { ENV } from 'varlock/env';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@melv1c/ui-core';
-import { createFileRoute } from '@tanstack/react-router';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@melv1c/ui-core";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   Activity,
   CheckCircle,
@@ -12,9 +9,13 @@ import {
   Server,
   Users,
   XCircle,
-} from 'lucide-react';
+} from "lucide-react";
+import { ENV } from "varlock/env";
 
-export const Route = createFileRoute('/')({
+import { useAPIHealth } from "@/features/api-health";
+import { APP_VERSION } from "@/lib/app-version";
+
+export const Route = createFileRoute("/")({
   component: Index,
 });
 
@@ -58,7 +59,7 @@ function Index() {
                 disabled={isFetching}
                 title="Retry connection"
               >
-                <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`} />
               </Button>
             </div>
           </CardContent>

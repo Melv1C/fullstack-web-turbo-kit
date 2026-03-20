@@ -9,29 +9,30 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@melv1c/ui-core';
-import type { LogStep, LogWithUser } from '@repo/utils';
-import { AlertCircle, Check, Clock, Copy, Loader2, User } from 'lucide-react';
-import { useState } from 'react';
-import { useLog } from '../hooks/use-logs';
-import { useLogsStore } from '../logs-store';
-import { levelConfig } from '../utils';
+} from "@melv1c/ui-core";
+import type { LogStep, LogWithUser } from "@repo/utils";
+import { AlertCircle, Check, Clock, Copy, Loader2, User } from "lucide-react";
+import { useState } from "react";
+
+import { useLog } from "../hooks/use-logs";
+import { useLogsStore } from "../logs-store";
+import { levelConfig } from "../utils";
 
 function formatTimestamp(ts: number): string {
   const date = new Date(ts);
-  const time = new Intl.DateTimeFormat('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
+  const time = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   }).format(date);
-  const ms = date.getMilliseconds().toString().padStart(3, '0');
+  const ms = date.getMilliseconds().toString().padStart(3, "0");
   return `${time}.${ms}`;
 }
 
 function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium',
-    timeStyle: 'medium',
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+    timeStyle: "medium",
   }).format(date);
 }
 
@@ -49,7 +50,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
       variant="ghost"
       size="sm"
       onClick={handleCopy}
-      title={label ?? 'Copy to clipboard'}
+      title={label ?? "Copy to clipboard"}
       className="h-6 px-2"
     >
       {isCopied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
@@ -58,7 +59,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
 }
 
 function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string }) {
-  if (!metadata || (typeof metadata === 'object' && Object.keys(metadata as object).length === 0)) {
+  if (!metadata || (typeof metadata === "object" && Object.keys(metadata as object).length === 0)) {
     return null;
   }
 
@@ -86,10 +87,10 @@ function StepItem({ step, index }: { step: LogStep; index: number }) {
   const Icon = config.icon;
 
   const bgColorMap = {
-    debug: 'bg-gray-50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700',
-    info: 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800',
-    warn: 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800',
-    error: 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800',
+    debug: "bg-gray-50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700",
+    info: "bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800",
+    warn: "bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800",
+    error: "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800",
   };
 
   return (
@@ -137,7 +138,7 @@ function LogContent({ log }: { log: LogWithUser }) {
           )}
           {log.statusCode && (
             <Badge
-              variant={log.statusCode >= 400 ? 'destructive' : 'secondary'}
+              variant={log.statusCode >= 400 ? "destructive" : "secondary"}
               className="font-mono"
             >
               {log.statusCode}
@@ -219,7 +220,7 @@ function LogContent({ log }: { log: LogWithUser }) {
 
       {/* Metadata */}
       {log.metadata &&
-        typeof log.metadata === 'object' &&
+        typeof log.metadata === "object" &&
         Object.keys(log.metadata as object).length > 0 && (
           <div className="rounded-lg border bg-card p-4">
             <MetadataDisplay metadata={log.metadata} label="Metadata" />
@@ -244,7 +245,7 @@ function LogContent({ log }: { log: LogWithUser }) {
 }
 
 export function LogDetailSheet() {
-  const logId = useLogsStore(state => state.selectedLogId);
+  const logId = useLogsStore((state) => state.selectedLogId);
   const { data: log, isPending, isError } = useLog(logId);
 
   const handleOpenChange = (open: boolean) => {

@@ -1,6 +1,6 @@
-import type { LogFilter } from '@repo/utils';
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import type { LogFilter } from "@repo/utils";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface LogsState {
   filter: Partial<LogFilter>;
@@ -27,19 +27,19 @@ const initialFilter: Partial<LogFilter> = {
 
 export const useLogsStore = create<LogsState>()(
   persist(
-    set => ({
+    (set) => ({
       filter: initialFilter,
-      searchInput: '',
+      searchInput: "",
       selectedLogId: null,
       sheetOpen: false,
 
-      setFilter: filter =>
+      setFilter: (filter) =>
         set({
           filter: { ...filter, page: filter.page ?? 1 },
         }),
 
-      updateFilter: updates =>
-        set(state => ({
+      updateFilter: (updates) =>
+        set((state) => ({
           filter: {
             ...state.filter,
             ...updates,
@@ -47,21 +47,21 @@ export const useLogsStore = create<LogsState>()(
           },
         })),
 
-      setSearchInput: input => set({ searchInput: input }),
+      setSearchInput: (input) => set({ searchInput: input }),
 
-      setSelectedLogId: id => set({ selectedLogId: id }),
+      setSelectedLogId: (id) => set({ selectedLogId: id }),
 
-      setSheetOpen: open =>
-        set(state => ({
+      setSheetOpen: (open) =>
+        set((state) => ({
           sheetOpen: open,
           // Reset selected log when closing sheet
           selectedLogId: open ? state.selectedLogId : null,
         })),
 
       clearFilters: () =>
-        set(state => ({
+        set((state) => ({
           filter: { page: 1, pageSize: state.filter.pageSize ?? initialPageSize },
-          searchInput: '',
+          searchInput: "",
         })),
 
       resetSheet: () =>
@@ -71,8 +71,8 @@ export const useLogsStore = create<LogsState>()(
         }),
     }),
     {
-      name: 'logs-store',
-      partialize: state => ({
+      name: "logs-store",
+      partialize: (state) => ({
         filter: {
           pageSize: state.filter.pageSize,
           types: state.filter.types,

@@ -1,4 +1,3 @@
-import { signOut, useSession } from '@/lib/auth-client';
 import {
   Avatar,
   AvatarFallback,
@@ -12,9 +11,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@melv1c/ui-core';
-import { useNavigate } from '@tanstack/react-router';
-import { ChevronsUpDown, LogOut, User } from 'lucide-react';
+} from "@melv1c/ui-core";
+import { useNavigate } from "@tanstack/react-router";
+import { ChevronsUpDown, LogOut, User } from "lucide-react";
+
+import { signOut, useSession } from "@/lib/auth-client";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -25,13 +26,13 @@ export function NavUser() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate({ to: '/login' });
+    navigate({ to: "/login" });
   };
 
   const initials = user?.name
-    .split(' ')
-    .map(n => n[0])
-    .join('')
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
     .toUpperCase()
     .slice(0, 2);
 
@@ -60,7 +61,7 @@ export function NavUser() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
+            side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >

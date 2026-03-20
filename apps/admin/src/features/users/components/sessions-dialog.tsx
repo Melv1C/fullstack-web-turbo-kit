@@ -8,20 +8,21 @@ import {
   DialogHeader,
   DialogTitle,
   ScrollArea,
-} from '@melv1c/ui-core';
-import { AlertCircle, Clock, Globe, Loader2, Monitor, Trash2 } from 'lucide-react';
-import { formatRelativeTime } from '../constants';
-import { useRevokeAllSessions, useRevokeSession, useUserSessions, useUsers } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { AlertCircle, Clock, Globe, Loader2, Monitor, Trash2 } from "lucide-react";
+
+import { formatRelativeTime } from "../constants";
+import { useRevokeAllSessions, useRevokeSession, useUserSessions, useUsers } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 export function SessionsDialog() {
-  const isOpen = useUsersStore(state => state.sessionsDialogOpen);
-  const closeDialog = useUsersStore(state => state.closeSessionsDialog);
-  const selectedUserId = useUsersStore(state => state.selectedUserId);
-  const filter = useUsersStore(state => state.filter);
+  const isOpen = useUsersStore((state) => state.sessionsDialogOpen);
+  const closeDialog = useUsersStore((state) => state.closeSessionsDialog);
+  const selectedUserId = useUsersStore((state) => state.selectedUserId);
+  const filter = useUsersStore((state) => state.filter);
 
   const { data: usersData } = useUsers(filter);
-  const user = usersData?.users.find(u => u.id === selectedUserId);
+  const user = usersData?.users.find((u) => u.id === selectedUserId);
 
   const { data: sessions, isPending, isError } = useUserSessions(selectedUserId);
   const revokeSession = useRevokeSession();
@@ -33,12 +34,12 @@ export function SessionsDialog() {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && closeDialog()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && closeDialog()}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Manage Sessions</DialogTitle>
           <DialogDescription>
-            Active sessions for <strong>{user?.name ?? 'this user'}</strong>
+            Active sessions for <strong>{user?.name ?? "this user"}</strong>
           </DialogDescription>
         </DialogHeader>
 
@@ -65,7 +66,7 @@ export function SessionsDialog() {
           {!isPending && !isError && sessions && sessions.length > 0 && (
             <ScrollArea className="h-80">
               <div className="space-y-3 pr-4">
-                {sessions.map(session => (
+                {sessions.map((session) => (
                   <div key={session.id} className="p-3 rounded-lg border bg-muted/30">
                     <div className="flex items-start justify-between gap-2">
                       <div className="space-y-1 min-w-0 flex-1">
@@ -76,7 +77,7 @@ export function SessionsDialog() {
                               ? session.userAgent.length > 50
                                 ? `${session.userAgent.slice(0, 50)}...`
                                 : session.userAgent
-                              : 'Unknown device'}
+                              : "Unknown device"}
                           </span>
                         </div>
                         {session.ipAddress && (

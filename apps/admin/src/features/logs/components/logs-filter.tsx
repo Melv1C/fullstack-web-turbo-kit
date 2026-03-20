@@ -14,11 +14,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@melv1c/ui-core';
-import type { LogLevel, LogType } from '@repo/utils';
-import { ChevronDown, Search, X } from 'lucide-react';
-import { useLogsStore } from '../logs-store';
-import { LOG_LEVELS, LOG_TYPES, PAGE_SIZES } from '../utils';
+} from "@melv1c/ui-core";
+import type { LogLevel, LogType } from "@repo/utils";
+import { ChevronDown, Search, X } from "lucide-react";
+
+import { useLogsStore } from "../logs-store";
+import { LOG_LEVELS, LOG_TYPES, PAGE_SIZES } from "../utils";
 
 interface MultiSelectProps<T extends string> {
   options: T[];
@@ -33,11 +34,11 @@ function MultiSelect<T extends string>({
   selected,
   onChange,
   placeholder,
-  formatLabel = v => v,
+  formatLabel = (v) => v,
 }: MultiSelectProps<T>) {
   const handleToggle = (value: T) => {
     if (selected.includes(value)) {
-      onChange(selected.filter(v => v !== value));
+      onChange(selected.filter((v) => v !== value));
     } else {
       onChange([...selected, value]);
     }
@@ -59,7 +60,7 @@ function MultiSelect<T extends string>({
       </PopoverTrigger>
       <PopoverContent className="w-48 p-2" align="start">
         <div className="space-y-2">
-          {options.map(option => (
+          {options.map((option) => (
             <div key={option} className="flex items-center gap-2">
               <Checkbox
                 id={`option-${option}`}
@@ -86,18 +87,18 @@ function MultiSelect<T extends string>({
 }
 
 export function LogsFilter() {
-  const filter = useLogsStore(state => state.filter);
-  const searchInput = useLogsStore(state => state.searchInput);
-  const setSearchInput = useLogsStore(state => state.setSearchInput);
-  const updateFilter = useLogsStore(state => state.updateFilter);
-  const clearFilters = useLogsStore(state => state.clearFilters);
+  const filter = useLogsStore((state) => state.filter);
+  const searchInput = useLogsStore((state) => state.searchInput);
+  const setSearchInput = useLogsStore((state) => state.setSearchInput);
+  const updateFilter = useLogsStore((state) => state.updateFilter);
+  const clearFilters = useLogsStore((state) => state.clearFilters);
 
   const handleSearch = () => {
     updateFilter({ search: searchInput.trim() || undefined });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -123,7 +124,7 @@ export function LogsFilter() {
               id="search-input"
               placeholder="Search by message, path, or user ID..."
               value={searchInput}
-              onChange={e => setSearchInput(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               className="flex-1"
             />
@@ -141,7 +142,7 @@ export function LogsFilter() {
             <MultiSelect<LogType>
               options={LOG_TYPES}
               selected={filter.types ?? []}
-              onChange={types => updateFilter({ types: types.length > 0 ? types : undefined })}
+              onChange={(types) => updateFilter({ types: types.length > 0 ? types : undefined })}
               placeholder="All types"
             />
           </div>
@@ -152,9 +153,11 @@ export function LogsFilter() {
             <MultiSelect<LogLevel>
               options={LOG_LEVELS}
               selected={filter.levels ?? []}
-              onChange={levels => updateFilter({ levels: levels.length > 0 ? levels : undefined })}
+              onChange={(levels) =>
+                updateFilter({ levels: levels.length > 0 ? levels : undefined })
+              }
               placeholder="All levels"
-              formatLabel={v => v.charAt(0).toUpperCase() + v.slice(1)}
+              formatLabel={(v) => v.charAt(0).toUpperCase() + v.slice(1)}
             />
           </div>
 
@@ -163,7 +166,7 @@ export function LogsFilter() {
             <label className="mb-1.5 block text-sm font-medium">From</label>
             <DateTimePicker
               value={filter.startDate}
-              onChange={date => updateFilter({ startDate: date })}
+              onChange={(date) => updateFilter({ startDate: date })}
               placeholder="Start date"
             />
           </div>
@@ -173,7 +176,7 @@ export function LogsFilter() {
             <label className="mb-1.5 block text-sm font-medium">To</label>
             <DateTimePicker
               value={filter.endDate}
-              onChange={date => updateFilter({ endDate: date })}
+              onChange={(date) => updateFilter({ endDate: date })}
               placeholder="End date"
             />
           </div>
@@ -184,14 +187,14 @@ export function LogsFilter() {
               Per page
             </label>
             <Select
-              value={filter.pageSize?.toString() ?? '50'}
-              onValueChange={v => updateFilter({ pageSize: Number.parseInt(v, 10) })}
+              value={filter.pageSize?.toString() ?? "50"}
+              onValueChange={(v) => updateFilter({ pageSize: Number.parseInt(v, 10) })}
             >
               <SelectTrigger id="page-size">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {PAGE_SIZES.map(size => (
+                {PAGE_SIZES.map((size) => (
                   <SelectItem key={size} value={size.toString()}>
                     {size}
                   </SelectItem>

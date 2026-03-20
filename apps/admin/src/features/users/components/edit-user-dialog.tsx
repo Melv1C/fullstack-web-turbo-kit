@@ -15,28 +15,29 @@ import {
   SelectTrigger,
   SelectValue,
   Switch,
-} from '@melv1c/ui-core';
-import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { ROLES } from '../constants';
-import { useSetUserRole, useUpdateUser, useUsers } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { ROLES } from "../constants";
+import { useSetUserRole, useUpdateUser, useUsers } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 export function EditUserDialog() {
-  const isOpen = useUsersStore(state => state.editDialogOpen);
-  const closeDialog = useUsersStore(state => state.closeEditDialog);
-  const selectedUserId = useUsersStore(state => state.selectedUserId);
-  const filter = useUsersStore(state => state.filter);
+  const isOpen = useUsersStore((state) => state.editDialogOpen);
+  const closeDialog = useUsersStore((state) => state.closeEditDialog);
+  const selectedUserId = useUsersStore((state) => state.selectedUserId);
+  const filter = useUsersStore((state) => state.filter);
 
   const { data } = useUsers(filter);
-  const user = data?.users.find(u => u.id === selectedUserId);
+  const user = data?.users.find((u) => u.id === selectedUserId);
 
   const updateUser = useUpdateUser();
   const setRole = useSetUserRole();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRoleValue] = useState('user');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRoleValue] = useState("user");
   const [emailVerified, setEmailVerified] = useState(false);
 
   useEffect(() => {
@@ -81,9 +82,9 @@ export function EditUserDialog() {
   };
 
   const handleClose = () => {
-    setName('');
-    setEmail('');
-    setRoleValue('user');
+    setName("");
+    setEmail("");
+    setRoleValue("user");
     setEmailVerified(false);
     closeDialog();
   };
@@ -92,7 +93,7 @@ export function EditUserDialog() {
   const isPending = updateUser.isPending || setRole.isPending;
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && handleClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Edit User</DialogTitle>
@@ -105,7 +106,7 @@ export function EditUserDialog() {
             <Input
               id="edit-name"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               required
             />
@@ -117,7 +118,7 @@ export function EditUserDialog() {
               id="edit-email"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
               required
             />
@@ -130,7 +131,7 @@ export function EditUserDialog() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {ROLES.map(r => (
+                {ROLES.map((r) => (
                   <SelectItem key={r} value={r} className="capitalize">
                     {r}
                   </SelectItem>

@@ -13,24 +13,25 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@melv1c/ui-core';
-import { UserRole } from '@repo/utils';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { ROLES } from '../constants';
-import { useCreateUser } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { UserRole } from "@repo/utils";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+
+import { ROLES } from "../constants";
+import { useCreateUser } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 export function CreateUserDialog() {
-  const isOpen = useUsersStore(state => state.createDialogOpen);
-  const closeDialog = useUsersStore(state => state.closeCreateDialog);
+  const isOpen = useUsersStore((state) => state.createDialogOpen);
+  const closeDialog = useUsersStore((state) => state.closeCreateDialog);
 
   const createUser = useCreateUser();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState<UserRole>('user');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<UserRole>("user");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,17 +47,17 @@ export function CreateUserDialog() {
   };
 
   const handleClose = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
-    setRole('user');
+    setName("");
+    setEmail("");
+    setPassword("");
+    setRole("user");
     closeDialog();
   };
 
   const isValid = name.trim() && email.trim() && password.length >= 8;
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && handleClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Create New User</DialogTitle>
@@ -69,7 +70,7 @@ export function CreateUserDialog() {
             <Input
               id="name"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               required
             />
@@ -81,7 +82,7 @@ export function CreateUserDialog() {
               id="email"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
               required
             />
@@ -93,7 +94,7 @@ export function CreateUserDialog() {
               id="password"
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Minimum 8 characters"
               minLength={8}
               required
@@ -102,12 +103,12 @@ export function CreateUserDialog() {
 
           <div className="space-y-2">
             <Label htmlFor="role">Role</Label>
-            <Select value={role} onValueChange={value => setRole(value as UserRole)}>
+            <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
               <SelectTrigger>
                 <SelectValue className="capitalize" />
               </SelectTrigger>
               <SelectContent>
-                {ROLES.map(r => (
+                {ROLES.map((r) => (
                   <SelectItem key={r} value={r} className="capitalize">
                     {r}
                   </SelectItem>

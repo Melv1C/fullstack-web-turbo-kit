@@ -13,34 +13,35 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@melv1c/ui-core';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { useBanUser, useUsers } from '../use-users';
-import { useUsersStore } from '../users-store';
+} from "@melv1c/ui-core";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+
+import { useBanUser, useUsers } from "../use-users";
+import { useUsersStore } from "../users-store";
 
 const BAN_DURATIONS = [
-  { label: 'Permanent', value: 'permanent' },
-  { label: '1 hour', value: '3600' },
-  { label: '24 hours', value: '86400' },
-  { label: '7 days', value: '604800' },
-  { label: '30 days', value: '2592000' },
-  { label: '90 days', value: '7776000' },
+  { label: "Permanent", value: "permanent" },
+  { label: "1 hour", value: "3600" },
+  { label: "24 hours", value: "86400" },
+  { label: "7 days", value: "604800" },
+  { label: "30 days", value: "2592000" },
+  { label: "90 days", value: "7776000" },
 ] as const;
 
 export function BanUserDialog() {
-  const isOpen = useUsersStore(state => state.banDialogOpen);
-  const closeDialog = useUsersStore(state => state.closeBanDialog);
-  const selectedUserId = useUsersStore(state => state.selectedUserId);
-  const filter = useUsersStore(state => state.filter);
+  const isOpen = useUsersStore((state) => state.banDialogOpen);
+  const closeDialog = useUsersStore((state) => state.closeBanDialog);
+  const selectedUserId = useUsersStore((state) => state.selectedUserId);
+  const filter = useUsersStore((state) => state.filter);
 
   const { data } = useUsers(filter);
-  const user = data?.users.find(u => u.id === selectedUserId);
+  const user = data?.users.find((u) => u.id === selectedUserId);
 
   const banUser = useBanUser();
 
-  const [reason, setReason] = useState('');
-  const [duration, setDuration] = useState('permanent');
+  const [reason, setReason] = useState("");
+  const [duration, setDuration] = useState("permanent");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,25 +50,25 @@ export function BanUserDialog() {
     await banUser.mutateAsync({
       userId: selectedUserId,
       banReason: reason.trim() || undefined,
-      banExpiresIn: duration === 'permanent' ? undefined : parseInt(duration, 10),
+      banExpiresIn: duration === "permanent" ? undefined : parseInt(duration, 10),
     });
 
     handleClose();
   };
 
   const handleClose = () => {
-    setReason('');
-    setDuration('permanent');
+    setReason("");
+    setDuration("permanent");
     closeDialog();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && handleClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Ban User</DialogTitle>
           <DialogDescription>
-            Ban <strong>{user?.name ?? 'this user'}</strong> from accessing the application. This
+            Ban <strong>{user?.name ?? "this user"}</strong> from accessing the application. This
             will revoke all their active sessions.
           </DialogDescription>
         </DialogHeader>
@@ -78,7 +79,7 @@ export function BanUserDialog() {
             <Input
               id="ban-reason"
               value={reason}
-              onChange={e => setReason(e.target.value)}
+              onChange={(e) => setReason(e.target.value)}
               placeholder="Enter ban reason..."
             />
           </div>
@@ -90,7 +91,7 @@ export function BanUserDialog() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {BAN_DURATIONS.map(d => (
+                {BAN_DURATIONS.map((d) => (
                   <SelectItem key={d.value} value={d.value}>
                     {d.label}
                   </SelectItem>

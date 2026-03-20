@@ -1,3 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+
 import {
   BanUserDialog,
   CreateUserDialog,
@@ -8,8 +10,7 @@ import {
   UserDetailSheet,
   UsersFilter,
   UsersTable,
-} from '@/features/users';
-import { createFileRoute } from '@tanstack/react-router';
+} from "@/features/users";
 
 function UsersPage() {
   return (
@@ -29,6 +30,6 @@ function UsersPage() {
   );
 }
 
-export const Route = createFileRoute('/users')({
+export const Route = createFileRoute("/users")({
   component: UsersPage,
 });

@@ -1,5 +1,5 @@
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@melv1c/ui-core';
-import { Activity, CheckCircle, RefreshCw, Server, XCircle } from 'lucide-react';
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@melv1c/ui-core";
+import { Activity, CheckCircle, RefreshCw, Server, XCircle } from "lucide-react";
 
 type CardHealthProps = React.ComponentProps<typeof Card> & {
   isPending: boolean;
@@ -43,7 +43,7 @@ export const CardHealth = ({ isPending, isError, refetch, ...props }: CardHealth
             disabled={isPending}
             title="Retry connection"
           >
-            <RefreshCw className={`h-4 w-4 ${isPending ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 ${isPending ? "animate-spin" : ""}`} />
           </Button>
         </div>
       </CardContent>

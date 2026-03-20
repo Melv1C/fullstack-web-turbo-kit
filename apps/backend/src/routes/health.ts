@@ -1,9 +1,9 @@
-import { Hono } from 'hono';
+import { Hono } from "hono";
 
-export const healthRoutes = new Hono().get('/', c => {
+export const healthRoutes = new Hono().get("/", (c) => {
   return c.json(
     {
-      status: 'ok',
+      status: "ok",
     },
     200,
   );
