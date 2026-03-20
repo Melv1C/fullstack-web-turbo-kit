@@ -14,7 +14,6 @@
     "check": "vp check",
     "deps": "bunx npm-check-updates",
     "deps:interactive": "bunx npm-check-updates -i",
-    "deps:update": "bunx npm-check-updates -u && bun install",
     "dev": "turbo run dev --ui=tui",
     "docker:db": "docker compose -f docker-compose.db.yml up -d",
     "docker:db:down": "docker compose -f docker-compose.db.yml down",
