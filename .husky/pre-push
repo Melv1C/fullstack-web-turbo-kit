@@ -27,7 +27,7 @@ if [ "$protected_push" -eq 1 ]; then
   info "Protected branch push detected (main/master)"
   info "Running extended checks"
 
-  run_step "Formatting check" bun run format:check
+  run_step "Formatting check" bun run format --check
 
   run_step "Prisma schema validation" bun run prisma:validate
 
