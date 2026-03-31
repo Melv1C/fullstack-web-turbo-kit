@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@melv1c/ui-core";
-import { User as UserType } from "@repo/utils";
+import type { User as UserType } from "@repo/utils";
 import {
   AlertCircle,
   Ban,

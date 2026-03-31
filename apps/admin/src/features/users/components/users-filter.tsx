@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@melv1c/ui-core";
-import { UserRole } from "@repo/utils";
+import type { UserRole } from "@repo/utils";
 import { Plus, RotateCcw, Search } from "lucide-react";
 import { useState } from "react";
 

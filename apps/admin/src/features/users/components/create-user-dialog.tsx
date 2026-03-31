@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@melv1c/ui-core";
-import { UserRole } from "@repo/utils";
+import type { UserRole } from "@repo/utils";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ export function CreateUserDialog() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<UserRole>("user");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await createUser.mutateAsync({

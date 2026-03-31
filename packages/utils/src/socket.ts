@@ -1,4 +1,4 @@
-import { Log, User } from "./schemas";
+import type { Log, User } from "./schemas";
 
 // ============================================
 // Socket Event Types

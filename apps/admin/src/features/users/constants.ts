@@ -5,7 +5,7 @@ export const ROLES: UserRole[] = ["admin", "user"];
 export const PAGE_SIZES = [10, 25, 50] as const;
 
 export const roleConfig: Record<
-  string,
+  UserRole,
   {
     label: string;
     color: string;
@@ -24,11 +24,11 @@ export const roleConfig: Record<
   },
 };
 
-export function getRoleConfig(role: string | null | undefined) {
+export function getRoleConfig(role: UserRole | undefined) {
   if (!role) {
     return roleConfig.user;
   }
-  return roleConfig[role] ?? { label: role, color: "text-gray-500", variant: "outline" as const };
+  return roleConfig[role];
 }
 
 export function formatDate(date: Date | string): string {
