@@ -1,6 +1,6 @@
-import "varlock/auto-load";
 import { prisma } from "@/lib/prisma";
 
+import "varlock/auto-load";
 import logs from "./data/logs.json" with { type: "json" };
 
 type PrismaDelegate = {
@@ -18,7 +18,8 @@ async function syncJsonData(
   let failureCount = 0;
   console.log(`→ Starting sync of ${data.length} records...`);
 
-  for (const [i, line] of data.entries()) {
+  for (let i = 0; i < data.length; i++) {
+    const line = data[i];
     try {
       if (typeof line !== "object" || line === null) {
         throw new Error(`Invalid record format: expected object but got ${typeof line}`);
@@ -48,12 +49,12 @@ async function syncJsonData(
           data: record,
         });
         console.log(
-          `  • [${i + 1}/${data.length}] Updated record with ${uniqueFields.map((f) => `${f}: ${record[f]}`).join(", ")}`,
+          `  • [${i + 1}/${data.length}] Updated record with ${uniqueFields.map((f) => `${f}: ${String(record[f])}`).join(", ")}`,
         );
       } else {
         await prismaInstance.create({ data: record });
         console.log(
-          `  + [${i + 1}/${data.length}] Created new record with ${uniqueFields.map((f) => `${f}: ${record[f]}`).join(", ")}`,
+          `  + [${i + 1}/${data.length}] Created new record with ${uniqueFields.map((f) => `${f}: ${String(record[f])}`).join(", ")}`,
         );
       }
       successCount++;
