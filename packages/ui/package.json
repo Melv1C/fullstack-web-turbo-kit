@@ -21,11 +21,11 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.5.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "typescript": "6.0.2",
-    "vite-plus": "^0.1.14"
+    "vite-plus": "^0.1.15"
   },
   "peerDependencies": {
     "react": "19.2.0",
