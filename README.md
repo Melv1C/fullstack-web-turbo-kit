@@ -1,4 +1,4 @@
-# Fullstack Turbo Kit
+# Fullstack Turbo Kit Trigger
 
 A production-ready [Turborepo](https://turbo.build/repo) monorepo starter with full-stack applications and shared packages.
 
