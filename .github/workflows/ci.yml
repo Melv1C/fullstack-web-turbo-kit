@@ -1,8 +1,5 @@
 name: Main CI/CD Pipeline
 
-env:
-  PACKAGE_MANAGER: bun
-
 on:
   push:
     branches:
@@ -18,15 +15,37 @@ jobs:
       - name: Setup
         uses: melv1c/github-workflows/.github/actions/setup@main
         with:
-          package-manager: ${{ env.PACKAGE_MANAGER }}
+          package-manager: bun
 
       - name: Install dependencies
         uses: melv1c/github-workflows/.github/actions/install-dependencies@main
         with:
-          package-manager: ${{ env.PACKAGE_MANAGER }}
+          package-manager: bun
+
+      - name: Prisma Validate
+        run: bun run prisma:validate
+
+      - name: Prisma Generate
+        run: bun run prisma:generate
+
+      - name: Varlock Validate (Development)
+        run: bun run env:validate
+
+      - name: Varlock Validate (Staging)
+        run: bun run env:validate --filter=frontend --filter=admin
+        env:
+          APP_ENV: staging
+
+      - name: Varlock Validate (Production)
+        run: bun run env:validate --filter=frontend --filter=admin
+        env:
+          APP_ENV: production
+
+      - name: Varlock Generate
+        run: bun run env:generate
 
       - name: Build
-        run: ${{ env.PACKAGE_MANAGER }} run build
+        run: bun run build
 
       - name: Check
-        run: ${{ env.PACKAGE_MANAGER }} run check
+        run: bun run check
