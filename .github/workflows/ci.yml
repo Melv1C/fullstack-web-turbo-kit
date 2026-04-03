@@ -1,60 +1,14 @@
-name: CI
+name: Main CI/CD Pipeline
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "apps/**"
-      - "packages/**"
-      - ".github/workflows/ci.yml"
-  workflow_call:
-
+  push:
+    branches:
+      - main
+      - chore/reusable-CI
+    tags:
+      - "*@*"
 jobs:
   ci:
-    name: Build & Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Format check
-        run: bun run format --check
-
-      - name: Prisma Validate
-        run: bun run prisma:validate
-
-      - name: Prisma Generate
-        run: bun run prisma:generate
-
-      - name: Varlock Generate
-        run: bun run env:generate
-
-      - name: Varlock Validate (Development)
-        run: bun run env:validate
-
-      - name: Varlock Validate (Staging)
-        run: bun run env:validate --filter=frontend --filter=admin
-        env:
-          APP_ENV: staging
-
-      - name: Varlock Validate (Production)
-        run: bun run env:validate --filter=frontend --filter=admin
-        env:
-          APP_ENV: production
-      - name: Build all packages
-        run: bun run build
-
-      - name: Linting
-        run: bun run lint
+    uses: melv1c/github-workflows/.github/workflows/ci.yml@main
+    with:
+      package-manager: bun
