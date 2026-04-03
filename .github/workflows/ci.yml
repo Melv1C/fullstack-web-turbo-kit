@@ -19,3 +19,14 @@ jobs:
         uses: melv1c/github-workflows/.github/actions/setup@main
         with:
           package-manager: ${{ env.PACKAGE_MANAGER }}
+
+      - name: Install dependencies
+        uses: melv1c/github-workflows/.github/actions/install-dependencies@main
+        with:
+          package-manager: ${{ env.PACKAGE_MANAGER }}
+
+      - name: Build
+        run: ${{ env.PACKAGE_MANAGER }} run build
+
+      - name: Check
+        run: ${{ env.PACKAGE_MANAGER }} run check
