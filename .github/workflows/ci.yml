@@ -49,3 +49,14 @@ jobs:
 
       - name: Check
         run: bun run check
+
+  staging-deploy:
+    needs:
+      - ci
+    uses: melv1c/github-workflows/.github/workflows/staging-deploy.yml@main
+    with:
+      apps: '["frontend", "admin", "backend"]'
+      image-name-prefix: fullstack-app
+    secrets:
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
