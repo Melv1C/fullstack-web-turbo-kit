@@ -53,7 +53,20 @@ jobs:
   staging-deploy:
     needs:
       - ci
+    if: github.ref == 'refs/heads/main'
     uses: melv1c/github-workflows/.github/workflows/staging-deploy.yml@main
+    with:
+      apps: '["frontend", "admin", "backend"]'
+      image-name-prefix: fullstack-app
+    secrets:
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  production-deploy:
+    needs:
+      - ci
+    # if: startsWith(github.ref, 'refs/tags/')
+    uses: melv1c/github-workflows/.github/workflows/prod-deploy.yml@main
     with:
       apps: '["frontend", "admin", "backend"]'
       image-name-prefix: fullstack-app
