@@ -1,5 +1,8 @@
 name: Main CI/CD Pipeline
 
+env:
+  PACKAGE_MANAGER: bun
+
 on:
   push:
     branches:
@@ -9,6 +12,10 @@ on:
       - "*@*"
 jobs:
   ci:
-    uses: melv1c/github-workflows/.github/workflows/ci.yml@main
-    with:
-      package-manager: bun
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Use the Lego Block!
+      - name: Setup
+        uses: melv1c/github-workflows/.github/actions/setup@main
+        with:
+          package-manager: ${{ env.PACKAGE_MANAGER }}
