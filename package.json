@@ -22,7 +22,6 @@
     "format": "vp fmt",
     "knip": "bunx knip",
     "lint": "vp lint",
-    "prepare": "husky",
     "prisma:format": "bun --filter backend prisma:format",
     "prisma:generate": "bun --filter backend prisma:generate",
     "prisma:migrate": "bun --filter backend prisma:migrate",
@@ -36,9 +35,6 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "@commitlint/cli": "^21.0.1",
-    "@commitlint/config-conventional": "^21.0.1",
-    "husky": "^9.1.7",
     "oxfmt": "^0.51.0",
     "oxlint": "^1.66.0",
     "oxlint-tsgolint": "^0.23.0",
