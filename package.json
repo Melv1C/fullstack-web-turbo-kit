@@ -12,8 +12,7 @@
     "build:production": "turbo run build:production",
     "build:staging": "turbo run build:staging",
     "check": "vp check",
-    "deps": "bunx npm-check-updates",
-    "deps:interactive": "bunx npm-check-updates -i",
+    "deps": "ncu",
     "dev": "turbo run dev --ui=tui",
     "docker:db": "docker compose -f docker-compose.db.yml up -d",
     "docker:db:down": "docker compose -f docker-compose.db.yml down",
@@ -27,14 +26,18 @@
     "prisma:migrate": "bun --filter backend prisma:migrate",
     "prisma:migrate:deploy": "bun --filter backend prisma:migrate:deploy",
     "prisma:validate": "bun --filter backend prisma:validate",
-    "release:prepare": "bunx changeset",
-    "release:publish": "./scripts/release.sh"
+    "lockfile:sync": "bun scripts/sync-bun-lock.ts",
+    "release:prepare": "changeset",
+    "release:push": "./scripts/release-push.sh",
+    "release:version": "./scripts/release-version.sh"
   },
   "dependencies": {
     "varlock": "^1.2.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "@repo/typescript-config": "workspace:*",
+    "npm-check-updates": "^22.2.0",
     "oxfmt": "^0.51.0",
     "oxlint": "^1.66.0",
     "oxlint-tsgolint": "^0.23.0",
