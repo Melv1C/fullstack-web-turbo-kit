@@ -14,9 +14,5 @@ fi
 set -e
 
 changeset version
-bun scripts/sync-bun-lock.ts
-sleep 1
-git add bun.lock
-git commit --amend --no-edit
 sleep 1
 changeset tag

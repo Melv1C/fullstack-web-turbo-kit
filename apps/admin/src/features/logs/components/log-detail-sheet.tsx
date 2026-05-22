@@ -9,7 +9,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import type { LogStep, LogWithUser } from "@repo/utils";
 import { AlertCircle, Check, Clock, Copy, Loader2, User } from "lucide-react";
 import { useState } from "react";

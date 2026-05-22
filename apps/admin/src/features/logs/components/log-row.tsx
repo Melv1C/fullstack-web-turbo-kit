@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import type { Log } from "@repo/utils";
 import { memo } from "react";
 

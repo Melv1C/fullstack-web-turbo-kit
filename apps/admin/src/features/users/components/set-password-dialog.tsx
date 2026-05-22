@@ -8,7 +8,7 @@ import {
   DialogTitle,
   Input,
   Label,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 

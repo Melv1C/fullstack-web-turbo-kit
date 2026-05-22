@@ -1,4 +1,4 @@
-import { LoginForm } from "@melv1c/ui-core";
+import { LoginForm } from "@repo/ui";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { signIn } from "@/lib/auth-client";

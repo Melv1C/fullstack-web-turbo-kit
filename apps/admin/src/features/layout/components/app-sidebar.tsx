@@ -1,4 +1,5 @@
 import {
+  Logo,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -9,8 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@melv1c/ui-core";
-import { Logo } from "@repo/ui";
+} from "@repo/ui";
 import { APP_NAME } from "@repo/utils";
 import { Link, useRouterState } from "@tanstack/react-router";
 
@@ -42,12 +42,12 @@ export function AppSidebar({ navItems, ...props }: AppSidebarProps) {
                 const isActive = currentPath === item.url;
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
-                      <Link to={item.url}>
+                    <Link to={item.url}>
+                      <SidebarMenuButton isActive={isActive} tooltip={item.title}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
+                      </SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 );
               })}

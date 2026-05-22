@@ -1,5 +1,11 @@
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-  pack: {},
+  pack: {
+    exports: {
+      customExports: {
+        "./index.css": "./index.css",
+      },
+    }
+  },
 });

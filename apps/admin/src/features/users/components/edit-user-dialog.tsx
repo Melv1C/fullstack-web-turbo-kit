@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
   Switch,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 

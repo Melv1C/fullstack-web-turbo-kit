@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@melv1c/ui-core";
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Activity,

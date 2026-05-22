@@ -31,23 +31,23 @@
     "@prisma/client": "^7.8.0",
     "@prisma/studio-core": "^0.27.3",
     "@repo/utils": "workspace:*",
-    "better-auth": "^1.6.11",
-    "hono": "^4.12.22",
+    "better-auth": "catalog:",
+    "hono": "catalog:",
     "pg": "^8.21.0",
     "socket.io": "^4.8.3",
-    "varlock": "^1.2.0",
+    "varlock": "catalog:",
     "winston": "^3.19.0",
     "winston-transport": "^4.9.0",
-    "zod": "^4.4.3"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.9.1",
+    "@types/node": "catalog:",
     "@types/pg": "^8.20.0",
     "concurrently": "^9.2.1",
     "prisma": "^7.8.0",
     "tsx": "^4.22.3",
-    "typescript": "^6.0.3",
-    "vite-plus": "^0.1.22"
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
   }
 }

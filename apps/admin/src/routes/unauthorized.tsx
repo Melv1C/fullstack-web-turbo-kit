@@ -1,4 +1,4 @@
-import { Button } from "@melv1c/ui-core";
+import { Button } from "@repo/ui";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ENV } from "varlock/env";
 
@@ -42,7 +42,7 @@ function UnauthorizedPage() {
         <Button variant="outline" onClick={handleSignOut}>
           Sign out and try another account
         </Button>
-        <Button asChild variant="secondary">
+        <Button variant="secondary">
           <a href={ENV.FRONTEND_URL}>Go to Frontend App</a>
         </Button>
       </div>

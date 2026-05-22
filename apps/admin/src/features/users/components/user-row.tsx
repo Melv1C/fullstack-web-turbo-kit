@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
   TableCell,
   TableRow,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import type { User as UserType } from "@repo/utils";
 import {
   Ban,

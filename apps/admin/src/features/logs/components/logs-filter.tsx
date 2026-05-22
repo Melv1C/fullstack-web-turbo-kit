@@ -14,7 +14,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@melv1c/ui-core";
+} from "@repo/ui";
 import type { LogLevel, LogType } from "@repo/utils";
 import { ChevronDown, Search, X } from "lucide-react";
 
