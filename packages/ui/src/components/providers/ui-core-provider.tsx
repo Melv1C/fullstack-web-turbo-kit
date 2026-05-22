@@ -3,10 +3,9 @@ import i18n from "i18next";
 import { useEffect, useState, type ReactNode } from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
+import { Toaster, TooltipProvider } from "@/components/ui";
 import * as locales from "@/locales";
 import type { SupportedLanguage } from "@/types";
-
-import { Toaster, TooltipProvider } from "@/components/ui";
 
 type I18nConfig =
   | {

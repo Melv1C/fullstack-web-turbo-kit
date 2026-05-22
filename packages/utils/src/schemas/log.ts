@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 import { BetterAuthId$, Date$ } from "./base";
 
@@ -15,8 +15,8 @@ export type Method = z.infer<typeof Method$>;
 
 export const LogStep$ = z.object({
   level: LogLevel$,
-  message: z.string(),
-  metadata: z.any().default({}),
+  message: z.string().trim(),
+  metadata: z.unknown().default({}),
   timestamp: z.number(),
 });
 export type LogStep = z.infer<typeof LogStep$>;
@@ -25,12 +25,12 @@ export const Log$ = z.object({
   id: z.int().positive(),
   type: LogType$,
   level: LogLevel$,
-  message: z.string(),
-  metadata: z.any().default({}),
+  message: z.string().trim(),
+  metadata: z.unknown().default({}),
 
   userId: BetterAuthId$.nullish(),
   method: Method$.nullish(),
-  path: z.string().nullish(),
+  path: z.string().trim().nullish(),
   statusCode: z.number().nullish(),
   durationMs: z.number().nullish(),
   steps: LogStep$.array().nullish(),
@@ -61,7 +61,7 @@ export const LogFilter$ = z.object({
       LogLevel$.array(),
     )
     .optional(),
-  search: z.string().optional(),
+  search: z.string().trim().optional(),
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
 });
@@ -69,10 +69,10 @@ export type LogFilter = z.infer<typeof LogFilter$>;
 
 export const LogUser$ = z
   .object({
-    id: z.string(),
-    name: z.string(),
-    email: z.string(),
-    image: z.string().nullish(),
+    id: z.string().trim(),
+    name: z.string().trim(),
+    email: z.string().trim(),
+    image: z.string().trim().nullish(),
   })
   .nullish();
 export type LogUser = z.infer<typeof LogUser$>;

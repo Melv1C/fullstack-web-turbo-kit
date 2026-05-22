@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 import { BetterAuthId$, Boolean$, Date$ } from "./base";
 
@@ -7,7 +7,7 @@ export type UserRole = z.infer<typeof UserRole$>;
 
 export const User$ = z.object({
   id: BetterAuthId$,
-  name: z.string(),
+  name: z.string().trim(),
   email: z.email(),
   emailVerified: Boolean$,
   image: z.url().nullish(),
@@ -15,7 +15,7 @@ export const User$ = z.object({
   updatedAt: Date$,
   role: UserRole$.default("user"),
   banned: Boolean$.nullish(),
-  banReason: z.string().nullish(),
+  banReason: z.string().trim().nullish(),
   banExpires: Date$.nullish(),
 });
 export type User = z.infer<typeof User$>;
@@ -23,11 +23,11 @@ export type User = z.infer<typeof User$>;
 export const Session$ = z.object({
   id: BetterAuthId$,
   expiresAt: Date$,
-  token: z.string(),
+  token: z.string().trim(),
   createdAt: Date$,
   updatedAt: Date$,
-  ipAddress: z.string().nullish(),
-  userAgent: z.string().nullish(),
+  ipAddress: z.string().trim().nullish(),
+  userAgent: z.string().trim().nullish(),
   userId: BetterAuthId$,
   impersonatedBy: BetterAuthId$.nullish(),
 });

@@ -1,5 +1,6 @@
-import { Button, Card, CardContent, CardHeader, CardTitle } from "./ui";
 import { Activity, CheckCircle, RefreshCw, Server, XCircle } from "lucide-react";
+
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 
 type CardHealthProps = React.ComponentProps<typeof Card> & {
   isPending: boolean;

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export const NodeEnv$ = z
   .enum(["development", "production", "staging", "test"])

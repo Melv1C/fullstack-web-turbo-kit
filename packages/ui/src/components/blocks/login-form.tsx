@@ -33,7 +33,7 @@ type LoginFormValues = {
 const createLoginFormSchema = (t: (key: string) => string) =>
   z.object({
     email: z.email(t("loginForm.errors.invalidEmail")),
-    password: z.string().min(1, t("loginForm.errors.passwordRequired")),
+    password: z.string().trim().min(1, t("loginForm.errors.passwordRequired")),
   });
 
 type LoginProvider = "google" | "github" | "apple" | "microsoft" | "facebook";

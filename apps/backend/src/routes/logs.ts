@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Log$, LogFilter$, LogWithUser$, PaginatedLogs$ } from "@repo/utils";
 import { Hono } from "hono";
-import { z } from "zod";
+import * as z from "zod";
 
 import { prisma, type Prisma } from "@/lib/prisma";
 import { isAdmin } from "@/middlewares/use-auth";

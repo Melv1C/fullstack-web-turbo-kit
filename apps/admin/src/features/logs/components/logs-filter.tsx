@@ -46,7 +46,7 @@ function MultiSelect<T extends string>({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button variant="outline" className="w-full justify-between font-normal" role="combobox">
           <span className="truncate">
             {selected.length === 0
@@ -188,7 +188,7 @@ export function LogsFilter() {
             </label>
             <Select
               value={filter.pageSize?.toString() ?? "50"}
-              onValueChange={(v) => updateFilter({ pageSize: Number.parseInt(v, 10) })}
+              onValueChange={(v) => updateFilter({ pageSize: Number.parseInt(v ?? "50", 10) })}
             >
               <SelectTrigger id="page-size">
                 <SelectValue />

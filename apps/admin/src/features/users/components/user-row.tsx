@@ -123,7 +123,7 @@ export const UserRow = memo(function UserRow({ user }: UserRowProps) {
       </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="ghost" size="icon" className="h-8 w-8">
               <MoreHorizontal className="h-4 w-4" />
               <span className="sr-only">Open menu</span>

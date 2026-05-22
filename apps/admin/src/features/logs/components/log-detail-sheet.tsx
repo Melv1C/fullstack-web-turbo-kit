@@ -220,12 +220,12 @@ function LogContent({ log }: { log: LogWithUser }) {
 
       {/* Metadata */}
       {log.metadata &&
-        typeof log.metadata === "object" &&
-        Object.keys(log.metadata as object).length > 0 && (
-          <div className="bg-card rounded-lg border p-4">
-            <MetadataDisplay metadata={log.metadata} label="Metadata" />
-          </div>
-        )}
+      typeof log.metadata === "object" &&
+      Object.keys(log.metadata as object).length > 0 ? (
+        <div className="bg-card rounded-lg border p-4">
+          <MetadataDisplay metadata={log.metadata} label="Metadata" />
+        </div>
+      ) : null}
 
       {/* Steps */}
       {log.steps && log.steps.length > 0 && (

@@ -6,6 +6,6 @@ export default defineConfig({
       customExports: {
         "./index.css": "./index.css",
       },
-    }
+    },
   },
 });

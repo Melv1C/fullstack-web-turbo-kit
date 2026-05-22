@@ -78,7 +78,7 @@ export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
         {log.path ? (
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger asChild>
+              <TooltipTrigger>
                 <span className="block max-w-50 truncate font-mono text-xs">{log.path}</span>
               </TooltipTrigger>
               <TooltipContent side="top">

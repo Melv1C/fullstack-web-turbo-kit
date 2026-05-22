@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui";
-import type { UserRole } from "@repo/utils";
+import { UserRole$ } from "@repo/utils";
 import { Plus, RotateCcw, Search } from "lucide-react";
 import { useState } from "react";
 
@@ -35,15 +35,20 @@ export function UsersFilter() {
     }
   };
 
-  const handleSearchFieldChange = (value: "email" | "name") => {
-    setFilter({ searchField: value });
+  const handleSearchFieldChange = (value: "email" | "name" | null) => {
+    if (value) {
+      setFilter({ searchField: value });
+    }
   };
 
-  const handleRoleChange = (value: "all" | UserRole) => {
-    setFilter({ role: value === "all" ? null : value });
+  const handleRoleChange = (value: string | null) => {
+    if (value) {
+      const role = value === "all" ? null : UserRole$.safeParse(value);
+      setFilter({ role: role?.success ? role.data : null });
+    }
   };
 
-  const handleStatusChange = (value: string) => {
+  const handleStatusChange = (value: string | null) => {
     if (value === "all") {
       setFilter({ banned: null });
     } else if (value === "active") {
@@ -53,16 +58,20 @@ export function UsersFilter() {
     }
   };
 
-  const handlePageSizeChange = (value: string) => {
-    setFilter({ limit: parseInt(value, 10), offset: 0 });
+  const handlePageSizeChange = (value: string | null) => {
+    if (value) {
+      setFilter({ limit: parseInt(value, 10), offset: 0 });
+    }
   };
 
-  const handleSortChange = (value: string) => {
-    const [sortBy, sortDirection] = value.split("-") as [
-      "name" | "email" | "createdAt",
-      "asc" | "desc",
-    ];
-    setFilter({ sortBy, sortDirection });
+  const handleSortChange = (value: string | null) => {
+    if (value) {
+      const [sortBy, sortDirection] = value.split("-") as [
+        "name" | "email" | "createdAt",
+        "asc" | "desc",
+      ];
+      setFilter({ sortBy, sortDirection });
+    }
   };
 
   const handleReset = () => {

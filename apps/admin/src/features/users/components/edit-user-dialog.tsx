@@ -126,7 +126,7 @@ export function EditUserDialog() {
 
           <div className="space-y-2">
             <Label htmlFor="edit-role">Role</Label>
-            <Select value={role} onValueChange={setRoleValue}>
+            <Select value={role} onValueChange={(v) => setRoleValue(v ?? "user")}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

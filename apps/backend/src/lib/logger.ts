@@ -25,6 +25,8 @@ class PostgresTransport extends Transport {
           path,
           statusCode,
           durationMs,
+          // ts-ignore because prisma doesn't support unknown type, but we know it's JSON serializable from the schema validation
+          // @ts-ignore
           steps: steps ?? undefined,
         },
       });
