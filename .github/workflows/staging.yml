@@ -3,12 +3,6 @@ name: Staging Deployment
 on:
   push:
     branches: [main]
-    paths:
-      - "apps/**"
-      - "packages/**"
-      - ".github/workflows/staging.yml"
-      - "!**/package.json"
-      - "!**/package-lock.json"
   workflow_dispatch:
 
 jobs:
