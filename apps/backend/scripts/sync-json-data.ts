@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 import "varlock/auto-load";
+
 import logs from "./data/logs.json" with { type: "json" };
 
 type PrismaDelegate = {

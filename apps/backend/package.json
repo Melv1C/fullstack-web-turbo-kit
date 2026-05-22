@@ -25,29 +25,29 @@
     "sync-json-data": "bun ./scripts/sync-json-data.ts"
   },
   "dependencies": {
-    "@hono/node-server": "^2.0.0",
-    "@hono/zod-validator": "^0.7.6",
-    "@prisma/adapter-pg": "^7.7.0",
-    "@prisma/client": "^7.7.0",
+    "@hono/node-server": "^2.0.3",
+    "@hono/zod-validator": "^0.8.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@prisma/studio-core": "^0.27.3",
     "@repo/utils": "workspace:*",
-    "better-auth": "^1.6.5",
-    "hono": "^4.12.14",
-    "pg": "^8.20.0",
+    "better-auth": "^1.6.11",
+    "hono": "^4.12.22",
+    "pg": "^8.21.0",
     "socket.io": "^4.8.3",
-    "varlock": "^0.9.0",
+    "varlock": "^1.2.0",
     "winston": "^3.19.0",
     "winston-transport": "^4.9.0",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
     "concurrently": "^9.2.1",
-    "prisma": "^7.7.0",
-    "tsx": "^4.21.0",
+    "prisma": "^7.8.0",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3",
-    "vite-plus": "^0.1.19"
+    "vite-plus": "^0.1.22"
   }
 }
