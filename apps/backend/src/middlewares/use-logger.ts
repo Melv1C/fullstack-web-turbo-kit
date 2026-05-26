@@ -1,4 +1,4 @@
-import { levelPriority, type LogLevel, type LogStep } from "@repo/utils";
+import { levelPriority, type LogLevel, type LogStep, type Method } from "@repo/utils";
 import type { Context, Next } from "hono";
 
 import { logger } from "@/lib/logger";
@@ -13,10 +13,7 @@ export const useLogger = async (c: Context, next: Next) => {
   const start = Date.now();
   c.set("logSteps", []);
 
-  logger.debug(`Incoming request: ${c.req.method} ${c.req.path}`, {
-    method: c.req.method,
-    path: c.req.path,
-  });
+  logger.info(`Incoming request: ${c.req.method} ${c.req.path}`);
 
   try {
     await next();
@@ -32,7 +29,7 @@ export const useLogger = async (c: Context, next: Next) => {
       level: overallLevel,
       message: `Request ${c.req.method} ${c.req.path} completed`,
       type: "REQUEST",
-      method: c.req.method,
+      method: c.req.method as Method,
       path: c.req.path,
       statusCode: c.res.status,
       durationMs,

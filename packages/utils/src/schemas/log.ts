@@ -21,21 +21,22 @@ export const LogStep$ = z.object({
 });
 export type LogStep = z.infer<typeof LogStep$>;
 
-export const LogData$ = z.looseObject({
+export const LogData$ = z.object({
   userId: BetterAuthId$.nullish(),
   method: Method$.nullish(),
   path: z.string().trim().nullish(),
   statusCode: z.number().nullish(),
   durationMs: z.number().nullish(),
+  metadata: z.unknown().nullish(),
   steps: LogStep$.array().nullish(),
 });
+export type LogData = z.infer<typeof LogData$>;
 
 export const Log$ = LogData$.extend({
   type: LogType$,
   id: z.coerce.number().int().positive(),
   level: LogLevel$,
   message: z.string().trim(),
-  metadata: z.unknown().nullish(),
   createdAt: Date$,
 });
 export type Log = z.infer<typeof Log$>;

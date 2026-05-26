@@ -27,10 +27,12 @@ export const prisma =
   });
 
 prisma.$on("query", (e) => {
-  logger.debug("Prisma Query", {
-    query: e.query,
-    params: e.params,
-    duration: e.duration,
+  logger.info("Prisma Query", {
+    metadata: {
+      query: e.query,
+      params: e.params,
+      duration: e.duration,
+    },
   });
 });
 

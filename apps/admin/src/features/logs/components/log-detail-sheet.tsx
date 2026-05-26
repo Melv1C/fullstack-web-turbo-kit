@@ -18,6 +18,8 @@ import { useLog } from "../hooks/use-logs";
 import { useLogsStore } from "../logs-store";
 import { levelConfig } from "../utils";
 
+const MAX_METADATA_LENGTH = 1000; // Maximum length of metadata to display before truncating
+
 function formatTimestamp(ts: number): string {
   const date = new Date(ts);
   const time = new Intl.DateTimeFormat("en-US", {
@@ -64,6 +66,10 @@ function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string
   }
 
   const metadataString = JSON.stringify(metadata, null, 2);
+  const displayString =
+    metadataString.length > MAX_METADATA_LENGTH
+      ? metadataString.slice(0, MAX_METADATA_LENGTH) + "\n\n... (Truncated, copy to view all)"
+      : metadataString;
 
   return (
     <div className="space-y-3">
@@ -75,7 +81,7 @@ function MetadataDisplay({ metadata, label }: { metadata: unknown; label: string
       </div>
       <div className="bg-muted/50 overflow-x-auto rounded-md border">
         <pre className="max-h-75 overflow-y-auto p-3 text-xs leading-relaxed whitespace-pre">
-          {metadataString}
+          {displayString}
         </pre>
       </div>
     </div>

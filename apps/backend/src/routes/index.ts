@@ -11,8 +11,6 @@ import { logsRoutes } from "./logs";
 
 export const routes = new Hono()
   .use(useAuth)
-
-  .route("/health", healthRoutes)
   .route("/logs", logsRoutes)
   .post("/studio", async (c) => {
     const { query } = await c.req.json();
@@ -26,6 +24,7 @@ export const routes = new Hono()
   .use("*", useLogger)
   //////////////////////////////////////////////////
   // Add routes with logging middleware applied here
+  .route("/health", healthRoutes)
 
   //////////////////////////////////////////////////
   // Global error handler

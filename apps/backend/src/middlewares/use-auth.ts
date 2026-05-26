@@ -19,7 +19,7 @@ export const useAuth = async (c: Context, next: Next) => {
   const user = sessionData?.user ? User$.safeParse(sessionData.user) : null;
 
   if (user && !user.success) {
-    logger.error("Invalid user data in session", { error: user.error.message });
+    logger.error("Invalid user data in session", { metadata: { error: user.error.message } });
     throw user.error;
   }
 

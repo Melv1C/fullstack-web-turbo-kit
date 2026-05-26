@@ -1,4 +1,4 @@
-import { getRoomName, Log$, LogCreate$, LogData$, type LogCreate } from "@repo/utils";
+import { getRoomName, Log$, LogCreate$, LogData$, type LogCreate, type LogData } from "@repo/utils";
 import { tryGetContext } from "hono/context-storage";
 import { ENV } from "varlock";
 import winston from "winston";
@@ -10,7 +10,7 @@ import { emitToRoom } from "./socket";
 class PostgresTransport extends Transport {
   override async log(info: LogCreate, callback: () => void) {
     setImmediate(callback);
-    const { level, message, type, ...metadata } = LogCreate$.parse(info);
+    const { level, message, type, metadata } = LogCreate$.parse(info);
 
     const context = tryGetContext();
 
@@ -19,15 +19,15 @@ class PostgresTransport extends Transport {
       context.var.logSteps.push({
         level,
         message,
-        metadata: Object.keys(metadata).length === 0 ? undefined : metadata,
+        metadata: metadata ?? undefined,
         timestamp: Date.now(),
       });
       return; // Don't persist non-REQUEST logs immediately - they'll be included in the parent REQUEST log
     }
 
     try {
-      const { userId, method, path, statusCode, durationMs, steps, ...meta } =
-        LogData$.parse(metadata);
+      const { userId, method, path, statusCode, durationMs, steps, metadata } =
+        LogData$.parse(info);
       const log = await prismaWithoutLog.log.create({
         data: {
           type,
@@ -36,7 +36,7 @@ class PostgresTransport extends Transport {
           userId: userId ?? undefined,
           // ts-ignore because prisma doesn't accept {[x: string]: unknown} even though it's JSON-serializable
           // @ts-ignore
-          metadata: meta ?? undefined,
+          metadata: metadata ?? undefined,
           method,
           path,
           statusCode,
@@ -57,7 +57,15 @@ class PostgresTransport extends Transport {
 
 const isDev = ENV.APP_ENV === "development";
 
-export const logger = winston.createLogger({
+type MyLogger = {
+  debug(message: string, meta?: LogData): void;
+  info(message: string, meta?: LogData): void;
+  warn(message: string, meta?: LogData): void;
+  error(message: string, meta?: LogData): void;
+  log(info: LogCreate): void;
+};
+
+export const logger: MyLogger = winston.createLogger({
   level: "debug",
   format: winston.format.json(),
   transports: [
