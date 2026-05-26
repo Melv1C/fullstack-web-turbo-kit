@@ -3,10 +3,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin } from "better-auth/plugins";
 import { ENV } from "varlock";
 
-import { prisma } from "@/lib/prisma";
+import { prismaWithoutLog } from "@/lib/prisma";
 
 export const auth = betterAuth({
-  database: prismaAdapter(prisma, {
+  database: prismaAdapter(prismaWithoutLog, {
     provider: "postgresql",
   }),
   secret: ENV.BETTER_AUTH_SECRET,

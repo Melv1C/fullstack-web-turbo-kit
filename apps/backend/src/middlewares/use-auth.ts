@@ -19,13 +19,7 @@ export const useAuth = async (c: Context, next: Next) => {
   const user = sessionData?.user ? User$.safeParse(sessionData.user) : null;
 
   if (user && !user.success) {
-    if (c.get("logStep")) {
-      c.get("logStep").error("Invalid user data in session", { error: user.error.message });
-    } else {
-      logger.error("Invalid user data in session but logStep is missing", {
-        metadata: { error: user.error.message },
-      });
-    }
+    logger.error("Invalid user data in session", { error: user.error.message });
     throw user.error;
   }
 
@@ -39,11 +33,7 @@ export const isAuthenticated = async (c: Context, next: Next) => {
   const user = c.get("user");
 
   if (!user) {
-    if (c.get("logStep")) {
-      c.get("logStep").error("Authentication required but no user found");
-    } else {
-      logger.error("Authentication required but no user found");
-    }
+    logger.error("Authentication required but no user found");
     return c.json({ error: "Authentication required" }, 401);
   }
 
@@ -54,25 +44,15 @@ export const isAdmin = async (c: Context, next: Next) => {
   const user = c.get("user");
 
   if (!user) {
-    if (c.get("logStep")) {
-      c.get("logStep").error("Authentication required but no user found");
-    } else {
-      logger.error("Authentication required but no user found");
-    }
+    logger.error("Authentication required but no user found");
     return c.json({ error: "Authentication required" }, 401);
   }
 
   if (user.role !== "admin") {
-    if (c.get("logStep")) {
-      c.get("logStep").error("Admin role required but user is not an admin", {
-        user,
-      });
-    } else {
-      logger.error("Admin role required but user is not an admin", {
-        userId: user?.id,
-        metadata: { user },
-      });
-    }
+    logger.error("Admin role required but user is not an admin", {
+      userId: user?.id,
+      metadata: { user },
+    });
     return c.json({ error: "Admin role required" }, 403);
   }
 

@@ -1,9 +1,10 @@
-import "varlock/auto-load";
 import type { Server as HTTPServer } from "node:http";
 
+import "varlock/auto-load";
 import { serve } from "@hono/node-server";
 import { APP_NAME } from "@repo/utils";
 import { Hono } from "hono";
+import { contextStorage } from "hono/context-storage";
 import { cors } from "hono/cors";
 import { ENV } from "varlock/env";
 
@@ -19,6 +20,7 @@ const app = new Hono()
       credentials: true,
     }),
   )
+  .use(contextStorage())
   .route("/api", routes);
 
 export type AppType = typeof app;

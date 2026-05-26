@@ -3,60 +3,20 @@ import type { Context, Next } from "hono";
 
 import { logger } from "@/lib/logger";
 
-type StepLogger = {
-  debug: (message: LogStep["message"], metadata?: LogStep["metadata"]) => void;
-  info: (message: LogStep["message"], metadata?: LogStep["metadata"]) => void;
-  warn: (message: LogStep["message"], metadata?: LogStep["metadata"]) => void;
-  error: (message: LogStep["message"], metadata?: LogStep["metadata"]) => void;
-};
-
 declare module "hono" {
   interface ContextVariableMap {
-    logStep: StepLogger;
+    logSteps: LogStep[];
   }
 }
 
 export const useLogger = async (c: Context, next: Next) => {
   const start = Date.now();
+  c.set("logSteps", []);
 
-  const steps: LogStep[] = [];
-
-  const requestLogger = {
-    debug: (message: LogStep["message"], metadata: LogStep["metadata"] = {}) => {
-      steps.push({
-        level: "debug",
-        message,
-        metadata,
-        timestamp: Date.now(),
-      });
-    },
-    info: (message: LogStep["message"], metadata: LogStep["metadata"] = {}) => {
-      steps.push({
-        level: "info",
-        message,
-        metadata,
-        timestamp: Date.now(),
-      });
-    },
-    warn: (message: LogStep["message"], metadata: LogStep["metadata"] = {}) => {
-      steps.push({
-        level: "warn",
-        message,
-        metadata,
-        timestamp: Date.now(),
-      });
-    },
-    error: (message: LogStep["message"], metadata: LogStep["metadata"] = {}) => {
-      steps.push({
-        level: "error",
-        message,
-        metadata,
-        timestamp: Date.now(),
-      });
-    },
-  };
-
-  c.set("logStep", requestLogger);
+  logger.debug(`Incoming request: ${c.req.method} ${c.req.path}`, {
+    method: c.req.method,
+    path: c.req.path,
+  });
 
   try {
     await next();
@@ -64,7 +24,7 @@ export const useLogger = async (c: Context, next: Next) => {
     const durationMs = Date.now() - start;
 
     // Compute the overall log level based on the steps
-    const overallLevel = steps.reduce<LogLevel>((highest, step) => {
+    const overallLevel = c.var.logSteps.reduce<LogLevel>((highest, step) => {
       return levelPriority[step.level] > levelPriority[highest] ? step.level : highest;
     }, "debug");
 
@@ -77,7 +37,7 @@ export const useLogger = async (c: Context, next: Next) => {
       statusCode: c.res.status,
       durationMs,
       userId: c.get("user")?.id,
-      steps,
+      steps: c.var.logSteps,
     });
   }
 };

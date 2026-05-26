@@ -3,7 +3,8 @@ import { Log$, LogFilter$, LogWithUser$, PaginatedLogs$ } from "@repo/utils";
 import { Hono } from "hono";
 import * as z from "zod";
 
-import { prisma, type Prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
+import { prismaWithoutLog, type Prisma } from "@/lib/prisma";
 import { isAdmin } from "@/middlewares/use-auth";
 
 export const logsRoutes = new Hono()
@@ -35,13 +36,13 @@ export const logsRoutes = new Hono()
     }
 
     const [logs, total] = await Promise.all([
-      prisma.log.findMany({
+      prismaWithoutLog.log.findMany({
         where,
         orderBy: { createdAt: "desc" },
         skip: (filter.page - 1) * filter.pageSize,
         take: filter.pageSize,
       }),
-      prisma.log.count({ where }),
+      prismaWithoutLog.log.count({ where }),
     ]);
 
     const result = PaginatedLogs$.parse({
@@ -58,15 +59,16 @@ export const logsRoutes = new Hono()
   })
   .get("/:id", isAdmin, zValidator("param", z.object({ id: Log$.shape.id })), async (c) => {
     const { id } = c.req.valid("param");
-    const log = await prisma.log.findUnique({ where: { id } });
+    const log = await prismaWithoutLog.log.findUnique({ where: { id } });
     if (!log) {
+      logger.warn(`Log with id ${id} not found`); // Log a warning if the log is not found
       return c.json({ error: "Log not found" }, 404);
     }
 
     // Fetch user if userId exists
     let user = null;
     if (log.userId) {
-      user = await prisma.user.findUnique({
+      user = await prismaWithoutLog.user.findUnique({
         where: { id: log.userId },
         select: { id: true, name: true, email: true, image: true },
       });

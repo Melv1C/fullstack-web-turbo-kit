@@ -30,12 +30,8 @@ export const routes = new Hono()
   //////////////////////////////////////////////////
   // Global error handler
   .onError((err, c) => {
-    if (c.get("logStep")) {
-      c.get("logStep").error("Unhandled error occurred in route", { error: err.message });
-    } else {
-      logger.error("Unhandled error occurred", {
-        metadata: { error: err.message, stack: err.stack, ctx: err.cause, name: err.name },
-      });
-    }
+    logger.error("Unhandled error occurred", {
+      metadata: { error: err.message, stack: err.stack, ctx: err.cause, name: err.name },
+    });
     return c.json({ message: "Internal Server Error" }, 500);
   });
