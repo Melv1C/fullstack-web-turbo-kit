@@ -16,7 +16,7 @@ RUN bun install --frozen-lockfile
 # ---
 FROM base AS builder
 # Copy dependencies (including dev deps for Prisma)
-COPY --from=dev-deps /app/node_modules ./node_modules
+COPY --from=dev-deps /app/ ./
 # Copy source files
 COPY --from=prepare /app/out/full/ .
 # Ensure shared env schema is available for varlock imports
