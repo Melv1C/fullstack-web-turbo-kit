@@ -22,6 +22,7 @@
     "hono": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "shadcn": "^4.8.0",
     "tailwindcss": "catalog:",
     "tw-animate-css": "catalog:",
     "varlock": "catalog:",

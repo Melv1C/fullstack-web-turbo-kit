@@ -24,6 +24,7 @@
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "shadcn": "^4.8.0",
     "socket.io-client": "catalog:",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
