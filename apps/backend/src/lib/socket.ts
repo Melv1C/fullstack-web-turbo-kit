@@ -60,19 +60,11 @@ const socketRoomPolicies = {
 } satisfies Record<SocketRoom, { role: UserRole }>;
 
 function canAccessRoom(socket: Socket, room: string): room is SocketRoom {
-  if (!Object.hasOwn(socketRoomPolicies, room)) {
-    logger.warn(`Unknown socket room requested: ${room}`, {
-      path: "socket.io/roomAccess",
-      userId: socket.data.user?.id,
-      metadata: {
-        socket: getSocketInfo(socket),
-        room,
-      },
-    });
+  if (!isKnownRoom(socket, room)) {
     return false;
   }
 
-  const policy = socketRoomPolicies[room as SocketRoom];
+  const policy = socketRoomPolicies[room];
   if (socket.data.user?.role !== policy.role) {
     logger.warn(`Unauthorized socket room access attempt: ${room}`, {
       path: "socket.io/roomAccess",
@@ -81,6 +73,22 @@ function canAccessRoom(socket: Socket, room: string): room is SocketRoom {
         socket: getSocketInfo(socket),
         room,
         requiredRole: policy.role,
+      },
+    });
+    return false;
+  }
+
+  return true;
+}
+
+function isKnownRoom(socket: Socket, room: string): room is SocketRoom {
+  if (!Object.hasOwn(socketRoomPolicies, room)) {
+    logger.warn(`Unknown socket room requested: ${room}`, {
+      path: "socket.io/roomAccess",
+      userId: socket.data.user?.id,
+      metadata: {
+        socket: getSocketInfo(socket),
+        room,
       },
     });
     return false;
@@ -145,7 +153,7 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
 
     // Handle leave room requests
     socket.on("leaveRoom", (room) => {
-      if (!canAccessRoom(socket, room)) return;
+      if (!isKnownRoom(socket, room)) return;
 
       socket.leave(room);
       logger.debug(`Socket left room: ${room}`, {
