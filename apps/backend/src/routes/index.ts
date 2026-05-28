@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
-import { useAuth } from "@/middlewares/use-auth";
+import { isAdmin, useAuth } from "@/middlewares/use-auth";
 import { useLogger } from "@/middlewares/use-logger";
 
 import { logCleanupRoutes } from "./cron";
@@ -13,7 +13,7 @@ import { logsRoutes } from "./logs";
 export const routes = new Hono()
   .use(useAuth)
   .route("/logs", logsRoutes)
-  .post("/studio", async (c) => {
+  .post("/studio", isAdmin, async (c) => {
     const { query } = await c.req.json();
     const results = await prisma.$queryRawUnsafe(query.sql, ...query.parameters);
     return c.json([null, results]);
