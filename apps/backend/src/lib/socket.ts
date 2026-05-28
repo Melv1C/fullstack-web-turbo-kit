@@ -1,11 +1,14 @@
 import type { Server as HTTPServer } from "node:http";
 
 import {
+  getRoomName,
   User$,
   type ClientToServerEvents,
   type InterServerEvents,
   type ServerToClientEvents,
+  type SocketRoom,
   type SocketData,
+  type UserRole,
 } from "@repo/utils";
 import { Server, Socket } from "socket.io";
 import { ENV } from "varlock/env";
@@ -52,6 +55,40 @@ const getSocketInfo = (socket: Socket) => ({
   origin: socket.handshake.headers.origin,
 });
 
+const socketRoomPolicies = {
+  [getRoomName.logs]: { role: "admin" },
+} satisfies Record<SocketRoom, { role: UserRole }>;
+
+function canAccessRoom(socket: Socket, room: string): room is SocketRoom {
+  if (!Object.hasOwn(socketRoomPolicies, room)) {
+    logger.warn(`Unknown socket room requested: ${room}`, {
+      path: "socket.io/roomAccess",
+      userId: socket.data.user?.id,
+      metadata: {
+        socket: getSocketInfo(socket),
+        room,
+      },
+    });
+    return false;
+  }
+
+  const policy = socketRoomPolicies[room as SocketRoom];
+  if (socket.data.user?.role !== policy.role) {
+    logger.warn(`Unauthorized socket room access attempt: ${room}`, {
+      path: "socket.io/roomAccess",
+      userId: socket.data.user?.id,
+      metadata: {
+        socket: getSocketInfo(socket),
+        room,
+        requiredRole: policy.role,
+      },
+    });
+    return false;
+  }
+
+  return true;
+}
+
 // Type-safe Socket.IO server
 export type TypedServer = Server<
   ClientToServerEvents,
@@ -92,19 +129,8 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
     socket.emit("connected", { message: "Connected to server" });
 
     // Handle join room requests
-    socket.on("joinRoom", (room: string) => {
-      // Verify admin only for admin rooms
-      if (room.startsWith("admin_") && socket.data.user?.role !== "admin") {
-        logger.warn(`Unauthorized join room attempt: ${room}`, {
-          path: "socket.io/joinRoom",
-          userId: socket.data.user?.id,
-          metadata: {
-            socket: getSocketInfo(socket),
-            room,
-          },
-        });
-        return;
-      }
+    socket.on("joinRoom", (room) => {
+      if (!canAccessRoom(socket, room)) return;
 
       socket.join(room);
       logger.debug(`Socket joined room: ${room}`, {
@@ -118,7 +144,9 @@ export function initializeSocketIO(httpServer: HTTPServer): TypedServer {
     });
 
     // Handle leave room requests
-    socket.on("leaveRoom", (room: string) => {
+    socket.on("leaveRoom", (room) => {
+      if (!canAccessRoom(socket, room)) return;
+
       socket.leave(room);
       logger.debug(`Socket left room: ${room}`, {
         path: "socket.io/leaveRoom",

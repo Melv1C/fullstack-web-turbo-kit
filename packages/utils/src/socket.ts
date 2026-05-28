@@ -16,8 +16,8 @@ export interface ServerToClientEvents {
  * Events emitted from clients to the server
  */
 export interface ClientToServerEvents {
-  joinRoom: (room: string) => void;
-  leaveRoom: (room: string) => void;
+  joinRoom: (room: SocketRoom) => void;
+  leaveRoom: (room: SocketRoom) => void;
 }
 
 /**
@@ -35,4 +35,6 @@ export interface SocketData {
 
 export const getRoomName = {
   logs: "admin_logs",
-};
+} as const;
+
+export type SocketRoom = (typeof getRoomName)[keyof typeof getRoomName];
