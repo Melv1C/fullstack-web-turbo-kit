@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { useAuth } from "@/middlewares/use-auth";
 import { useLogger } from "@/middlewares/use-logger";
 
+import { logCleanupRoutes } from "./cron";
 import { healthRoutes } from "./health";
 import { logsRoutes } from "./logs";
 
@@ -25,6 +26,7 @@ export const routes = new Hono()
   //////////////////////////////////////////////////
   // Add routes with logging middleware applied here
   .route("/health", healthRoutes)
+  .route("/cron/log-cleanup", logCleanupRoutes)
 
   //////////////////////////////////////////////////
   // Global error handler
