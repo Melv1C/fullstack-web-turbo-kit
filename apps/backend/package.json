@@ -13,7 +13,7 @@
   "scripts": {
     "add-admin": "bun ./scripts/add-admin.ts",
     "build": "vp pack",
-    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"tsx watch src/index.ts\"",
+    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"bun --watch src/index.ts\"",
     "env:generate": "varlock typegen",
     "env:validate": "varlock load",
     "prisma:format": "APP_ENV=development prisma format",
@@ -25,7 +25,7 @@
     "sync-json-data": "bun ./scripts/sync-json-data.ts"
   },
   "dependencies": {
-    "@hono/node-server": "^2.0.3",
+    "@hono/node-server": "^2.0.4",
     "@hono/zod-validator": "^0.8.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
@@ -44,9 +44,8 @@
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/pg": "^8.20.0",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.0",
     "prisma": "^7.8.0",
-    "tsx": "^4.22.3",
     "typescript": "catalog:",
     "vite-plus": "catalog:"
   }
