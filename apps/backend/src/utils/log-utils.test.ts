@@ -12,6 +12,7 @@ vi.mock("@/lib/prisma", () => ({
 
 describe("log utils", () => {
   beforeEach(() => {
+    deleteMany.mockReset();
     deleteMany.mockResolvedValue({ count: 7 });
   });
 
@@ -19,6 +20,7 @@ describe("log utils", () => {
     const { cleanOldLogs } = await import("./log-utils");
 
     await expect(cleanOldLogs()).resolves.toBe(7);
+    expect(deleteMany).toHaveBeenCalledTimes(1);
     const cutoff = deleteMany.mock.calls[0]?.[0].where.createdAt.lt;
 
     expect(cutoff).toBeInstanceOf(Date);
@@ -28,9 +30,11 @@ describe("log utils", () => {
   it("uses a custom retention window", async () => {
     const { cleanOldLogs } = await import("./log-utils");
 
-    await cleanOldLogs(10);
+    const result = await cleanOldLogs(10);
+    expect(deleteMany).toHaveBeenCalledTimes(1);
     const cutoff = deleteMany.mock.calls[0]?.[0].where.createdAt.lt;
 
+    expect(result).toBe(7);
     expect(cutoff).toBeInstanceOf(Date);
     expect(cutoff.getTime()).toBeLessThanOrEqual(Date.now() - 10 * 24 * 60 * 60 * 1000);
   });
