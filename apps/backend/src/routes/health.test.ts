@@ -29,4 +29,18 @@ describe("health routes", () => {
     expect(response.status).toBe(200);
     expect(loggerInfo).toHaveBeenCalledWith("Health check requested");
   });
+
+  it("reports database disconnection when the query fails", async () => {
+    queryRaw.mockRejectedValueOnce(new Error("database unavailable"));
+    const { healthRoutes } = await import("./health");
+
+    const response = await healthRoutes.request("/");
+
+    await expect(response.json()).resolves.toEqual({
+      status: "error",
+      database: "disconnected",
+    });
+    expect(response.status).toBe(503);
+    expect(loggerInfo).toHaveBeenCalledWith("Health check requested");
+  });
 });
