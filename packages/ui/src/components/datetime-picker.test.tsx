@@ -69,7 +69,7 @@ describe("DateTimePicker", () => {
     expect(clearButton).not.toBeNull();
 
     act(() => {
-      clearButton?.click();
+      clearButton!.click();
     });
 
     expect(onChange).toHaveBeenCalledWith(undefined);
