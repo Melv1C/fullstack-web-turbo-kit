@@ -14,7 +14,7 @@
   "scripts": {
     "build": "vp pack",
     "dev": "vp pack --watch --no-clean",
-    "test": "vp test run"
+    "test": "vp test"
   },
   "dependencies": {
     "zod": "catalog:"

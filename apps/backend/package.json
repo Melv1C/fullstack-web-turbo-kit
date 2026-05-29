@@ -23,7 +23,7 @@
     "prisma:validate": "APP_ENV=development prisma validate",
     "start": "npm run prisma:migrate:deploy && bun src/index.ts",
     "sync-json-data": "bun ./scripts/sync-json-data.ts",
-    "test": "vp test run"
+    "test": "vp test"
   },
   "dependencies": {
     "@hono/node-server": "^2.0.4",
