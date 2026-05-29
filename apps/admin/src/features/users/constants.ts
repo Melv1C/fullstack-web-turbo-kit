@@ -1,6 +1,6 @@
-import type { UserRole } from "@repo/utils";
+import { UserRole$, type UserRole } from "@repo/utils";
 
-export const ROLES: UserRole[] = ["admin", "user"];
+export const ROLES: UserRole[] = UserRole$.options;
 
 export const PAGE_SIZES = [10, 25, 50] as const;
 

@@ -137,12 +137,20 @@ function DateTimePicker({
         </Label>
       )}
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger>
-          <Button
-            variant="outline"
-            id="datetime-picker"
-            className={cn("w-full justify-start font-normal", !date && "text-muted-foreground")}
-            disabled={disabled}
+        <div className="relative">
+          <PopoverTrigger
+            render={
+              <Button
+                variant="outline"
+                id="datetime-picker"
+                className={cn(
+                  "w-full justify-start font-normal",
+                  showClear && date && "pr-9",
+                  !date && "text-muted-foreground",
+                )}
+                disabled={disabled}
+              />
+            }
           >
             <CalendarIcon className="mr-2 size-4" />
             {date
@@ -150,20 +158,22 @@ function DateTimePicker({
                 ? formatDateTime(date)
                 : defaultFormatDateTime(date)
               : placeholder}
-            {showClear && date && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClear();
-                }}
-                className="hover:bg-accent -mr-1 ml-auto rounded-sm p-1"
-              >
-                <XIcon className="size-3.5" />
-              </button>
-            )}
-          </Button>
-        </PopoverTrigger>
+          </PopoverTrigger>
+          {showClear && date && (
+            <button
+              type="button"
+              aria-label="Clear selected date and time"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClear();
+              }}
+              className="hover:bg-accent absolute top-1/2 right-2 -translate-y-1/2 rounded-sm p-1"
+              disabled={disabled}
+            >
+              <XIcon className="size-3.5" />
+            </button>
+          )}
+        </div>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"

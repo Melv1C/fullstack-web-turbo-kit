@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "vp pack",
-    "dev": "vp pack --watch --no-clean"
+    "dev": "vp pack --watch --no-clean",
+    "test": "vp test"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -42,6 +43,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "happy-dom": "^20.0.11",
     "typescript": "catalog:",
     "vite-plus": "catalog:"
   },
