@@ -49,8 +49,12 @@ jobs:
         run: bun run env:validate --filter=frontend --filter=admin
         env:
           APP_ENV: production
+
       - name: Build all packages
         run: bun run build
 
       - name: Linting
         run: bun run lint
+
+      - name: Run tests
+        run: bun run test
