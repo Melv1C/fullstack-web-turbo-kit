@@ -96,6 +96,48 @@ describe("logs routes", () => {
     });
   });
 
+  it("returns an empty paginated result set", async () => {
+    findMany.mockResolvedValue([]);
+    count.mockResolvedValue(0);
+    const app = await createApp();
+
+    const response = await app.request("/?page=1&pageSize=25");
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({
+      data: [],
+      pagination: { page: 1, pageSize: 25, total: 0, totalPages: 0 },
+    });
+    expect(findMany).toHaveBeenCalledWith({
+      where: {},
+      orderBy: { createdAt: "desc" },
+      skip: 0,
+      take: 25,
+    });
+    expect(count).toHaveBeenCalledWith({ where: {} });
+  });
+
+  it("calculates first-page boundary pagination", async () => {
+    findMany.mockResolvedValue([log]);
+    count.mockResolvedValue(101);
+    const app = await createApp();
+
+    const response = await app.request("/?page=1&pageSize=50");
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      data: [{ id: 1, message: "Started" }],
+      pagination: { page: 1, pageSize: 50, total: 101, totalPages: 3 },
+    });
+    expect(findMany).toHaveBeenCalledWith({
+      where: {},
+      orderBy: { createdAt: "desc" },
+      skip: 0,
+      take: 50,
+    });
+    expect(count).toHaveBeenCalledWith({ where: {} });
+  });
+
   it("returns a log with its user when present", async () => {
     findUniqueLog.mockResolvedValue({ ...log, userId: "A".repeat(32) });
     findUniqueUser.mockResolvedValue({
@@ -112,6 +154,24 @@ describe("logs routes", () => {
     await expect(response.json()).resolves.toMatchObject({
       id: 1,
       user: { name: "Jane", email: "jane@example.com" },
+    });
+  });
+
+  it("returns null for orphaned user references", async () => {
+    findUniqueLog.mockResolvedValue({ ...log, userId: "B".repeat(32) });
+    findUniqueUser.mockResolvedValue(null);
+    const app = await createApp();
+
+    const response = await app.request("/1");
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      id: 1,
+      user: null,
+    });
+    expect(findUniqueUser).toHaveBeenCalledWith({
+      where: { id: "B".repeat(32) },
+      select: { id: true, name: true, email: true, image: true },
     });
   });
 
