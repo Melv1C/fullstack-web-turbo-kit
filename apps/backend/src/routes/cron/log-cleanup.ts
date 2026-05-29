@@ -2,14 +2,14 @@ import { Hono } from "hono";
 import * as z from "zod";
 
 import { logger } from "@/lib/logger";
-import { isAdmin } from "@/middlewares/use-auth";
+import { isCronOrAdmin } from "@/middlewares/use-cron";
 import { cleanOldLogs } from "@/utils/log-utils";
 
 const logCleanupRequestSchema$ = z.object({
   daysToKeep: z.coerce.number().int().nonnegative().default(30),
 });
 
-export const logCleanupRoutes = new Hono().post("/", isAdmin, async (c) => {
+export const logCleanupRoutes = new Hono().post("/", isCronOrAdmin, async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const result = logCleanupRequestSchema$.safeParse(body);
 
