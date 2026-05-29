@@ -5,8 +5,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DateTimePicker } from "./datetime-picker";
 
-globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-
 let container: HTMLDivElement;
 let root: Root;
 
