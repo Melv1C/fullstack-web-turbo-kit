@@ -146,7 +146,7 @@ Configure GitHub secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `DOKPLOY_DOMA
 
 Web apps are built with `APP_ENV=production`. The backend image does not pass `APP_ENV` at build time; set runtime env in Dokploy (database, secrets, URLs).
 
-Production releases typically use [Changesets](https://github.com/changesets/changesets): `bun run release:prepare`, then `bun run release:version` and `bun run release:push` (see [CONTRIBUTING.md](./CONTRIBUTING.md)).
+Production releases typically use [Changesets](https://github.com/changesets/changesets): `bun run release:prepare`, then `bun run release:version` and `bun run release:push`.
 
 Configure GitHub secrets: same Docker Hub and Dokploy keys, plus `DOKPLOY_PROD_{ADMIN,BACKEND,FRONTEND}_APP_ID`.
 
