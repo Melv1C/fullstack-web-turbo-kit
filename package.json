@@ -32,8 +32,7 @@
     "release:prepare": "changeset",
     "release:push": "./scripts/release-push.sh",
     "release:version": "./scripts/release-version.sh",
-    "test": "turbo run test",
-    "test:watch": "turbo run test:watch --parallel"
+    "test": "turbo run test"
   },
   "dependencies": {
     "varlock": "^1.3.0"

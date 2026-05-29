@@ -1,4 +1,4 @@
-import type { LogLevel, LogType } from "@repo/utils";
+import { LogLevel$, LogType$, type LogLevel, type LogType } from "@repo/utils";
 import { AlertCircle, AlertTriangle, Bug, Info } from "lucide-react";
 
 export const levelConfig: Record<
@@ -20,8 +20,8 @@ export const typeColors: Record<LogType, string> = {
   APP: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
 };
 
-export const LOG_LEVELS: LogLevel[] = ["debug", "info", "warn", "error"];
-export const LOG_TYPES: LogType[] = ["REQUEST", "APP"];
+export const LOG_LEVELS: LogLevel[] = LogLevel$.options;
+export const LOG_TYPES: LogType[] = LogType$.options;
 export const PAGE_SIZES = [25, 50, 100] as const;
 
 export function formatDate(date: Date): string {
