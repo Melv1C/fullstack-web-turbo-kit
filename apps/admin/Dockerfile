@@ -1,5 +1,7 @@
 FROM oven/bun:1 AS base
 WORKDIR /app
+# Bun/Vite+ need a system CA bundle in Docker so the workspace build can initialize HTTPS clients.
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # ---
 FROM base AS prepare
