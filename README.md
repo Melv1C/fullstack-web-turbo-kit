@@ -46,12 +46,12 @@ flowchart LR
   SIO --> AUTH
 ```
 
-| Connection | Protocol | Purpose |
-|------------|----------|---------|
-| frontend / admin → backend | HTTP (`/api/*`) | REST API, health checks |
-| frontend / admin → backend | HTTP (Better Auth) | Sign-in, sessions, cookies |
-| admin → backend | WebSocket (Socket.IO) | Real-time admin rooms (e.g. logs) |
-| backend → PostgreSQL | Prisma | Persistence |
+| Connection                 | Protocol              | Purpose                           |
+| -------------------------- | --------------------- | --------------------------------- |
+| frontend / admin → backend | HTTP (`/api/*`)       | REST API, health checks           |
+| frontend / admin → backend | HTTP (Better Auth)    | Sign-in, sessions, cookies        |
+| admin → backend            | WebSocket (Socket.IO) | Real-time admin rooms (e.g. logs) |
+| backend → PostgreSQL       | Prisma                | Persistence                       |
 
 In development, apps run separately via Turbo (`bun run dev`). The backend listens on `BACKEND_PORT` (default `3000`); frontend and admin use Vite dev servers. Socket.IO shares the backend HTTP server and allows CORS from `FRONTEND_URL` and `ADMIN_URL`.
 
@@ -97,23 +97,22 @@ bun run dev
 
 Default URLs in development:
 
-| App | URL |
-|-----|-----|
-| Backend | http://localhost:3000 |
+| App      | URL                   |
+| -------- | --------------------- |
+| Backend  | http://localhost:3000 |
 | Frontend | http://localhost:5173 |
-| Admin | http://localhost:5174 |
+| Admin    | http://localhost:5174 |
 
 ## Environment variables
 
 Configuration is managed with [Varlock](https://varlock.dev/). Schemas are the source of truth; run `bun run env:generate` after changing them to refresh TypeScript types.
 
-| File | Scope |
-|------|--------|
-| [.env.shared](./.env.shared) | Ports, `APP_ENV`, and public URLs (`BACKEND_URL`, `FRONTEND_URL`, `ADMIN_URL`) |
-| [apps/backend/.env.schema](./apps/backend/.env.schema) | `DATABASE_URL`, `BETTER_AUTH_SECRET` |
-| [apps/frontend/.env.schema](./apps/frontend/.env.schema) | Imports shared schema only |
-| [apps/admin/.env.schema](./apps/admin/.env.schema) | Imports shared schema only |
-
+| File                                                     | Scope                                                                          |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [.env.shared](./.env.shared)                             | Ports, `APP_ENV`, and public URLs (`BACKEND_URL`, `FRONTEND_URL`, `ADMIN_URL`) |
+| [apps/backend/.env.schema](./apps/backend/.env.schema)   | `DATABASE_URL`, `BETTER_AUTH_SECRET`                                           |
+| [apps/frontend/.env.schema](./apps/frontend/.env.schema) | Imports shared schema only                                                     |
+| [apps/admin/.env.schema](./apps/admin/.env.schema)       | Imports shared schema only                                                     |
 
 ## First admin user
 
@@ -133,16 +132,16 @@ Deployments use GitHub Actions, Docker Hub, and [Dokploy](https://dokploy.com/).
 
 ### Staging
 
-| Trigger | What happens |
-|---------|----------------|
+| Trigger                                      | What happens                                                                                                                            |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | Push to `main` (or manual workflow dispatch) | CI → build `admin`, `backend`, `frontend` with `APP_ENV=staging` → push `*:staging` and `*:<sha>` tags → Dokploy staging deploy per app |
 
 Configure GitHub secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `DOKPLOY_DOMAIN`, `DOKPLOY_API_KEY`, and `DOKPLOY_STAGING_{ADMIN,BACKEND,FRONTEND}_APP_ID`.
 
 ### Production
 
-| Trigger | What happens |
-|---------|----------------|
+| Trigger                                         | What happens                                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Git tag `admin@*`, `backend@*`, or `frontend@*` | Build single app image → push `:latest` and `:<version>` → Dokploy production deploy |
 
 Web apps are built with `APP_ENV=production`. The backend image does not pass `APP_ENV` at build time; set runtime env in Dokploy (database, secrets, URLs).
