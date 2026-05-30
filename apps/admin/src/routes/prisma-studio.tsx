@@ -15,9 +15,9 @@ function PrismaStudioPage() {
   const adapter = useMemo(() => {
     const executor = createStudioBFFClient({
       url: `${ENV.BACKEND_URL}/api/studio`,
-      // fetch: (input, init) => {
-      //   return fetch(input, { ...init, credentials: 'include' });
-      // },
+      fetch: (input, init) => {
+        return fetch(input, { ...init, credentials: "include" });
+      },
     });
 
     return createPostgresAdapter({ executor });
