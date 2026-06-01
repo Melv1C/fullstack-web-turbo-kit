@@ -147,14 +147,20 @@ function CronDetailPage() {
                 <Terminal className="h-4 w-4" />
                 Curl command
               </CardTitle>
-              <CardDescription>Uses the current request body and a secret placeholder</CardDescription>
+              <CardDescription>
+                Uses the current request body and a secret placeholder
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <pre className="bg-muted max-h-80 overflow-auto rounded-md p-3 font-mono text-xs whitespace-pre-wrap">
                 {curlCommand}
               </pre>
               <Button variant="outline" onClick={handleCopy}>
-                {copied ? <Check className="mr-2 h-4 w-4" /> : <Clipboard className="mr-2 h-4 w-4" />}
+                {copied ? (
+                  <Check className="mr-2 h-4 w-4" />
+                ) : (
+                  <Clipboard className="mr-2 h-4 w-4" />
+                )}
                 Copy
               </Button>
             </CardContent>
