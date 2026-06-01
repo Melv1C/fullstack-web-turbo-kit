@@ -11,10 +11,11 @@ import {
   Textarea,
 } from "@repo/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Check, Clipboard, Play, Terminal } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { useCopyToClipboard } from "usehooks-ts";
 import { ENV } from "varlock/env";
 
 import { CronLogsTable, getCronById } from "@/features/cron";
@@ -29,6 +30,7 @@ function CronDetailPage() {
   const queryClient = useQueryClient();
   const [body, setBody] = useState(cron.defaultBody);
   const [copied, setCopied] = useState(false);
+  const [, copy] = useCopyToClipboard();
   const [responseText, setResponseText] = useState<string | null>(null);
 
   const endpoint = `${ENV.BACKEND_URL}${cron.path}`;
@@ -80,10 +82,18 @@ function CronDetailPage() {
   });
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(curlCommand);
-    setCopied(true);
-    toast.success("Curl command copied");
-    window.setTimeout(() => setCopied(false), 1500);
+    try {
+      const ok = await copy(curlCommand);
+      if (ok) {
+        setCopied(true);
+        toast.success("Curl command copied");
+        window.setTimeout(() => setCopied(false), 1500);
+      } else {
+        toast.error("Failed to copy");
+      }
+    } catch {
+      toast.error("Failed to copy");
+    }
   };
 
   return (
