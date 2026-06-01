@@ -64,6 +64,7 @@ export const LogFilter$ = z.object({
     )
     .optional(),
   search: z.string().trim().optional(),
+  path: z.string().trim().optional(),
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
 });

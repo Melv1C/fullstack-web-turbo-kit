@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from "@repo/ui";
 import { Outlet, useRouterState } from "@tanstack/react-router";
-import { Database, FileText, LayoutDashboard, Users } from "lucide-react";
+import { Clock3, Database, FileText, LayoutDashboard, Users } from "lucide-react";
 
 import type { NavItem } from "../type";
 import { AppSidebar } from "./app-sidebar";
@@ -31,6 +31,11 @@ const navItems: NavItem[] = [
     icon: FileText,
   },
   {
+    url: "/cron",
+    title: "Cron",
+    icon: Clock3,
+  },
+  {
     url: "/prisma-studio",
     title: "Prisma Studio",
     icon: Database,
@@ -40,7 +45,9 @@ const navItems: NavItem[] = [
 export function AdminLayout() {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
-  const currentPage = navItems.find((item) => item.url === currentPath);
+  const currentPage = navItems.find((item) =>
+    item.url === "/" ? currentPath === "/" : currentPath.startsWith(item.url),
+  );
 
   if (!currentPage) {
     throw new Error(`No nav item found for path: ${currentPath}`);

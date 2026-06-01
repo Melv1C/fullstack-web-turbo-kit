@@ -14,7 +14,9 @@ import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as PrismaStudioRouteImport } from './routes/prisma-studio'
 import { Route as LogsRouteImport } from './routes/logs'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CronRouteImport } from './routes/cron'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CronCronIdRouteImport } from './routes/cron.$cronId'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -41,60 +43,89 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CronRoute = CronRouteImport.update({
+  id: '/cron',
+  path: '/cron',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CronCronIdRoute = CronCronIdRouteImport.update({
+  id: '/$cronId',
+  path: '/$cronId',
+  getParentRoute: () => CronRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
   '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
   '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
   '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cron'
     | '/login'
     | '/logs'
     | '/prisma-studio'
     | '/unauthorized'
     | '/users'
+    | '/cron/$cronId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/logs' | '/prisma-studio' | '/unauthorized' | '/users'
+  to:
+    | '/'
+    | '/cron'
+    | '/login'
+    | '/logs'
+    | '/prisma-studio'
+    | '/unauthorized'
+    | '/users'
+    | '/cron/$cronId'
   id:
     | '__root__'
     | '/'
+    | '/cron'
     | '/login'
     | '/logs'
     | '/prisma-studio'
     | '/unauthorized'
     | '/users'
+    | '/cron/$cronId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CronRoute: typeof CronRouteWithChildren
   LoginRoute: typeof LoginRoute
   LogsRoute: typeof LogsRoute
   PrismaStudioRoute: typeof PrismaStudioRoute
@@ -139,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cron': {
+      id: '/cron'
+      path: '/cron'
+      fullPath: '/cron'
+      preLoaderRoute: typeof CronRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -146,11 +184,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cron/$cronId': {
+      id: '/cron/$cronId'
+      path: '/$cronId'
+      fullPath: '/cron/$cronId'
+      preLoaderRoute: typeof CronCronIdRouteImport
+      parentRoute: typeof CronRoute
+    }
   }
 }
 
+interface CronRouteChildren {
+  CronCronIdRoute: typeof CronCronIdRoute
+}
+
+const CronRouteChildren: CronRouteChildren = {
+  CronCronIdRoute: CronCronIdRoute,
+}
+
+const CronRouteWithChildren = CronRoute._addFileChildren(CronRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CronRoute: CronRouteWithChildren,
   LoginRoute: LoginRoute,
   LogsRoute: LogsRoute,
   PrismaStudioRoute: PrismaStudioRoute,

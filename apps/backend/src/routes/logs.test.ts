@@ -69,7 +69,7 @@ describe("logs routes", () => {
     const app = await createApp();
 
     const response = await app.request(
-      "/?page=2&pageSize=25&levels=warn,error&types=REQUEST&search=timeout&startDate=2026-05-01T00:00:00.000Z&endDate=2026-05-29T00:00:00.000Z",
+      "/?page=2&pageSize=25&levels=warn,error&types=REQUEST&path=/api/cron/log-cleanup&search=timeout&startDate=2026-05-01T00:00:00.000Z&endDate=2026-05-29T00:00:00.000Z",
     );
 
     expect(response.status).toBe(200);
@@ -81,6 +81,7 @@ describe("logs routes", () => {
       where: {
         type: { in: ["REQUEST"] },
         level: { in: ["warn", "error"] },
+        path: "/api/cron/log-cleanup",
         createdAt: {
           gte: new Date("2026-05-01T00:00:00.000Z"),
           lte: new Date("2026-05-29T00:00:00.000Z"),
