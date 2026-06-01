@@ -25,6 +25,7 @@ describe("log schemas", () => {
       levels: "warn,error",
       types: "REQUEST,APP",
       search: "  timeout  ",
+      path: "  /api/cron/log-cleanup  ",
       startDate: "2026-05-01T00:00:00.000Z",
     });
 
@@ -34,6 +35,7 @@ describe("log schemas", () => {
       levels: ["warn", "error"],
       types: ["REQUEST", "APP"],
       search: "timeout",
+      path: "/api/cron/log-cleanup",
     });
     expect(filter.startDate).toEqual(new Date("2026-05-01T00:00:00.000Z"));
   });

@@ -21,6 +21,10 @@ export const logsRoutes = new Hono()
       where.level = { in: filter.levels };
     }
 
+    if (filter.path) {
+      where.path = filter.path;
+    }
+
     if (filter.startDate || filter.endDate) {
       where.createdAt = {};
       if (filter.startDate) where.createdAt.gte = filter.startDate;

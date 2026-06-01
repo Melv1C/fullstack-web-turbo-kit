@@ -31,6 +31,7 @@
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
     "tw-animate-css": "catalog:",
+    "usehooks-ts": "^3.1.1",
     "varlock": "catalog:",
     "zod": "catalog:",
     "zustand": "catalog:"

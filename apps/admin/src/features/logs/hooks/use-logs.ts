@@ -26,6 +26,7 @@ export function useLogs(filter: Partial<LogFilter> = {}) {
       // Check if the new log matches the current filter
       if (filter.types && !filter.types.includes(parsedLog.type)) return;
       if (filter.levels && !filter.levels.includes(parsedLog.level)) return;
+      if (filter.path && parsedLog.path !== filter.path) return;
       if (filter.startDate && parsedLog.createdAt < filter.startDate) return;
       if (filter.endDate && parsedLog.createdAt > filter.endDate) return;
       if (filter.search) {
@@ -64,6 +65,7 @@ export function useLogs(filter: Partial<LogFilter> = {}) {
           types: filter.types?.join(","),
           levels: filter.levels?.join(","),
           search: filter.search,
+          path: filter.path,
           startDate: filter.startDate?.toISOString(),
           endDate: filter.endDate?.toISOString(),
         },

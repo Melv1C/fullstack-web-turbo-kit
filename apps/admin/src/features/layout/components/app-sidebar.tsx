@@ -39,7 +39,8 @@ export function AppSidebar({ navItems, ...props }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => {
-                const isActive = currentPath === item.url;
+                const isActive =
+                  item.url === "/" ? currentPath === "/" : currentPath.startsWith(item.url);
                 return (
                   <SidebarMenuItem key={item.title}>
                     <Link to={item.url}>
