@@ -23,6 +23,11 @@ import { ROLES } from "../constants";
 import { useSetUserRole, useUpdateUser, useUsers } from "../use-users";
 import { useUsersStore } from "../users-store";
 
+const roleItems = ROLES.map((role) => ({
+  label: role.charAt(0).toUpperCase() + role.slice(1),
+  value: role,
+}));
+
 export function EditUserDialog() {
   const isOpen = useUsersStore((state) => state.editDialogOpen);
   const closeDialog = useUsersStore((state) => state.closeEditDialog);
@@ -126,14 +131,14 @@ export function EditUserDialog() {
 
           <div className="space-y-2">
             <Label htmlFor="edit-role">Role</Label>
-            <Select value={role} onValueChange={(v) => setRoleValue(v ?? "user")}>
+            <Select value={role} onValueChange={(v) => setRoleValue(v ?? "user")} items={roleItems}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {ROLES.map((r) => (
-                  <SelectItem key={r} value={r} className="capitalize">
-                    {r}
+                {roleItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
                   </SelectItem>
                 ))}
               </SelectContent>

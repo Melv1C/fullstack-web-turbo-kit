@@ -22,6 +22,11 @@ import { ROLES } from "../constants";
 import { useCreateUser } from "../use-users";
 import { useUsersStore } from "../users-store";
 
+const roleItems = ROLES.map((role) => ({
+  label: role.charAt(0).toUpperCase() + role.slice(1),
+  value: role,
+}));
+
 export function CreateUserDialog() {
   const isOpen = useUsersStore((state) => state.createDialogOpen);
   const closeDialog = useUsersStore((state) => state.closeCreateDialog);
@@ -103,14 +108,18 @@ export function CreateUserDialog() {
 
           <div className="space-y-2">
             <Label htmlFor="role">Role</Label>
-            <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
+            <Select
+              value={role}
+              onValueChange={(value) => setRole(value as UserRole)}
+              items={roleItems}
+            >
               <SelectTrigger>
-                <SelectValue className="capitalize" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {ROLES.map((r) => (
-                  <SelectItem key={r} value={r} className="capitalize">
-                    {r}
+                {roleItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
                   </SelectItem>
                 ))}
               </SelectContent>

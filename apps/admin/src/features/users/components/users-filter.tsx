@@ -17,6 +17,44 @@ import { useState } from "react";
 import { PAGE_SIZES, ROLES } from "../constants";
 import { useUsersStore } from "../users-store";
 
+type SelectItemConfig = {
+  label: string;
+  value: string;
+};
+
+const searchFieldItems: SelectItemConfig[] = [
+  { label: "Email", value: "email" },
+  { label: "Name", value: "name" },
+];
+
+const roleItems: SelectItemConfig[] = [
+  { label: "All roles", value: "all" },
+  ...ROLES.map((role) => ({
+    label: role.charAt(0).toUpperCase() + role.slice(1),
+    value: role,
+  })),
+];
+
+const statusItems: SelectItemConfig[] = [
+  { label: "All status", value: "all" },
+  { label: "Active", value: "active" },
+  { label: "Banned", value: "banned" },
+];
+
+const sortItems: SelectItemConfig[] = [
+  { label: "Newest first", value: "createdAt-desc" },
+  { label: "Oldest first", value: "createdAt-asc" },
+  { label: "Name A-Z", value: "name-asc" },
+  { label: "Name Z-A", value: "name-desc" },
+  { label: "Email A-Z", value: "email-asc" },
+  { label: "Email Z-A", value: "email-desc" },
+];
+
+const pageSizeItems: SelectItemConfig[] = PAGE_SIZES.map((size) => ({
+  label: `${size} per page`,
+  value: size.toString(),
+}));
+
 export function UsersFilter() {
   const filter = useUsersStore((state) => state.filter);
   const setFilter = useUsersStore((state) => state.setFilter);
@@ -89,13 +127,20 @@ export function UsersFilter() {
           {/* Top row: Search and Create button */}
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex flex-1 gap-2">
-              <Select value={filter.searchField} onValueChange={handleSearchFieldChange}>
+              <Select
+                value={filter.searchField}
+                onValueChange={handleSearchFieldChange}
+                items={searchFieldItems}
+              >
                 <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="email">Email</SelectItem>
-                  <SelectItem value="name">Name</SelectItem>
+                  {searchFieldItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <div className="relative flex-1">
@@ -122,15 +167,18 @@ export function UsersFilter() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5">
             <div className="space-y-1.5">
               <Label className="text-xs">Role</Label>
-              <Select value={filter.role ?? "all"} onValueChange={handleRoleChange}>
+              <Select
+                value={filter.role ?? "all"}
+                onValueChange={handleRoleChange}
+                items={roleItems}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="All roles" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All roles</SelectItem>
-                  {ROLES.map((role) => (
-                    <SelectItem key={role} value={role} className="capitalize">
-                      {role}
+                  {roleItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -139,45 +187,50 @@ export function UsersFilter() {
 
             <div className="space-y-1.5">
               <Label className="text-xs">Status</Label>
-              <Select value={currentStatus} onValueChange={handleStatusChange}>
+              <Select value={currentStatus} onValueChange={handleStatusChange} items={statusItems}>
                 <SelectTrigger>
                   <SelectValue placeholder="All status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All status</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="banned">Banned</SelectItem>
+                  {statusItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-1.5">
               <Label className="text-xs">Sort by</Label>
-              <Select value={currentSort} onValueChange={handleSortChange}>
+              <Select value={currentSort} onValueChange={handleSortChange} items={sortItems}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="createdAt-desc">Newest first</SelectItem>
-                  <SelectItem value="createdAt-asc">Oldest first</SelectItem>
-                  <SelectItem value="name-asc">Name A-Z</SelectItem>
-                  <SelectItem value="name-desc">Name Z-A</SelectItem>
-                  <SelectItem value="email-asc">Email A-Z</SelectItem>
-                  <SelectItem value="email-desc">Email Z-A</SelectItem>
+                  {sortItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-1.5">
               <Label className="text-xs">Per page</Label>
-              <Select value={filter.limit.toString()} onValueChange={handlePageSizeChange}>
+              <Select
+                value={filter.limit.toString()}
+                onValueChange={handlePageSizeChange}
+                items={pageSizeItems}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {PAGE_SIZES.map((size) => (
-                    <SelectItem key={size} value={size.toString()}>
-                      {size} per page
+                  {pageSizeItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

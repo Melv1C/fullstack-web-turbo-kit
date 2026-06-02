@@ -21,6 +21,11 @@ import { ChevronDown, Search, X } from "lucide-react";
 import { useLogsStore } from "../logs-store";
 import { LOG_LEVELS, LOG_TYPES, PAGE_SIZES } from "../utils";
 
+const pageSizeItems = PAGE_SIZES.map((size) => ({
+  label: String(size),
+  value: size.toString(),
+}));
+
 interface MultiSelectProps<T extends string> {
   options: T[];
   selected: T[];
@@ -189,14 +194,15 @@ export function LogsFilter() {
             <Select
               value={filter.pageSize?.toString() ?? "50"}
               onValueChange={(v) => updateFilter({ pageSize: Number.parseInt(v ?? "50", 10) })}
+              items={pageSizeItems}
             >
               <SelectTrigger id="page-size">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {PAGE_SIZES.map((size) => (
-                  <SelectItem key={size} value={size.toString()}>
-                    {size}
+                {pageSizeItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
                   </SelectItem>
                 ))}
               </SelectContent>

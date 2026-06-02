@@ -86,7 +86,11 @@ export function BanUserDialog() {
 
           <div className="space-y-2">
             <Label htmlFor="ban-duration">Duration</Label>
-            <Select value={duration} onValueChange={(v) => setDuration(v ?? "permanent")}>
+            <Select
+              value={duration}
+              onValueChange={(v) => setDuration(v ?? "permanent")}
+              items={BAN_DURATIONS}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
