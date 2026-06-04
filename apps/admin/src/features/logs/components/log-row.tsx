@@ -20,7 +20,8 @@ interface LogRowProps {
 export const LogRow = memo(function LogRow({ log, onSelect }: LogRowProps) {
   const LevelIcon = levelConfig[log.level].icon;
   const levelVariant = levelConfig[log.level].variant;
-  const hasDetails = Boolean(log.steps?.length || log.metadata);
+  const hasDetails =
+    Boolean(log.steps?.length || log.metadata) || log.type === "REQUEST";
 
   const handleClick = () => {
     if (hasDetails) {
