@@ -31,7 +31,7 @@ ARG APP_ENV=production
 
 # Build the frontend
 RUN bun run prisma:generate
-RUN bun run build:${APP_ENV} --filter=frontend
+RUN APP_ENV=${APP_ENV} bun run build --filter=frontend
 
 # ---
 FROM nginx:alpine AS runner

@@ -10,9 +10,6 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
-    "build:local": "turbo run build:local",
-    "build:production": "turbo run build:production",
-    "build:staging": "turbo run build:staging",
     "check": "vp check",
     "deps": "ncu",
     "dev": "turbo run dev --ui=tui",
