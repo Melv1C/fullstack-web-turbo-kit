@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+
 import { ENV } from "@/helpers/env";
 
 test("frontend home shows backend health", async ({ page }) => {

@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+
 import { ENV } from "@/helpers/env";
 
 import { adminTest } from "../fixtures/admin-test";
@@ -6,9 +7,24 @@ import { breadcrumb, sidebarLink } from "../helpers/locators";
 
 const pages = [
   { link: "Dashboard", path: /\/$/, content: "Quick Actions", useBreadcrumb: false },
-  { link: "Users", path: /\/users$/, content: "Manage your application users", useBreadcrumb: true },
-  { link: "Logs", path: /\/logs$/, content: "Click on a row to view full details", useBreadcrumb: true },
-  { link: "Cron", path: /\/cron$/, content: "Select a cron to inspect and trigger it", useBreadcrumb: true },
+  {
+    link: "Users",
+    path: /\/users$/,
+    content: "Manage your application users",
+    useBreadcrumb: true,
+  },
+  {
+    link: "Logs",
+    path: /\/logs$/,
+    content: "Click on a row to view full details",
+    useBreadcrumb: true,
+  },
+  {
+    link: "Cron",
+    path: /\/cron$/,
+    content: "Select a cron to inspect and trigger it",
+    useBreadcrumb: true,
+  },
   { link: "Prisma Studio", path: /\/prisma-studio$/, content: "", useBreadcrumb: true },
 ] as const;
 

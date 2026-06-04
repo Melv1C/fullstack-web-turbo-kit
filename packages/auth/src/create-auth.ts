@@ -24,10 +24,7 @@ export function createAuth(options: CreateAuthOptions) {
       enabled: true,
     },
     trustedOrigins: options.trustedOrigins,
-    plugins: [
-      ...basePlugins,
-      ...(options.hasTestUtils ? [testUtils()] : []),
-    ],
+    plugins: [...basePlugins, ...(options.hasTestUtils ? [testUtils()] : [])],
   });
 }
 

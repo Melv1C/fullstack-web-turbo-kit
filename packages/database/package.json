@@ -12,8 +12,8 @@
     }
   },
   "scripts": {
-    "env:validate": "varlock load",
     "build": "prisma generate && vp pack",
+    "env:validate": "varlock load",
     "prisma:format": "prisma format",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "varlock run -- prisma migrate dev",
