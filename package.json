@@ -15,6 +15,7 @@
     "dev": "turbo run dev --ui=tui",
     "docker:db": "docker compose -f docker-compose.db.yml up -d",
     "docker:db:down": "docker compose -f docker-compose.db.yml down",
+    "e2e": "bun run --filter e2e e2e",
     "env:generate": "turbo run env:generate",
     "env:validate": "turbo run env:validate",
     "format": "vp fmt",

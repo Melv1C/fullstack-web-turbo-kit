@@ -13,5 +13,14 @@
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
+  },
+  "playwright.env": {
+    "APP_ENV": "test",
+    "BACKEND_URL": "http://localhost:3000",
+    "FRONTEND_URL": "http://localhost:5173",
+    "ADMIN_URL": "http://localhost:5174",
+    "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/postgres",
+    "BETTER_AUTH_SECRET": "your_secret_key_here_of_at_least_32_characters",
+    "CRON_SECRET": "dev_cron_secret_at_least_32_characters"
   }
 }
