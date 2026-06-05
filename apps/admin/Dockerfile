@@ -31,7 +31,7 @@ ARG APP_ENV=production
 
 # Build the admin app
 RUN bun run prisma:generate
-RUN bun run build:${APP_ENV} --filter=admin
+RUN APP_ENV=${APP_ENV} bun run build --filter=admin
 
 # ---
 FROM nginx:alpine AS runner

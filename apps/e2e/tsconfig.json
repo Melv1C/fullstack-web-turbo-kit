@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./tests/*"]
+    }
+  },
+  "include": ["tests", "playwright.config.ts"]
+}

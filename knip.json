@@ -3,8 +3,14 @@
     "apps/backend": {
       "entry": "scripts/**/*.ts",
       "project": ["src/**/*.ts", "scripts/**/*.ts"],
-      "ignoreDependencies": ["@prisma/studio-core"],
-      "prisma": { "config": [] }
+      "ignoreDependencies": ["@prisma/studio-core"]
+    },
+    "packages/database": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"],
+      "prisma": {
+        "config": ["prisma.config.ts"]
+      }
     }
   }
 }

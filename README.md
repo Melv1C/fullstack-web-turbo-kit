@@ -12,6 +12,8 @@ A production-ready [Turborepo](https://turbo.build/repo) monorepo starter with f
 
 ### Packages
 
+- **@repo/database** — Prisma schema, migrations, and `createPrismaClient` factory
+- **@repo/auth** — Better Auth `createAuth` factory (shared by backend and e2e)
 - **@repo/utils** — Shared utility functions, Zod schemas, and Socket.IO types
 - **@repo/typescript-config** — TypeScript configurations
 - **@repo/ui** — Shared UI components and design system
