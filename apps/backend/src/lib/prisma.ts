@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import type { DefaultArgs } from "@prisma/client/runtime/client";
-import { ENV } from "varlock";
+import { ENV } from "varlock/env";
 
 import { logger } from "@/lib/logger";
 

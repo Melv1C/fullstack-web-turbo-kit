@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin } from "better-auth/plugins";
-import { ENV } from "varlock";
+import { ENV } from "varlock/env";
 
 import { prismaWithoutLog } from "@/lib/prisma";
 

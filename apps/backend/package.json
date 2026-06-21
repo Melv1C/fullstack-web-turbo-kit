@@ -4,16 +4,13 @@
   "type": "module",
   "types": "./dist/index.d.mts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "add-admin": "bun ./scripts/add-admin.ts",
     "build": "vp pack",
-    "dev": "APP_ENV=development concurrently \"vp pack --watch\" \"bun --watch src/index.ts\"",
+    "dev": "concurrently \"vp pack --watch\" \"bun --watch src/index.ts\"",
     "env:generate": "varlock typegen",
     "env:validate": "varlock load",
     "prisma:format": "APP_ENV=development prisma format",

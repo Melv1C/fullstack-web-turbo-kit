@@ -1,6 +1,6 @@
 import { getRoomName, Log$, LogCreate$, LogData$, type LogCreate, type LogData } from "@repo/utils";
 import { tryGetContext } from "hono/context-storage";
-import { ENV } from "varlock";
+import { ENV } from "varlock/env";
 import winston from "winston";
 import Transport from "winston-transport";
 

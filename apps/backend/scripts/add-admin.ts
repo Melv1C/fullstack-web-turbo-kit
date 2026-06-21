@@ -1,8 +1,8 @@
-import "varlock/auto-load";
 import { UserRole$ } from "@repo/utils";
+import "varlock/auto-load";
 
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { prismaWithoutLog } from "@/lib/prisma";
 
 interface AdminParams {
   name: string;
@@ -32,7 +32,7 @@ function parseArgs(): AdminParams {
 async function addAdmin({ name, email, password }: AdminParams): Promise<void> {
   console.log("🔐 Adding admin user...");
 
-  const existingAdmin = await prisma.user.findUnique({
+  const existingAdmin = await prismaWithoutLog.user.findUnique({
     where: { email },
   });
 
@@ -50,7 +50,7 @@ async function addAdmin({ name, email, password }: AdminParams): Promise<void> {
       throw new Error("Sign up succeeded but user object was not returned");
     }
 
-    await prisma.user.update({
+    await prismaWithoutLog.user.update({
       where: { id: result.user.id },
       data: {
         role: UserRole$.enum.admin,
@@ -76,5 +76,5 @@ addAdmin(params)
     process.exit(1);
   })
   .finally(() => {
-    prisma.$disconnect();
+    prismaWithoutLog.$disconnect();
   });
