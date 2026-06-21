@@ -1,5 +1,6 @@
-import { E2E_URLS } from "@/constants";
 import { defineConfig, devices } from "@playwright/test";
+
+import { E2E_URLS } from "@/constants";
 
 /**
  * Read environment variables from file.

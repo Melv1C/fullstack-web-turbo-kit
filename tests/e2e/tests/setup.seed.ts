@@ -1,13 +1,14 @@
+import { execFileSync } from "node:child_process";
+import { mkdirSync } from "node:fs";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import {
   expect,
   request as playwrightRequest,
   test,
   type APIRequestContext,
 } from "@playwright/test";
-import { execFileSync } from "node:child_process";
-import { mkdirSync } from "node:fs";
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { E2E_AUTH_FILES, E2E_URLS, E2E_USERS } from "./constants";
 
@@ -43,7 +44,9 @@ async function authenticate(email: string, password: string, authFile: string) {
     });
 
     if (!response.ok()) {
-      throw new Error(`Failed to authenticate ${email}: ${response.status()} ${await response.text()}`);
+      throw new Error(
+        `Failed to authenticate ${email}: ${response.status()} ${await response.text()}`,
+      );
     }
 
     await context.storageState({ path: authFile });
