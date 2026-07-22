@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.4",
+    "@hono/prometheus": "^1.0.3",
     "@hono/zod-validator": "^0.8.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
@@ -32,6 +33,7 @@
     "better-auth": "catalog:",
     "hono": "catalog:",
     "pg": "^8.21.0",
+    "prom-client": "^15.1.3",
     "socket.io": "^4.8.3",
     "varlock": "catalog:",
     "winston": "^3.19.0",

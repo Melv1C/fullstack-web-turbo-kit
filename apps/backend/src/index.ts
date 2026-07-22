@@ -1,17 +1,20 @@
 import type { Server as HTTPServer } from "node:http";
 
-import "varlock/auto-load";
 import { serve } from "@hono/node-server";
+import { prometheus } from "@hono/prometheus";
 import { APP_NAME } from "@repo/utils";
 import { Hono } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { cors } from "hono/cors";
+import "varlock/auto-load";
 import { ENV } from "varlock/env";
 
 import { initializeSocketIO } from "@/lib/socket";
 import { routes } from "@/routes";
 
 import pkg from "../package.json" with { type: "json" };
+
+const { printMetrics, registerMetrics } = prometheus();
 
 const app = new Hono()
   .use(
@@ -21,6 +24,8 @@ const app = new Hono()
     }),
   )
   .use(contextStorage())
+  .use("*", registerMetrics)
+  .get("/metrics", printMetrics)
   .route("/api", routes);
 
 export type AppType = typeof app;
