@@ -12,11 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as PrismaStudioRouteImport } from './routes/prisma-studio'
-import { Route as LogsRouteImport } from './routes/logs'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as CronRouteImport } from './routes/cron'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CronCronIdRouteImport } from './routes/cron.$cronId'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -33,19 +30,9 @@ const PrismaStudioRoute = PrismaStudioRouteImport.update({
   path: '/prisma-studio',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LogsRoute = LogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CronRoute = CronRouteImport.update({
-  id: '/cron',
-  path: '/cron',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -53,81 +40,46 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CronCronIdRoute = CronCronIdRouteImport.update({
-  id: '/$cronId',
-  path: '/$cronId',
-  getParentRoute: () => CronRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
-  '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
-  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
-  '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
-  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/cron': typeof CronRouteWithChildren
   '/login': typeof LoginRoute
-  '/logs': typeof LogsRoute
   '/prisma-studio': typeof PrismaStudioRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
-  '/cron/$cronId': typeof CronCronIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/cron'
-    | '/login'
-    | '/logs'
-    | '/prisma-studio'
-    | '/unauthorized'
-    | '/users'
-    | '/cron/$cronId'
+  fullPaths: '/' | '/login' | '/prisma-studio' | '/unauthorized' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/cron'
-    | '/login'
-    | '/logs'
-    | '/prisma-studio'
-    | '/unauthorized'
-    | '/users'
-    | '/cron/$cronId'
+  to: '/' | '/login' | '/prisma-studio' | '/unauthorized' | '/users'
   id:
     | '__root__'
     | '/'
-    | '/cron'
     | '/login'
-    | '/logs'
     | '/prisma-studio'
     | '/unauthorized'
     | '/users'
-    | '/cron/$cronId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CronRoute: typeof CronRouteWithChildren
   LoginRoute: typeof LoginRoute
-  LogsRoute: typeof LogsRoute
   PrismaStudioRoute: typeof PrismaStudioRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   UsersRoute: typeof UsersRoute
@@ -156,25 +108,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrismaStudioRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/logs': {
-      id: '/logs'
-      path: '/logs'
-      fullPath: '/logs'
-      preLoaderRoute: typeof LogsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cron': {
-      id: '/cron'
-      path: '/cron'
-      fullPath: '/cron'
-      preLoaderRoute: typeof CronRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -184,31 +122,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cron/$cronId': {
-      id: '/cron/$cronId'
-      path: '/$cronId'
-      fullPath: '/cron/$cronId'
-      preLoaderRoute: typeof CronCronIdRouteImport
-      parentRoute: typeof CronRoute
-    }
   }
 }
 
-interface CronRouteChildren {
-  CronCronIdRoute: typeof CronCronIdRoute
-}
-
-const CronRouteChildren: CronRouteChildren = {
-  CronCronIdRoute: CronCronIdRoute,
-}
-
-const CronRouteWithChildren = CronRoute._addFileChildren(CronRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CronRoute: CronRouteWithChildren,
   LoginRoute: LoginRoute,
-  LogsRoute: LogsRoute,
   PrismaStudioRoute: PrismaStudioRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   UsersRoute: UsersRoute,

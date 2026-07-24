@@ -99,18 +99,6 @@ function Index() {
               </div>
             </a>
             <a
-              href="/logs"
-              className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
-            >
-              <div className="bg-primary/10 rounded-lg p-2">
-                <Activity className="text-primary h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-medium">View Logs</h3>
-                <p className="text-muted-foreground text-sm">Monitor application logs and errors</p>
-              </div>
-            </a>
-            <a
               href="/prisma-studio"
               className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border p-4 transition-colors"
             >

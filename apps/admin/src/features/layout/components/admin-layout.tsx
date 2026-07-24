@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from "@repo/ui";
 import { Outlet, useRouterState } from "@tanstack/react-router";
-import { Clock3, Database, FileText, LayoutDashboard, Users } from "lucide-react";
+import { Database, LayoutDashboard, Users } from "lucide-react";
 
 import type { NavItem } from "../type";
 import { AppSidebar } from "./app-sidebar";
@@ -24,16 +24,6 @@ const navItems: NavItem[] = [
     url: "/users",
     title: "Users",
     icon: Users,
-  },
-  {
-    url: "/logs",
-    title: "Logs",
-    icon: FileText,
-  },
-  {
-    url: "/cron",
-    title: "Cron",
-    icon: Clock3,
   },
   {
     url: "/prisma-studio",
