@@ -1,4 +1,4 @@
-import type { Log, User } from "./schemas";
+import type { User } from "./schemas";
 
 // ============================================
 // Socket Event Types
@@ -9,7 +9,6 @@ import type { Log, User } from "./schemas";
  */
 export interface ServerToClientEvents {
   connected: (data: { message: string }) => void;
-  "log:created": (log: Log) => void;
 }
 
 /**
@@ -33,8 +32,9 @@ export interface SocketData {
   user: User | null;
 }
 
+/** Named rooms available for socket subscriptions. Add entries as features need them. */
 export const getRoomName = {
-  logs: "admin_logs",
+  // e.g. logs: "admin_logs",
 } as const;
 
-export type SocketRoom = (typeof getRoomName)[keyof typeof getRoomName];
+export type SocketRoom = string;

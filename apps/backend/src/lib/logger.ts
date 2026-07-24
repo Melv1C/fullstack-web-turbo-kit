@@ -1,57 +1,35 @@
-import { getRoomName, Log$, LogCreate$, LogData$, type LogCreate, type LogData } from "@repo/utils";
+import { type LogData, type LogLevel } from "@repo/utils";
 import { tryGetContext } from "hono/context-storage";
 import { ENV } from "varlock/env";
 import winston from "winston";
-import Transport from "winston-transport";
+import LokiTransport from "winston-loki";
 
-import { prismaWithoutLog } from "./prisma";
-import { emitToRoom } from "./socket";
+import rootPackageJson from "../../../../package.json" with { type: "json" };
+import packageJson from "../../package.json" with { type: "json" };
 
-class PostgresTransport extends Transport {
-  override async log(info: LogCreate, callback: () => void) {
-    setImmediate(callback);
-    const { level, message, type, metadata } = LogCreate$.parse(info);
+const appLabel = `${rootPackageJson.name}-${packageJson.name}`;
 
-    const context = tryGetContext();
+class LokiStringMeta extends LokiTransport {
+  override log(info: Record<string, unknown>, next: () => void) {
+    const logContext = tryGetContext()?.var.logContext;
 
-    if (context && context.var.logSteps && type !== "REQUEST") {
-      // If we have a context, we can get the request-specific log steps
-      context.var.logSteps.push({
-        level,
-        message,
-        metadata: metadata ?? undefined,
-        timestamp: Date.now(),
-      });
-      return; // Don't persist non-REQUEST logs immediately - they'll be included in the parent REQUEST log
+    for (const [key, value] of Object.entries({ ...logContext, ...info })) {
+      if (key === "message" || key === "level") continue;
+
+      if (typeof value === "string" || value == null) {
+        info[key] = value;
+        continue;
+      }
+
+      info[key] = typeof value === "object" ? JSON.stringify(value) : String(value);
     }
 
-    try {
-      const { userId, method, path, statusCode, durationMs, steps, metadata } =
-        LogData$.parse(info);
-      const log = await prismaWithoutLog.log.create({
-        data: {
-          type,
-          level,
-          message,
-          userId: userId ?? undefined,
-          // ts-ignore because prisma doesn't accept {[x: string]: unknown} even though it's JSON-serializable
-          // @ts-ignore
-          metadata: metadata ?? undefined,
-          method,
-          path,
-          statusCode,
-          durationMs,
-          // ts-ignore because prisma doesn't support unknown type, but we know it's JSON serializable from the schema validation
-          // @ts-ignore
-          steps: steps ?? undefined,
-        },
-      });
-      // Emit the new log to all subscribed clients
-      emitToRoom(getRoomName.logs, "log:created", Log$.parse(log));
-    } catch (err) {
-      // NEVER throw from logger - errors degrade gracefully
-      console.error("Failed to persist log", err);
+    if (typeof super.log !== "function") {
+      next();
+      return;
     }
+
+    return super.log(info, next);
   }
 }
 
@@ -62,19 +40,40 @@ type MyLogger = {
   info(message: string, meta?: LogData): void;
   warn(message: string, meta?: LogData): void;
   error(message: string, meta?: LogData): void;
-  log(info: LogCreate): void;
+  log({ level, message, ...meta }: { level: LogLevel; message: string } & LogData): void;
 };
 
 export const logger: MyLogger = winston.createLogger({
   level: "debug",
   format: winston.format.json(),
+  defaultMeta: {
+    app: appLabel,
+    environment: ENV.APP_ENV,
+    version: packageJson.version,
+  },
   transports: [
-    new winston.transports.Console({
-      level: isDev ? "debug" : "warn",
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    }),
-    new PostgresTransport({
-      level: isDev ? "debug" : "info", // In production, persist info and above to reduce noise
-    }),
+    ...(isDev || !ENV.LOKI_HOST
+      ? [
+          new winston.transports.Console({
+            level: isDev ? "debug" : "warn",
+            format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+          }),
+        ]
+      : []),
+    ...(ENV.LOKI_HOST
+      ? [
+          new LokiStringMeta({
+            host: ENV.LOKI_HOST,
+            json: true,
+            labels: {
+              app: appLabel,
+              environment: ENV.APP_ENV,
+              version: packageJson.version,
+            },
+            // Keep request fields in the JSON line — not as Loki labels
+            useWinstonMetaAsLabels: true,
+          }),
+        ]
+      : []),
   ],
 });

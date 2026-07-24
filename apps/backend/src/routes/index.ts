@@ -4,15 +4,12 @@ import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { isAdmin, useAuth } from "@/middlewares/use-auth";
-import { useLogger } from "@/middlewares/use-logger";
+import { useLoggerContext } from "@/middlewares/use-logger-context";
 
-import { logCleanupRoutes } from "./cron";
 import { healthRoutes } from "./health";
-import { logsRoutes } from "./logs";
 
 export const routes = new Hono()
   .use(useAuth)
-  .route("/logs", logsRoutes)
   .post("/studio", isAdmin, async (c) => {
     const { query } = await c.req.json();
     const results = await prisma.$queryRawUnsafe(query.sql, ...query.parameters);
@@ -22,11 +19,10 @@ export const routes = new Hono()
   //////////////////////////////////////////////////
   // Add routes without logging middleware here
   //////////////////////////////////////////////////
-  .use("*", useLogger)
+  .use("*", useLoggerContext)
   //////////////////////////////////////////////////
   // Add routes with logging middleware applied here
   .route("/health", healthRoutes)
-  .route("/cron/log-cleanup", logCleanupRoutes)
 
   //////////////////////////////////////////////////
   // Global error handler

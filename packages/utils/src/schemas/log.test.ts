@@ -1,48 +1,43 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { LogCreate$, LogFilter$, levelPriority } from "./log";
+import { LogContext$, LogData$, LogLevel$, Method$ } from "./log";
 
 describe("log schemas", () => {
-  it("applies defaults and trims log creation input", () => {
-    const log = LogCreate$.parse({
-      level: "info",
-      message: "  User logged in  ",
-      metadata: { ip: "127.0.0.1" },
+  it("accepts any HTTP method string", () => {
+    expect(Method$.parse("PATCH")).toBe("PATCH");
+    expect(Method$.parse("  HEAD  ")).toBe("HEAD");
+  });
+
+  it("parses log context and trims path", () => {
+    const context = LogContext$.parse({
+      requestId: "req_123",
+      method: "GET",
+      path: "  /api/health  ",
+      userId: null,
     });
 
-    expect(log).toEqual({
-      type: "APP",
-      level: "info",
-      message: "User logged in",
-      metadata: { ip: "127.0.0.1" },
+    expect(context).toEqual({
+      requestId: "req_123",
+      method: "GET",
+      path: "/api/health",
+      userId: null,
     });
   });
 
-  it("coerces pagination values and comma-separated filters", () => {
-    const filter = LogFilter$.parse({
-      page: "2",
-      pageSize: "25",
-      levels: "warn,error",
-      types: "REQUEST,APP",
-      search: "  timeout  ",
-      path: "  /api/cron/log-cleanup  ",
-      startDate: "2026-05-01T00:00:00.000Z",
+  it("parses log data with optional metadata and status", () => {
+    const data = LogData$.parse({
+      requestId: "req_123",
+      method: "POST",
+      path: "/api/users",
+      statusCode: 201,
+      metadata: { source: "test" },
     });
 
-    expect(filter).toMatchObject({
-      page: 2,
-      pageSize: 25,
-      levels: ["warn", "error"],
-      types: ["REQUEST", "APP"],
-      search: "timeout",
-      path: "/api/cron/log-cleanup",
-    });
-    expect(filter.startDate).toEqual(new Date("2026-05-01T00:00:00.000Z"));
+    expect(data.statusCode).toBe(201);
+    expect(data.metadata).toEqual({ source: "test" });
   });
 
-  it("keeps log level priority ordered from least to most severe", () => {
-    expect(levelPriority.debug).toBeLessThan(levelPriority.info);
-    expect(levelPriority.info).toBeLessThan(levelPriority.warn);
-    expect(levelPriority.warn).toBeLessThan(levelPriority.error);
+  it("keeps known log levels", () => {
+    expect(LogLevel$.options).toEqual(["debug", "info", "warn", "error"]);
   });
 });

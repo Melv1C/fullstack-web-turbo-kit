@@ -1,7 +1,6 @@
 import type { Server as HTTPServer } from "node:http";
 
 import {
-  getRoomName,
   User$,
   type ClientToServerEvents,
   type InterServerEvents,
@@ -55,9 +54,9 @@ const getSocketInfo = (socket: Socket) => ({
   origin: socket.handshake.headers.origin,
 });
 
-const socketRoomPolicies = {
-  [getRoomName.logs]: { role: "admin" },
-} satisfies Record<SocketRoom, { role: UserRole }>;
+const socketRoomPolicies: Record<string, { role: UserRole }> = {
+  // Add room policies here when getRoomName entries are added
+};
 
 function canAccessRoom(socket: Socket, room: string): room is SocketRoom {
   if (!isKnownRoom(socket, room)) {
@@ -65,14 +64,14 @@ function canAccessRoom(socket: Socket, room: string): room is SocketRoom {
   }
 
   const policy = socketRoomPolicies[room];
-  if (socket.data.user?.role !== policy.role) {
+  if (!policy || socket.data.user?.role !== policy.role) {
     logger.warn(`Unauthorized socket room access attempt: ${room}`, {
       path: "socket.io/roomAccess",
       userId: socket.data.user?.id,
       metadata: {
         socket: getSocketInfo(socket),
         room,
-        requiredRole: policy.role,
+        requiredRole: policy?.role,
       },
     });
     return false;

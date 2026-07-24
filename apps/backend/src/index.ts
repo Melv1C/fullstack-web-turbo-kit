@@ -2,17 +2,15 @@ import type { Server as HTTPServer } from "node:http";
 
 import { serve } from "@hono/node-server";
 import { prometheus } from "@hono/prometheus";
-import { APP_NAME } from "@repo/utils";
 import { Hono } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { cors } from "hono/cors";
 import "varlock/auto-load";
 import { ENV } from "varlock/env";
 
+import { logger } from "@/lib/logger";
 import { initializeSocketIO } from "@/lib/socket";
 import { routes } from "@/routes";
-
-import pkg from "../package.json" with { type: "json" };
 
 const { printMetrics, registerMetrics } = prometheus();
 
@@ -36,9 +34,7 @@ const httpServer = serve(
     port: ENV.BACKEND_PORT,
   },
   (info) => {
-    console.log(`🚀 Backend server running on port ${info.port}`);
-    console.log(`   App Name: ${APP_NAME}`);
-    console.log(`   App Version: ${pkg.version}`);
+    logger.info(`🚀 Backend server running on port ${info.port}`);
   },
 );
 

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 import "varlock/auto-load";
 
-import logs from "./data/logs.json" with { type: "json" };
+// import data from "./data/something.json" with { type: "json" };
 
 type PrismaDelegate = {
   findFirst(args: { where: Record<string, unknown> }): Promise<unknown>;
@@ -10,6 +10,7 @@ type PrismaDelegate = {
   create(args: { data: Record<string, unknown> }): Promise<unknown>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function syncJsonData(
   data: unknown[],
   prismaInstance: PrismaDelegate,
@@ -71,7 +72,7 @@ async function syncJsonData(
 async function main(): Promise<void> {
   console.log("🌱 Syncing JSON data...");
 
-  await syncJsonData(logs, prisma.log, ["message"]);
+  // await syncJsonData(data, prisma.something, ["id"]);
 
   console.log("✅ JSON data sync complete!");
 }
