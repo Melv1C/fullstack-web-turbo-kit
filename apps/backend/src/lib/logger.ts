@@ -60,7 +60,7 @@ export const logger: MyLogger = winston.createLogger({
           }),
         ]
       : []),
-    ...(ENV.LOKI_HOST
+    ...(ENV.LOKI_HOST && ENV.APP_ENV !== "test"
       ? [
           new LokiStringMeta({
             host: ENV.LOKI_HOST,
