@@ -19,7 +19,7 @@ test.describe("as admin", () => {
 
     await expect(page.getByText("Quick Actions")).toBeVisible();
     await expect(page.getByRole("link", { name: /Manage Users/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /View Logs/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Prisma Studio/i })).toBeVisible();
   });
 });
 
