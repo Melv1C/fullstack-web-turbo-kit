@@ -7,37 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model Log {
-  id Int @id @default(autoincrement())
-
-  // Common fields
-  type     LogType
-  level    String
-  message  String
-  metadata Json?
-
-  // RequestLog-specific fields
-  userId     String?
-  method     String?
-  path       String?
-  statusCode Int?
-  durationMs Int?
-  steps      Json?
-
-  createdAt DateTime @default(now())
-
-  @@index([type])
-  @@index([level])
-  @@index([userId])
-  @@index([createdAt])
-  @@map("log")
-}
-
-enum LogType {
-  APP
-  REQUEST
-}
-
 model User {
   id            String    @id
   name          String
@@ -81,7 +50,7 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
