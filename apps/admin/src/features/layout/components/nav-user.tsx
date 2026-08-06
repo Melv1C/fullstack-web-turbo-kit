@@ -14,7 +14,7 @@ import {
   useSidebar,
 } from "@repo/ui";
 import { useNavigate } from "@tanstack/react-router";
-import { ChevronsUpDown, LogOut, User } from "lucide-react";
+import { ChevronsUpDown, LogOut } from "lucide-react";
 
 import { signOut, useSession } from "@/lib/auth-client";
 
@@ -79,11 +79,6 @@ export function NavUser() {
                 </div>
               </DropdownMenuLabel>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
