@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { describe, expect, it, vi } from "vite-plus/test";
+import { describe, expect, it, vi } from "vitest";
 
 import { getSession, getUser } from "./auth-utils";
 

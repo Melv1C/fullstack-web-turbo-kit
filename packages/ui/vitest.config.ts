@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { defineConfig } from "vite-plus";
+import { defineConfig } from "vitest/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -11,10 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  pack: {
-    entry: {
-      index: "./src/index.ts",
-    },
-    exports: true,
+  test: {
+    environment: "happy-dom",
   },
 });
