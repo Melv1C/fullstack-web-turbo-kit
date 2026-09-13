@@ -5,6 +5,7 @@ import { prometheus } from "@hono/prometheus";
 import { Hono } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { cors } from "hono/cors";
+import { requestId } from "hono/request-id";
 import "varlock/auto-load";
 import { ENV } from "varlock/env";
 
@@ -22,6 +23,7 @@ const app = new Hono()
     }),
   )
   .use(contextStorage())
+  .use(requestId())
   .use("*", registerMetrics)
   .get("/metrics", printMetrics)
   .route("/api", routes);

@@ -14,6 +14,7 @@ export const LogData$ = z.object({
   method: Method$.nullish(),
   path: z.string().trim().nullish(),
   statusCode: z.number().nullish(),
+  durationMs: z.number().nonnegative().nullish(),
   metadata: z.unknown().nullish(),
 });
 export type LogData = z.infer<typeof LogData$>;
