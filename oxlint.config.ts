@@ -9,6 +9,10 @@ const zodRecommendedRules = {
 export default defineConfig({
   ignorePatterns: ["routeTree.gen.ts", "packages/ui/src/components/ui"],
   jsPlugins: ["eslint-plugin-zod"],
+  options: {
+    typeAware: true,
+    typeCheck: true,
+  },
   rules: {
     "no-unused-vars": "error",
     "no-console": "allow",
