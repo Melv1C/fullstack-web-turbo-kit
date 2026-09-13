@@ -12,16 +12,17 @@
     }
   },
   "scripts": {
-    "build": "vp pack",
-    "dev": "vp pack --watch --no-clean",
-    "test": "vp test"
+    "build": "tsdown",
+    "dev": "tsdown --watch --no-clean",
+    "test": "vitest run"
   },
   "dependencies": {
     "zod": "catalog:"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "vitest": "catalog:"
   }
 }

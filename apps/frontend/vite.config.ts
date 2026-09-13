@@ -6,7 +6,7 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import { varlockVitePlugin } from "@varlock/vite-integration";
 import react from "@vitejs/plugin-react";
 import { ENV } from "varlock/env";
-import { defineConfig } from "vite-plus";
+import { defineConfig } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

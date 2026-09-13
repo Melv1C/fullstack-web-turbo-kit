@@ -10,9 +10,9 @@
     "./index.css": "./index.css"
   },
   "scripts": {
-    "build": "vp pack",
-    "dev": "vp pack --watch --no-clean",
-    "test": "vp test"
+    "build": "tsdown",
+    "dev": "tsdown --watch --no-clean",
+    "test": "vitest run"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -44,8 +44,9 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "happy-dom": "^20.9.0",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",

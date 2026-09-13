@@ -1,4 +1,4 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { useUsersStore as useUsersStoreType } from "./users-store";
 
