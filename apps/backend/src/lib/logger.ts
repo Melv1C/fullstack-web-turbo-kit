@@ -9,29 +9,18 @@ import packageJson from "../../package.json" with { type: "json" };
 
 const appLabel = `${rootPackageJson.name}-${packageJson.name}`;
 
-class LokiStringMeta extends LokiTransport {
-  override log(info: Record<string, unknown>, next: () => void) {
-    const logContext = tryGetContext()?.var.logContext;
+const addRequestContext = winston.format((info) => {
+  const context = tryGetContext();
 
-    for (const [key, value] of Object.entries({ ...logContext, ...info })) {
-      if (key === "message" || key === "level") continue;
+  if (!context) return info;
 
-      if (typeof value === "string" || value == null) {
-        info[key] = value;
-        continue;
-      }
+  info.requestId ??= context.var.requestId;
+  info.method ??= context.req.method;
+  info.path ??= context.req.path;
+  info.userId ??= context.var.user?.id;
 
-      info[key] = typeof value === "object" ? JSON.stringify(value) : String(value);
-    }
-
-    if (typeof super.log !== "function") {
-      next();
-      return;
-    }
-
-    return super.log(info, next);
-  }
-}
+  return info;
+});
 
 const isDev = ENV.APP_ENV === "development";
 
@@ -45,7 +34,11 @@ type MyLogger = {
 
 export const logger: MyLogger = winston.createLogger({
   level: "debug",
-  format: winston.format.json(),
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    addRequestContext(),
+    winston.format.json(),
+  ),
   defaultMeta: {
     app: appLabel,
     environment: ENV.APP_ENV,
@@ -62,16 +55,13 @@ export const logger: MyLogger = winston.createLogger({
       : []),
     ...(ENV.LOKI_HOST && ENV.APP_ENV !== "test"
       ? [
-          new LokiStringMeta({
+          new LokiTransport({
             host: ENV.LOKI_HOST,
             json: true,
             labels: {
               app: appLabel,
               environment: ENV.APP_ENV,
-              version: packageJson.version,
             },
-            // Keep request fields in the JSON line — not as Loki labels
-            useWinstonMetaAsLabels: true,
           }),
         ]
       : []),

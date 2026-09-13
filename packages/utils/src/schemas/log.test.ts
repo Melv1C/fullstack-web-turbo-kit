@@ -30,10 +30,12 @@ describe("log schemas", () => {
       method: "POST",
       path: "/api/users",
       statusCode: 201,
+      durationMs: 12,
       metadata: { source: "test" },
     });
 
     expect(data.statusCode).toBe(201);
+    expect(data.durationMs).toBe(12);
     expect(data.metadata).toEqual({ source: "test" });
   });
 

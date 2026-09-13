@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { isAdmin, useAuth } from "@/middlewares/use-auth";
-import { useLoggerContext } from "@/middlewares/use-logger-context";
+import { useLogger } from "@/middlewares/use-logger";
 
 import { healthRoutes } from "./health";
 
@@ -19,7 +19,7 @@ export const routes = new Hono()
   //////////////////////////////////////////////////
   // Add routes without logging middleware here
   //////////////////////////////////////////////////
-  .use("*", useLoggerContext)
+  .use("*", useLogger)
   //////////////////////////////////////////////////
   // Add routes with logging middleware applied here
   .route("/health", healthRoutes)
