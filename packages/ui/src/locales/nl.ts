@@ -1,4 +1,6 @@
-export default {
+import type { Translations } from "./en";
+
+const nl = {
   loginForm: {
     title: "Inloggen op uw account",
     description: "Voer uw gegevens in om toegang te krijgen tot uw account",
@@ -23,4 +25,6 @@ export default {
       passwordRequired: "Wachtwoord is verplicht.",
     },
   },
-};
+} satisfies Translations;
+
+export default nl;

@@ -1,4 +1,6 @@
-export default {
+import type { Translations } from "./en";
+
+const fr = {
   loginForm: {
     title: "Connexion à votre compte",
     description: "Entrez vos identifiants pour accéder à votre compte",
@@ -23,4 +25,6 @@ export default {
       passwordRequired: "Le mot de passe est requis.",
     },
   },
-};
+} satisfies Translations;
+
+export default fr;

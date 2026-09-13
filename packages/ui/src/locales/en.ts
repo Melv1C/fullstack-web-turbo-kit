@@ -1,4 +1,4 @@
-export default {
+const en = {
   loginForm: {
     title: "Login to your account",
     description: "Enter your credentials to access your account",
@@ -23,4 +23,12 @@ export default {
       passwordRequired: "Password is required.",
     },
   },
+} as const;
+
+type WidenTranslationValues<T> = {
+  [Key in keyof T]: T[Key] extends string ? string : WidenTranslationValues<T[Key]>;
 };
+
+export type Translations = WidenTranslationValues<typeof en>;
+
+export default en;
