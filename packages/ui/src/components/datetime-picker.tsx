@@ -1,5 +1,5 @@
 import { CalendarIcon, XIcon } from "lucide-react";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import type { DayPicker } from "react-day-picker";
 
 import {
@@ -67,6 +67,12 @@ function DateTimePicker({
 }: DateTimePickerProps) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(value);
+  const [previousValue, setPreviousValue] = useState(value);
+
+  if (value !== previousValue) {
+    setPreviousValue(value);
+    setDate(value);
+  }
 
   const handleClear = () => {
     setDate(undefined);
@@ -124,10 +130,6 @@ function DateTimePicker({
     });
     return `${dateStr} ${timeStr}`;
   };
-
-  useEffect(() => {
-    setDate(value);
-  }, [value]);
 
   return (
     <div className={cn("flex flex-col gap-3", className)}>
